@@ -1,12 +1,12 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Uvezi router
-import { Terminal, Lock, Mail, Loader2, ChevronRight, Eye, EyeOff, ShieldAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Terminal, Mail, Loader2, ChevronRight, Eye, EyeOff, ShieldAlert } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function LoginPage() {
-  const router = useRouter(); // Inicijalizuj router
+  const router = useRouter(); 
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -20,20 +20,17 @@ export default function LoginPage() {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    // Dodajemo redirect: false da bismo sami hendlovali grešku
     const res = await signIn("credentials", {
       email,
       password,
       redirect: false,
-      callbackUrl: "/admin", // Eksplicitno reci gde ideš
+      callbackUrl: "/admin",
     });
 
     if (res?.error) {
-      // U produkciji res.error može biti generički "CredentialsSignin"
       setError("ACCESS_DENIED: SYSTEM_REJECTED_CREDENTIALS");
       setLoading(false);
     } else if (res?.ok) {
-      // Prvo osveži sesiju pa prebaci na admin
       router.push("/admin");
       router.refresh(); 
     }
@@ -43,7 +40,7 @@ export default function LoginPage() {
     <div className="relative min-h-screen w-full flex items-center justify-center bg-black overflow-hidden font-sans">
       
       {/* BACKGROUND ELEMENTS */}
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]" />
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,rgba(175,255,0,0.05)_0%,transparent_70%)]" />
 
       <motion.div 
@@ -154,7 +151,7 @@ export default function LoginPage() {
       </motion.div>
 
       {/* GLOBAL SCANLINE */}
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] z-50" />
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-size-[100%_4px] z-50" />
     </div>
   );
 }

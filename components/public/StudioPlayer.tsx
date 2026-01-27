@@ -221,7 +221,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
 
         {/* Gradijent se vidi samo dok video ne krene */}
         {!isPlaying && (
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-80" />
         )}
 
         {/* HITECH LOADER: Prikazuje se dok API polling traje */}

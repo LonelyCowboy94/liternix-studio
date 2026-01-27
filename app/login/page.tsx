@@ -1,10 +1,12 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Uvezi router
 import { Terminal, Lock, Mail, Loader2, ChevronRight, Eye, EyeOff, ShieldAlert } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function LoginPage() {
+  const router = useRouter(); // Inicijalizuj router
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -18,17 +20,22 @@ export default function LoginPage() {
     const email = formData.get("email");
     const password = formData.get("password");
 
+    // Dodajemo redirect: false da bismo sami hendlovali grešku
     const res = await signIn("credentials", {
       email,
       password,
       redirect: false,
+      callbackUrl: "/admin", // Eksplicitno reci gde ideš
     });
 
     if (res?.error) {
-      setError("ACCESS_DENIED: INVALID_CREDENTIALS");
+      // U produkciji res.error može biti generički "CredentialsSignin"
+      setError("ACCESS_DENIED: SYSTEM_REJECTED_CREDENTIALS");
       setLoading(false);
-    } else {
-      window.location.href = "/admin"; 
+    } else if (res?.ok) {
+      // Prvo osveži sesiju pa prebaci na admin
+      router.push("/admin");
+      router.refresh(); 
     }
   }
 

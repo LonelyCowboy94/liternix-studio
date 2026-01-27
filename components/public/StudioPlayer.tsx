@@ -163,17 +163,22 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
     );
   }
 
+  const origin =
+  typeof window !== "undefined"
+    ? `${window.location.protocol}//${window.location.host}`
+    : "";
+
   return (
     <div className="group relative aspect-video bg-black rounded-[2.5rem] overflow-hidden border border-zinc-800 shadow-2xl transition-all duration-500 hover:border-[#afff00]/30">
       
       {/* LAYER 1: ENGINE */}
       <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-        {isMounted && (
+       {isMounted && (
   <iframe
     id={playerElementId}
     className="w-full h-full"
-    src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${encodeURIComponent(origin)}`}
-    allow="encrypted-media; picture-in-picture"
+    src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${encodeURIComponent(origin)}&controls=0&rel=0&modestbranding=1`}
+    allow="autoplay; encrypted-media; picture-in-picture"
     frameBorder="0"
   />
 )}

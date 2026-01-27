@@ -168,16 +168,15 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
       
       {/* LAYER 1: ENGINE */}
       <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-        <iframe
-  id={playerElementId}
-  className="w-full h-full"
-  src={isMounted 
-    ? `https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}&controls=0&rel=0&modestbranding=1&widgetid=1` 
-    : "about:blank"
-  }
-  allow="autoplay; encrypted-media; picture-in-picture"
-  frameBorder="0"
-/>
+        {isMounted && (
+  <iframe
+    id={playerElementId}
+    className="w-full h-full"
+    src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${encodeURIComponent(origin)}`}
+    allow="encrypted-media; picture-in-picture"
+    frameBorder="0"
+  />
+)}
       </div>
 
       {/* LAYER 2: INTERFACE OVERLAY */}

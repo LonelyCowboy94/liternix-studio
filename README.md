@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧪 LITERNIX.CTRL // VISUAL_ALCHEMIST_ENGINE
 
-## Getting Started
+<div align="center">
+  <img src="https://img.shields.io/badge/SYSTEM_STATUS-OPERATIONAL-afff00?style=for-the-badge&logo=statuspage&logoColor=black" />
+  <img src="https://img.shields.io/badge/SECURITY_LEVEL-ALPHA_PROT-red?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/SIGNAL_STRENGTH-100%25-white?style=for-the-badge" />
+</div>
 
-First, run the development server:
+<br />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+> **"Everyone has the right to distort reality. We choose to do it frame by frame, creating truths that never existed until we hit Export."**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**LITERNIX.CTRL** is a high-performance "Master Console" system engineered specifically for professional video editors and visual alchemists. This is not a standard portfolio; it is a digital workstation that bridges brutalist aesthetics with high-end full-stack engineering.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📡 // SYSTEM_ARCHITECTURE
 
-## Learn More
+The project is constructed using the latest industry protocols for maximum speed, security, and stability:
 
-To learn more about Next.js, take a look at the following resources:
+- **FRAMEWORK:** [Next.js 16](https://nextjs.org/) (App Router + Turbopack)
+- **DATABASE:** [PostgreSQL](https://neon.tech/) (Managed via Neon)
+- **ORM:** [Drizzle ORM](https://orm.drizzle.team/)
+- **STYLING:** Tailwind CSS (Brutalist Studio Preset)
+- **ANIMATIONS:** Framer Motion (Signal Flow)
+- **COMMUNICATIONS:** Secure HTML Correspondence (Custom Templates)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠 // CORE_MODULES
 
-## Deploy on Vercel
+### 📺 Studio_Player [MASTER_UNIT]
+A custom video interface that transforms the YouTube API into a professional studio player.
+- **Master Clock:** Real-time `HH:MM:SS:FF` timecode tracking.
+- **HUD Interface:** Dynamic status overlays like `ACTIVE_CUT_RENDER`.
+- **API Handshake:** Secure JSAPI integration for flawless frame control.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🕹️ Master_Console [ADMIN]
+The centralized command center for managing project archives and signal feeds.
+- **Signal_Archive:** Full CRUD management for the visual portfolio.
+- **Manual_Sort_Protocol:** Drag-and-drop project reordering with a dedicated "Save Changes" safety.
+- **Security_Override:** Full control over operator credentials and access levels.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 📡 Signal_Feed [MESSAGES]
+An integrated communication hub for client inquiries.
+- **Transmission_Log:** Real-time monitoring of all incoming signals.
+- **Official_Correspondence:** Automated email responses styled as system data reports.
+
+---
+
+## 🎨 // DESIGN_PHILOSOPHY
+
+The visual identity is inspired by high-end video editing suites and vintage CRT studio monitors:
+- **PALETTE:** Deep Black (`#000000`) with high-vis Neon Green (`#afff00`) accents.
+- **TYPEFACE:** A mix of geometric authority and *Trade Winds* typography for ideological contrast.
+- **ATMOSPHERE:** Global scanline overlays, blueprint grid systems, and atmospheric glows.

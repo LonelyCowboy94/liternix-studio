@@ -1,7 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { Lock, Mail, Loader2, ChevronRight, ShieldCheck, Eye, EyeOff } from "lucide-react";
+import { Terminal, Lock, Mail, Loader2, ChevronRight, Eye, EyeOff, ShieldAlert } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function LoginPage() {
@@ -25,7 +25,7 @@ export default function LoginPage() {
     });
 
     if (res?.error) {
-      setError("Invalid credentials. Please try again.");
+      setError("ACCESS_DENIED: INVALID_CREDENTIALS");
       setLoading(false);
     } else {
       window.location.href = "/admin"; 
@@ -33,125 +33,121 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center bg-[#020617] overflow-hidden">
-      {/* BACKGROUND DECORATION */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-600/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-600/20 blur-[120px]" />
-      </div>
+    <div className="relative min-h-screen w-full flex items-center justify-center bg-black overflow-hidden font-sans">
+      
+      {/* BACKGROUND ELEMENTS */}
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,rgba(175,255,0,0.05)_0%,transparent_70%)]" />
 
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative z-10 w-full max-w-110 p-4"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="relative z-10 w-full max-w-md p-6"
       >
-        {/* LOGO AREA */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-12 h-12 bg-linear-to-tr from-blue-600 to-indigo-400 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 mb-4">
-            <ShieldCheck className="text-white" size={28} />
+        {/* SYSTEM HEADER */}
+        <div className="flex flex-col items-center mb-12">
+          <div className="w-16 h-16 bg-[#afff00] rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(175,255,0,0.2)] mb-6 rotate-3">
+            <Terminal className="text-black" size={32} strokeWidth={3} />
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Welcome back</h1>
-          <p className="text-slate-400 mt-2 text-sm">Enter your credentials to access the dashboard</p>
+          <h1 className="text-4xl font-black text-white italic uppercase tracking-tighter leading-none">
+            Operator<span className="text-[#afff00]">.</span>Login
+          </h1>
+          <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.4em] mt-4 italic">
+            {"//"} Authorized_Personnel_Only
+          </p>
         </div>
 
-        {/* LOGIN CARD */}
-        <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        {/* LOGIN TERMINAL */}
+        <div className="bg-zinc-900/40 backdrop-blur-2xl border border-zinc-800 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-[#afff00] shadow-[0_0_15px_#afff00]" />
+          
+          <form onSubmit={handleSubmit} className="space-y-10">
             
-            {/* EMAIL FIELD */}
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">Email Address</label>
-              <div className="relative group">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={18} />
-                <label htmlFor="email" className="hidden">Email</label>
-                <input 
-                  name="email" 
-                  id="email"
-                  type="email" 
-                  autoComplete="email"
-                  placeholder="name@company.com" 
-                  className="w-full bg-slate-950/50 border border-slate-800 text-white pl-10 pr-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-600"
-                  required 
-                />
-              </div>
+            {/* NOTCHED EMAIL */}
+            <div className="relative group">
+              <input 
+                name="email" 
+                type="email" 
+                required 
+                placeholder=" "
+                className="peer w-full bg-transparent border border-zinc-800 p-4 rounded-xl outline-none focus:border-[#afff00] text-white font-bold uppercase italic tracking-widest text-xs transition-all"
+              />
+              <label className="absolute left-3 -top-2.5 px-2 bg-black text-[10px] font-black uppercase tracking-widest text-zinc-600 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:-top-2.5 peer-focus:text-[#afff00]">
+                Access_ID_Email
+              </label>
+              <Mail className="absolute right-4 top-4 text-zinc-700 peer-focus:text-[#afff00] transition-colors" size={18} />
             </div>
 
-            {/* PASSWORD FIELD */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center ml-1">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Password</label>
-              </div>
-              <div className="relative group">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={18} />
-                <label htmlFor="password" className="hidden">Password</label>
-                <input 
-                  name="password" 
-                  id="password"
-                  type={showPassword ? "text" : "password"} 
-                  placeholder="••••••••" 
-                  autoComplete="current-password"
-                  className="w-full bg-slate-950/50 border border-slate-800 text-white pl-10 pr-12 py-3 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-slate-600"
-                  required 
-                />
-                <button 
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
+            {/* NOTCHED PASSWORD */}
+            <div className="relative group">
+              <input 
+                name="password" 
+                type={showPassword ? "text" : "password"} 
+                required 
+                placeholder=" "
+                className="peer w-full bg-transparent border border-zinc-800 p-4 rounded-xl outline-none focus:border-[#afff00] text-white font-bold tracking-[0.5em] transition-all"
+              />
+              <label className="absolute left-3 -top-2.5 px-2 bg-black text-[10px] font-black uppercase tracking-widest text-zinc-600 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:-top-2.5 peer-focus:text-[#afff00]">
+                Security_Cipher
+              </label>
+              <button 
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-4 text-zinc-700 hover:text-[#afff00] transition-colors"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
 
-            {/* ERROR MESSAGE */}
+            {/* ERROR LOG */}
             <AnimatePresence>
               {error && (
                 <motion.div 
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-xl text-sm font-medium flex items-center gap-2"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-600/10 border border-red-600/30 p-4 rounded-xl flex items-center gap-3 text-red-500"
                 >
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_10px_red]" />
-                  {error}
+                  <ShieldAlert size={18} />
+                  <span className="text-[10px] font-black uppercase tracking-widest italic">{error}</span>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* SUBMIT BUTTON */}
+            {/* EXECUTE BUTTON */}
             <button 
               type="submit" 
               disabled={loading} 
-              className="relative w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden group"
+              className="group relative w-full bg-[#afff00] text-black font-black italic uppercase py-5 rounded-2xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(175,255,0,0.1)] disabled:opacity-50 overflow-hidden"
             >
-              <div className="relative z-10 flex items-center justify-center gap-2">
-                {loading ? (
-                  <Loader2 className="animate-spin" size={20} />
-                ) : (
+              <div className="relative z-10 flex items-center justify-center gap-3 tracking-[0.2em] text-sm">
+                {loading ? <Loader2 className="animate-spin" size={20} /> : (
                   <>
-                    Sign In
-                    <ChevronRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                    Execute_Login
+                    <ChevronRight className="group-hover:translate-x-1 transition-transform" size={20} />
                   </>
                 )}
               </div>
             </button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-slate-800 text-center">
-            <p className="text-slate-500 text-sm">
-              Forgot password? <span className="text-slate-300 font-medium cursor-pointer hover:underline underline-offset-4">Contact System Admin</span>
+          {/* SYSTEM FOOTER */}
+          <div className="mt-12 pt-8 border-t border-zinc-800 flex flex-col items-center gap-4">
+            <p className="text-zinc-600 text-[9px] font-black uppercase tracking-[0.3em]">
+              Forgot_Key? <span className="text-zinc-400 hover:text-[#afff00] cursor-pointer underline underline-offset-4 transition-colors">Contact_Super_Admin</span>
             </p>
           </div>
         </div>
 
-        {/* FOOTER */}
-        <div className="mt-8 text-center">
-          <p className="text-slate-600 text-[11px] uppercase tracking-[0.2em] font-bold">
-            Powered by <a href="https://jokic.dev" target="_blank" className="hover:underline">jokic.dev</a> Engine {new Date().getFullYear()}
+        {/* HUD FOOTER */}
+        <div className="mt-12 text-center opacity-30 group">
+          <p className="text-zinc-500 text-[8px] uppercase tracking-[0.6em] font-black">
+            Liternix_OS // Unit_77_Protocol_{new Date().getFullYear()}
           </p>
         </div>
       </motion.div>
+
+      {/* GLOBAL SCANLINE */}
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] z-50" />
     </div>
   );
 }

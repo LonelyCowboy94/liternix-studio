@@ -41,6 +41,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [iframeReady, setIframeReady] = useState(false);
   
   const playerRef = useRef<YTPlayer | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -112,6 +113,28 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
       }
     };
   }, [videoId, playerElementId]);
+
+  useEffect(() => {
+  if (!iframeReady || !videoId) return;
+  if (!window.YT || !window.YT.Player) return;
+  if (playerRef.current) return;
+
+  playerRef.current = new window.YT.Player(playerElementId, {
+    events: {
+      onReady: (e) => {
+        setDuration(e.target.getDuration());
+      },
+      onStateChange: (e) => {
+        if (e.data === 1) {
+          setIsPlaying(true);
+          setHasStarted(true);
+        } else {
+          setIsPlaying(false);
+        }
+      },
+    },
+  });
+}, [iframeReady, videoId, playerElementId]);
 
   useEffect(() => {
     if (isPlaying) {

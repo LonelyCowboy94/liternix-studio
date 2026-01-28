@@ -203,68 +203,62 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
         )}
       </div>
 
-      {/* LAYER 2: INTERFACE / LOADING OVERLAY */}
-      <div
-        className={`absolute inset-0 z-20 transition-all duration-700 flex flex-col items-center justify-center bg-black
-        ${isPlaying ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"}`}
-      >
-        {!hasStarted && (
-          <Image
-            fill
-            src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${isReady ? "opacity-40 grayscale group-hover:grayscale-0" : "opacity-10"}`}
-            alt="Master Preview"
-            loading="eager"
-            unoptimized
-          />
-        )}
+     {/* LAYER 2: INTERFACE / LOADING / RESUME OVERLAY */}
+<div
+  className={`absolute inset-0 z-20 transition-all duration-700 flex flex-col items-center justify-center bg-black/40
+  ${isPlaying ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"}`}
+>
+  {/* Thumbnail - prikazujemo samo dok video NIJE startovao uopšte */}
+  {!hasStarted && (
+    <Image
+      fill
+      src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${isReady ? "opacity-40 grayscale group-hover:grayscale-0" : "opacity-10"}`}
+      alt="Master Preview"
+      loading="eager"
+      unoptimized
+    />
+  )}
 
-        {/* Gradijent se vidi samo dok video ne krene */}
-        {!isPlaying && (
-          <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-80" />
-        )}
-
-        {/* HITECH LOADER: Prikazuje se dok API polling traje */}
-        {!isReady ? (
-          <div className="flex flex-col items-center gap-4 z-30">
-            <RefreshCw className="text-[#afff00] animate-spin" size={40} />
-            <div className="flex flex-col items-center">
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#afff00] animate-pulse">
-                Initializing_System
-              </span>
-              <span className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest italic">
-                Handshake_In_Progress
-              </span>
-            </div>
-          </div>
-        ) : (
-          !hasStarted && (
-            <button
-              onClick={togglePlayback}
-              className="relative group/btn cursor-pointer outline-none animate-in fade-in zoom-in duration-500 z-30"
-            >
-              <div className="absolute inset-0 bg-[#afff00] blur-3xl opacity-20 group-hover/btn:opacity-40 transition-opacity duration-500" />
-              <div className="w-24 h-24 rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75">
-                <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
-                <Play size={40} fill="black" className="ml-1.5" />
-              </div>
-            </button>
-          )
-        )}
+  {/* Loader dok se API ne učita */}
+  {!isReady ? (
+    <div className="flex flex-col items-center gap-4 z-30">
+      <RefreshCw className="text-[#afff00] animate-spin" size={40} />
+      <div className="flex flex-col items-center">
+        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#afff00] animate-pulse">
+          Initializing_System
+        </span>
       </div>
-
-      {/* LAYER 3: PAUSE TRIGGER (Samo dok traje video) */}
-      {isPlaying && (
-        <div
-          onClick={togglePlayback}
-          className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
-        >
-          <div className="w-24 h-24 rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75">
-            <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
-            <Pause size={40} fill="black" />
-          </div>
+    </div>
+  ) : (
+    /* PLAY DUGME: Prikazuje se uvek kada video NIJE "isPlaying" (bilo da je na početku ili pauziran) */
+    !isPlaying && (
+      <button
+        onClick={togglePlayback}
+        className="relative group/btn cursor-pointer outline-none animate-in fade-in zoom-in duration-500 z-30"
+      >
+        <div className="absolute inset-0 bg-[#afff00] blur-3xl opacity-20 group-hover/btn:opacity-40 transition-opacity duration-500" />
+        <div className="w-24 h-24 rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75">
+          <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
+          <Play size={40} fill="black" className="ml-1.5" />
         </div>
-      )}
+      </button>
+    )
+  )}
+</div>
+
+{/* LAYER 3: PAUSE TRIGGER (Samo dok video aktivno ide - na hover) */}
+{isPlaying && (
+  <div
+    onClick={togglePlayback}
+    className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+  >
+    <div className="w-24 h-24 rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75">
+      <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
+      <Pause size={40} fill="black" />
+    </div>
+  </div>
+)}
 
       {/* LAYER 4: TIMELINE */}
       <div
@@ -313,9 +307,6 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
   );
 }
 
-/**
- * Global API Declarations - Strict Typing
- */
 declare global {
   interface Window {
     YT: YTNamespace;

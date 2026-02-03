@@ -177,7 +177,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
 
   if (!videoId) {
     return (
-      <div className="aspect-video bg-zinc-900 rounded-[2.5rem] flex flex-col items-center justify-center text-red-500 gap-2 border border-red-500/20">
+      <div className="aspect-video bg-zinc-900 rounded-2xl flex flex-col items-center justify-center text-red-500 gap-2 border border-red-500/20">
         <AlertCircle size={32} />
         <span className="text-xs font-black uppercase tracking-widest italic">
           Invalid_Source_Link
@@ -187,7 +187,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
   }
 
   return (
-    <div className="group relative aspect-video bg-black rounded-[2.5rem] overflow-hidden border border-zinc-800 shadow-2xl transition-all duration-500 hover:border-[#afff00]/30">
+    <div className="group relative aspect-video bg-black rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl transition-all duration-500 hover:border-[#afff00]/30">
       {/* LAYER 1: ENGINE */}
       <div
         className={`absolute inset-0 w-full h-full z-0 pointer-events-none transition-opacity duration-1000 ${hasStarted ? "opacity-100" : "opacity-0"}`}

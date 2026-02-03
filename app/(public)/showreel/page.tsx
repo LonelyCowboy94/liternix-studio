@@ -2,7 +2,7 @@ import { getWorksAction } from "@/actions/work";
 import StudioPlayer from "@/components/public/StudioPlayer";
 import Header from "@/components/public/Header";
 import Footer from "@/components/public/Footer";
-import { Film, Monitor, Hash, ArrowDown } from "lucide-react";
+import { Film, Monitor, Hash, ArrowDown, Activity } from "lucide-react";
 import Link from "next/link";
 import AmbientBackground from "@/components/public/AmbientBackground";
 import Button3D from "@/components/ui/Button3D";
@@ -24,9 +24,20 @@ export default async function WorkPage() {
                 <div className="w-2 h-2 bg-[#afff00] rounded-full animate-pulse" />
                 <span className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-500">Portfolio_v2.0</span>
               </div>
+              
               <h1 className="text-7xl md:text-[9rem] font-black uppercase italic leading-[0.8] tracking-tighter">
                 Selected <br /> <span className="text-[#afff00]">Works</span>
               </h1>
+              {/* Integrity Bar restored with CSS animation */}
+              <div className="flex flex-col gap-3 my-8">
+                <div className="flex items-center gap-2">
+                  <Activity size={14} className="text-[#afff00] animate-pulse" />
+                  <span className="text-[10px] font-black text-white uppercase italic tracking-widest">Verify Integrity</span>
+                </div>
+                <div className="w-full h-0.75 bg-zinc-900 rounded-full overflow-hidden">
+                  <div className="h-full bg-[#afff00]/60 animate-fill-bar delay-3" />
+                </div>
+              </div>
             </div>
             
             <div className="max-w-xs space-y-4">
@@ -38,12 +49,13 @@ export default async function WorkPage() {
               </div>
             </div>
           </div>
+          
         </section>
 
         {/* WORKS FEED */}
-        <section className="max-w-7xl mx-auto space-y-40 md:space-y-64">
+        <section className="max-w-7xl mx-auto -mt-15 md:mt-0">
           {works.map((work, index) => (
-            <div key={work.id} className="group relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            <div key={work.id} className="group mb-10 md:mb-35 relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
               
               {/* LEFT SIDE: Project Info */}
               <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-32">
@@ -78,8 +90,8 @@ export default async function WorkPage() {
 
               {/* RIGHT SIDE: Video Player */}
               <div className="lg:col-span-8 relative">
-                <div className="absolute -inset-4 bg-[#afff00]/5 rounded-[3rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="relative z-10 border border-zinc-800 rounded-[2.5rem] overflow-hidden shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]">
+                <div className="absolute -inset-4 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="relative z-10 overflow-hidden shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]">
                    <StudioPlayer videoUrl={work.url} />
                 </div>
                 
@@ -98,10 +110,12 @@ export default async function WorkPage() {
             </div>
           ))}
         </section>
+        
 
         {/* CTA SECTION */}
-        <section className="max-w-7xl mx-auto mt-64 text-center space-y-10">
-           <div className="h-px w-full bg-linear-to-r from-transparent via-zinc-800 to-transparent mb-20" />
+        
+        <section className="max-w-7xl mx-auto mt-30 text-center space-y-10">
+           <div className="h-px w-full bg-linear-to-r from-transparent via-[#afff00]/50 to-transparent mb-20" />
            <h3 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter">
              Ready to <span className="text-[#afff00]">distort</span> reality?
            </h3>

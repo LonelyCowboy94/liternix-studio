@@ -66,7 +66,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-zinc-900/40 p-8 md:p-12 rounded-[2.5rem] border border-zinc-800 shadow-2xl backdrop-blur-md relative overflow-hidden">
+    <div className="bg-zinc-900/40 p-8 md:p-12 rounded-2xl border border-zinc-800 shadow-2xl backdrop-blur-md relative overflow-hidden">
       
       <div className="flex items-center gap-3 mb-10">
         <Terminal className="text-[#afff00]" size={24} />

@@ -109,22 +109,128 @@ body {
   color: #000000 !important;
 }
 
-
-/* .grain-overlay::before {
-  content: "";
-  position: fixed;
-  top: -100%;
-  left: -100%;
-  width: 300%;
-  height: 300%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.035;
-  pointer-events: none;
-  z-index: 50;
-  animation: noise 0.5s infinite;
-} */
-
 button:hover {
     cursor: pointer !important;
 }
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.animate-reveal {
+  animation: reveal-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+
+@layer utilities {
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fill-width {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .animate-reveal {
+    animation: reveal-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  .animate-fill-bar {
+    animation: fill-width 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    transform-origin: left;
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.4s; }
+
+  /* Animations from jokic dev */
+  @keyframes spinY {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .rotateY-card {
+    transform-style: preserve-3d;
+    /* Glatka tranzicija za hover */
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: rotateY(0deg);
+  }
+
+  /* Trigger na hover elementa ili roditeljske grupe */
+  .group:hover .rotateY-card,
+  .rotateY-card:hover {
+    transform: rotateY(360deg);
+  }
+
+  /* Load animacije - sklonjen 'forwards' da bi hover mogao da radi od 0 ponovo */
+  .animate-spin-gh { animation: spinY 0.8s ease-out 0.3s; }
+  .animate-spin-ln { animation: spinY 0.8s ease-out 0.7s; }
+  .animate-spin-mail { animation: spinY 0.8s ease-out 1s; }
+
+}
+
+
+@keyframes jelly-wave {
+  0%, 100% { 
+    transform: scale(1, 1) skewX(0deg); 
+  }
+  25% { 
+    transform: scale(1.1, 0.9) skewX(-8deg); 
+  }
+  50% { 
+    transform: scale(0.9, 1.1) skewX(8deg); 
+  }
+  75% { 
+    transform: scale(1.05, 0.95) skewX(-4deg); 
+  }
+}
+
+@keyframes color-flow {
+  0%, 100% { 
+    background-color: #ffffff; 
+  }
+  50% { 
+    background-color: #afff00; 
+  }
+}
+
+.animate-jelly-glow {
+  animation: 
+    jelly-wave 2s infinite ease-in-out,
+    color-flow 3s infinite linear;
+}
+
+.jelly-delay-1 { animation-delay: 0s; }
+.jelly-delay-2 { animation-delay: 0.2s; }
+.jelly-delay-3 { animation-delay: 0.4s; }
+
+
 

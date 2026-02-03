@@ -1,108 +1,139 @@
-"use client";
-import AmbientBackground from "@/components/public/AmbientBackground";
+import { ReactNode } from "react";
 import Header from "@/components/public/Header";
-import { motion } from "framer-motion";
-import { Zap, ShieldAlert, Fingerprint, Activity } from "lucide-react";
+import AmbientBackground from "@/components/public/AmbientBackground";
+import { Zap, ShieldAlert, Fingerprint, Activity, Cpu, Globe } from "lucide-react";
+import Footer from "@/components/public/Footer";
+
+interface Principle {
+  id: string;
+  icon: ReactNode;
+  title: string;
+  text: string;
+}
 
 export default function Manifesto() {
-  const principles = [
+  const principles: Principle[] = [
     {
       id: "01",
-      icon: <Zap size={24} />,
+      icon: <Zap size={20} />,
       title: "The Surgical Cut",
-      text: "Every frame is a decision. If it doesn't serve the story, it's dead weight. We don't just trim; we perform surgery on time itself."
+      text: "Every frame is a decision. If it doesn't serve the story, it's dead weight. We perform surgery on time itself to extract pure emotion."
     },
     {
       id: "02",
-      icon: <Fingerprint size={24} />,
+      icon: <Fingerprint size={20} />,
       title: "Digital Alchemy",
-      text: "Raw footage is lead. Through color grading, sound design, and pacing, we transmute it into gold. Distortion is our primary tool."
+      text: "Raw footage is lead. Through grading and sound design, we transmute it into gold. Distortion is our primary tool."
     },
     {
       id: "03",
-      icon: <ShieldAlert size={24} />,
+      icon: <ShieldAlert size={20} />,
       title: "Attention Warfare",
-      text: "In a world of infinite scrolls, attention is the only currency. We edit to capture, hold, and never let go until the final frame."
+      text: "In a world of infinite scrolls, attention is the only currency. We edit to capture, hold, and never let go."
     }
   ];
 
   return (
-    <>
-    <Header />
-    
-    <section id="manifesto" className="min-h-screen bg-black text-white py-20 px-6 md:px-12 relative overflow-hidden">
-      <AmbientBackground />
-      <div className="max-w-7xl mx-auto relative z-10">
+    <div className="bg-black min-h-screen text-white selection:bg-[#afff00] selection:text-black">
+      <Header />
+      
+      <main className="relative pt-32 pb-20 px-6 md:px-12 overflow-x-hidden">
+        <AmbientBackground />
         
-        {/* HEADER */}
-        <header className="mb-32">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 bg-[#afff00] rounded-full animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-500 italic">Protocol_v1.0 // Philosophy</span>
-          </div>
-          <h2 className="text-7xl md:text-[10rem] font-black uppercase italic leading-[0.8] tracking-tighter mb-10">
-            THE <br /> <span className="text-[#afff00]">MANIFESTO</span>
-          </h2>
+        <div className="max-w-7xl mx-auto relative z-10">
           
-          {/* THE BIG TRADE WINDS QUOTE */}
-          <div className="max-w-4xl mt-20">
-            <p className="font-trade text-3xl md:text-5xl text-zinc-200 leading-tight tracking-wide italic border-l-4 border-[#afff00] pl-8">
-              &quot;Everyone has the right to <span className="text-[#afff00]">distort reality</span>. We choose to do it frame by frame, creating truths that never existed until we hit Export.&quot;
-            </p>
-          </div>
-        </header>
+          <div className="mb-20 md:mb-32">
+           
 
-        {/* PRINCIPLES GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-20">
-          {principles.map((p) => (
-            <motion.div 
-              key={p.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="space-y-6 group"
-            >
-              <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
-                <span className="text-5xl font-black text-zinc-900 group-hover:text-[#afff00]/20 transition-colors duration-500">
-                  {p.id}
-                </span>
-                <div className="text-[#afff00] p-3 bg-zinc-900 rounded-xl group-hover:scale-110 transition-transform duration-500">
-                  {p.icon}
+            {/* Title Fix: Adjusted leading and padding to prevent clipping */}
+            <h1 className="text-[13vw] md:text-[10rem] font-black uppercase italic leading-[0.9] md:leading-[0.8] tracking-tighter mb-12 animate-reveal opacity-0 delay-1 py-4">
+              THE <br /> 
+              <span className="text-transparent bg-clip-text bg-linear-to-b from-[#afff00] to-[#7acc00] pb-2">
+                MANIFESTO&nbsp;
+              </span>
+            </h1>
+            
+            <div className="max-w-4xl animate-reveal opacity-0 delay-2">
+              <blockquote className="border-l-4 border-[#afff00] pl-6 md:pl-10">
+                <p className="text-2xl md:text-5xl text-zinc-100 leading-tight font-medium italic">
+                  &quot;Everyone has the right to <span className="text-[#afff00]">distort reality</span>. We choose to do it frame by frame.&quot;
+                </p>
+              </blockquote>
+            </div>
+            {/* Integrity Bar restored with CSS animation */}
+              <div className="flex flex-col gap-3 mt-6">
+                <div className="flex items-center gap-2">
+                  <Activity size={14} className="text-[#afff00] animate-pulse" />
+                  <span className="text-[10px] font-black text-white uppercase italic tracking-widest">Verify Integrity</span>
+                </div>
+                <div className="w-full h-0.75 bg-zinc-900 rounded-full overflow-hidden">
+                  <div className="h-full bg-[#afff00] animate-fill-bar delay-3" />
                 </div>
               </div>
-              <h3 className="text-2xl font-black uppercase italic tracking-tighter text-white">
-                {p.title}
-              </h3>
-              <p className="text-zinc-500 font-medium leading-relaxed group-hover:text-zinc-300 transition-colors">
-                {p.text}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* HUD FOOTER */}
-        <div className="mt-40 pt-10 border-t border-zinc-900 flex flex-wrap justify-between items-center gap-8">
-          <div className="flex items-center gap-6">
-            <div className="flex flex-col">
-              <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">Encryption</span>
-              <span className="text-[11px] font-black text-[#afff00] uppercase italic">AES_256_LITERNIX</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">Integrity</span>
-              <span className="text-[11px] font-black text-white uppercase italic tracking-tighter">100.00% Verified</span>
-            </div>
           </div>
-          <Activity className="text-zinc-800 animate-pulse" size={40} />
-          <div className="text-[9px] font-black text-zinc-700 uppercase tracking-[0.5em] italic">
-            {"//"} End_Of_Transmission
+          
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {principles.map((p, idx) => (
+              <article 
+                key={p.id}
+                className="group relative p-8 rounded-2xl border border-zinc-900 bg-zinc-950/40 backdrop-blur-sm hover:border-[#afff00]/30 transition-all duration-500 animate-reveal opacity-0"
+                style={{ animationDelay: `${0.4 + idx * 0.1}s` }}
+              >
+                <span className="absolute top-4 right-8 text-7xl font-black text-white/2 group-hover:text-[#afff00]/5 transition-colors pointer-events-none">
+                  {p.id}
+                </span>
+
+                <div className="flex flex-col gap-6 relative z-10">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-zinc-900 text-[#afff00] group-hover:bg-[#afff00] group-hover:text-black transition-all duration-500">
+                    {p.icon}
+                  </div>
+                  <div className="space-y-3">
+                    <h2 className="text-2xl font-black uppercase italic tracking-tighter">
+                      {p.title}
+                    </h2>
+                    <p className="text-zinc-500 text-sm md:text-base leading-relaxed group-hover:text-zinc-300 transition-colors">
+                      {p.text}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
+
+          <footer className="mt-32 pt-12 animate-reveal opacity-0 delay-3">
+            <hr className="h-px w-full border-0 bg-linear-to-r from-transparent via-[#afff00]/50 to-transparent mb-10" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 items-end">
+              
+              <div className="flex items-center gap-4">
+                <Cpu size={14} className="text-zinc-600" />
+                <div className="flex flex-col text-[10px]">
+                  <span className="text-zinc-600 uppercase">System</span>
+                  <span className="text-[#afff00] font-bold italic">Quantum_Render</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <Globe size={14} className="text-zinc-600" />
+                <div className="flex flex-col text-[10px]">
+                  <span className="text-zinc-600 uppercase">CDN Status</span>
+                  <span className="text-white font-bold italic">Active_Nodes</span>
+                </div>
+              </div>
+
+              <div className="text-right">
+                <span className="text-[10px] font-mono text-zinc-800 uppercase tracking-[0.4em] block">
+                  {"//"} End_Of_Transmission
+                </span>
+              </div>
+            </div>
+          </footer>
         </div>
+      </main>
 
-      </div>
-
-      {/* GLOBAL SCANLINE */}
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-size-[100%_4px] z-50" />
-    </section>
-    </>
+      {/* Global Grainy overlay moved here for Z-index consistency */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] grain-overlay z-50" aria-hidden="true" />
+      <Footer />
+    </div>
   );
 }

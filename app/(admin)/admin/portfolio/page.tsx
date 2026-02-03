@@ -14,7 +14,6 @@ export default function AdminPage() {
   const [hasChanges, setHasChanges] = useState(false); 
   const [showOptions, setShowOptions] = useState(false);
 
-  // FIX ZA PRODUKCIJU: Dodat no-store i timestamp da se izbegne keširanje spiska
   const fetchWorks = async () => {
     const res = await fetch(`/api/work?t=${Date.now()}`, {
       cache: 'no-store',
@@ -37,11 +36,9 @@ export default function AdminPage() {
     setHasChanges(true);
   };
 
-  // DODATO: Lokalni toggle za Featured (Star) - pali "Save" dugme
   const handleLocalToggleFeatured = (id: number) => {
     const updatedWorks = works.map(w => ({
       ...w,
-      // Samo jedan može biti 1, ostali 0
       type: w.id === id ? (w.type === 1 ? 0 : 1) : 0
     }));
     setWorks(updatedWorks);
@@ -51,14 +48,11 @@ export default function AdminPage() {
   const handleSaveOrder = async () => {
     setIsSaving(true);
     const ids = works.map(w => w.id as number);
-    // Šaljemo i types jer smo ih možda promenili klikom na zvezdicu
     const types = works.map(w => (w.type ?? 0) as number);
     
-    // updateOrderAction treba da prima (ids, types) u actions/work.ts
     const result = await updateOrderAction(ids, types);
     if (result.success) {
       setHasChanges(false);
-      // Opciono fetchWorks() ako želiš potvrdu iz baze
     }
     setIsSaving(false);
   };

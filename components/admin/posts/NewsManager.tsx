@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Edit3, Trash2, Image as ImageIcon, CheckCircle2, Terminal, RefreshCw } from "lucide-react";
 import Image from "next/image";
+import Button3D from "@/components/ui/Button3D";
 
 type NewsItem = {
   id: string;
@@ -10,7 +11,7 @@ type NewsItem = {
   subtitle?: string;
   excerpt?: string;
   content: string;
-  author?: string; // Added author field
+  author?: string;
   featured: boolean;
   status: string;
   publishedAt?: string;
@@ -101,17 +102,16 @@ export default function NewsManager() {
       }
 
       // 2. TEXT FORMATTING LOGIC
-      // This preserves multiple empty lines by converting every \n to <br />
       const formatHtml = (text: string) => {
         if (!text) return "";
-        return text.replace(/\n/g, "<br />"); // Converts every Enter key press to a visual line break
+        return text.replace(/\n/g, "<br />"); 
       };
 
       const payload: NewsInput = {
         title: formData.title || "",
         subtitle: formData.subtitle || "",
         excerpt: formData.excerpt || "",
-        // Only format if it doesn't already contain HTML tags
+  
         content:
           formData.content?.includes("<br />") ||
           formData.content?.includes("<p>")
@@ -287,11 +287,13 @@ export default function NewsManager() {
                 {/* IMAGE UPLOAD */}
                 <div className="relative group p-4 border border-zinc-800 rounded-xl hover:border-[#afff00]/40 transition-all">
                   <label className="text-[10px] font-black uppercase text-zinc-500 tracking-widest mb-3 block">Media_Attachment</label>
+                  <Button3D primary>
                   <input
                     type="file"
                     onChange={handleImageChange}
-                    className="text-[11px] text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-[10px] file:font-black file:uppercase file:bg-[#afff00] file:text-black cursor-pointer w-full"
+                    className="text-[11px] text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-[10px] file:font-black file:uppercase file:text-black cursor-pointer w-full"
                   />
+                  </Button3D>
                   {formData.image_url && !imageFile && (
                     <p className="text-[9px] font-black text-[#afff00] mt-2 italic flex items-center gap-1">
                       <CheckCircle2 size={10} /> IMAGE_LINK_SECURED
@@ -367,15 +369,15 @@ export default function NewsManager() {
                   Abort_Changes
                 </button>
               )}
-              <button
+              <Button3D primary
                 type="submit"
-                disabled={isSubmitting}
+                disabled={false}
                 className="group relative bg-[#afff00] text-black px-10 py-4 rounded-xl font-black uppercase italic tracking-widest text-sm hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 shadow-[0_0_30px_rgba(175,255,0,0.2)]"
               >
                 <div className="flex items-center gap-2">
                   {isSubmitting ? <RefreshCw className="animate-spin" size={18} /> : (editingId ? "Update_Protocol" : "Deploy_Intelligence")}
                 </div>
-              </button>
+              </Button3D>
             </div>
           </form>
         </div>

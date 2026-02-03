@@ -21,6 +21,7 @@ import {
   Square,
   CheckSquare,
 } from "lucide-react";
+import Button3D from "@/components/ui/Button3D";
 
 interface Message {
   id: string;
@@ -188,27 +189,86 @@ export default function InboxManager() {
 
     {/* 1. SIDEBAR NAVIGATION - STUDIO_CTRL */}
     <div className="bottom-0 left-0 right-0 z-50 h-20 bg-black flex py-15 md:relative md:h-full md:w-24 md:flex-col items-center justify-around md:justify-start md:py-10 gap-0 md:gap-10 border-t md:border-t-0 md:border-r border-zinc-800 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] md:shadow-none relative">
-      <button
-        onClick={() => { setActiveTab("inbox"); setIsComposing(false); setSelected(null); }}
-        className={`p-4 rounded-2xl transition-all duration-500 ${activeTab === "inbox" && !isComposing ? "bg-[#afff00] text-black shadow-[0_0_20px_rgba(175,255,0,0.4)] scale-110" : "text-zinc-600 hover:text-[#afff00]"}`}
+      
+      {activeTab === "inbox" && !isComposing ? <Button3D primary
+        onClick={() => { setTimeout(() => {
+        setActiveTab("inbox");
+        setIsComposing(false);
+        setSelected(null);
+      }, 100);; setIsComposing(false); setSelected(null); }}
+        className={`p-4 ${activeTab === "inbox" && !isComposing ? "" : ""}`}
       >
         <Inbox size={26} strokeWidth={activeTab === "inbox" ? 3 : 2} />
         <span className="text-[8px] block md:hidden font-black mt-1 uppercase tracking-widest">Inbox</span>
-      </button>
-      <button
-        onClick={() => { setActiveTab("sent"); setIsComposing(false); setSelected(null); }}
-        className={`p-4 rounded-2xl transition-all duration-500 ${activeTab === "sent" && !isComposing ? "bg-[#afff00] text-black shadow-[0_0_20px_rgba(175,255,0,0.4)] scale-110" : "text-zinc-600 hover:text-[#afff00]"}`}
+      </Button3D> : <Button3D
+        onClick={() => { setTimeout(() => {
+        setActiveTab("inbox");
+        setIsComposing(false);
+        setSelected(null);
+      }, 100);; setIsComposing(false); setSelected(null); }}
+        className={`p-4 ${activeTab === "inbox" && !isComposing ? "" : ""}`}
       >
-        <Send size={26} strokeWidth={activeTab === "sent" ? 3 : 2} />
-        <span className="text-[8px] block md:hidden font-black mt-1 uppercase tracking-widest">Sent</span>
-      </button>
-      <button
-        onClick={() => { setIsComposing(true); setSelected(null); }}
-        className={`p-4 rounded-2xl transition-all md:mt-auto duration-500 ${isComposing ? "bg-[#afff00] text-black shadow-[0_0_20px_rgba(175,255,0,0.4)] scale-110" : "bg-zinc-900 text-[#afff00] hover:bg-zinc-800 border border-zinc-800"}`}
+        <Inbox size={26} strokeWidth={activeTab === "inbox" ? 3 : 2} />
+        <span className="text-[8px] block md:hidden font-black mt-1 uppercase tracking-widest">Inbox</span>
+      </Button3D>}
+      
+        {activeTab === "sent" && !isComposing ? (
+  <Button3D
+    primary
+    onClick={() => {
+      setTimeout(() => {
+        setActiveTab("sent");
+        setIsComposing(false);
+        setSelected(null);
+      }, 100);
+    }}
+    className="p-4"
+  >
+    <Send size={26} strokeWidth={activeTab === "sent" ? 3 : 2} />
+    <span className="text-[8px] block md:hidden font-black mt-1 uppercase tracking-widest">
+      Sent
+    </span>
+  </Button3D>
+) : (
+  <Button3D
+    onClick={() => {
+      setTimeout(() => {
+        setActiveTab("sent");
+        setIsComposing(false);
+        setSelected(null);
+      }, 100);
+    }}
+    className={`p-4 rounded-2xl ${
+      activeTab === "sent" && !isComposing
+        ? "bg-[#afff00] text-black shadow-[0_0_20px_rgba(175,255,0,0.4)] scale-110"
+        : "text-zinc-600 hover:text-[#afff00]"
+    }`}
+  >
+    <Send size={26} strokeWidth={activeTab === "sent" ? 3 : 2} />
+    <span className="text-[8px] block md:hidden font-black mt-1 uppercase tracking-widest">
+      Sent
+    </span>
+  </Button3D>
+)}
+
+    {isComposing ? <Button3D primary
+        onClick={() => { setTimeout(() => {
+        setIsComposing(true)
+      }, 100); setSelected(null); }}
+        className={`p-4 md:mt-auto ${isComposing ? "bg-[#afff00] text-black shadow-[0_0_20px_rgba(175,255,0,0.4)] scale-110" : "bg-zinc-900 text-[#afff00] hover:bg-zinc-800 border border-zinc-800"}`}
       >
         <Plus size={26} strokeWidth={3} />
         <span className="text-[8px] block md:hidden font-black mt-1 uppercase tracking-widest">New</span>
-      </button>
+      </Button3D> : <Button3D
+        onClick={() => { setTimeout(() => {
+        setIsComposing(true)
+      }, 100); setSelected(null); }}
+        className={`p-4 md:mt-auto ${isComposing ? "bg-[#afff00] text-black shadow-[0_0_20px_rgba(175,255,0,0.4)] scale-110" : "bg-zinc-900 text-[#afff00] hover:bg-zinc-800 border border-zinc-800"}`}
+      >
+        <Plus size={26} strokeWidth={3} />
+        <span className="text-[8px] block md:hidden font-black mt-1 uppercase tracking-widest">New</span>
+      </Button3D>}
+      
     </div>
 
     {/* 2. MESSAGE LIST COLUMN - SIGNAL_ARCHIVE */}
@@ -327,9 +387,9 @@ export default function InboxManager() {
               <label className="absolute left-3 -top-2.5 px-2 bg-black text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-xs peer-focus:-top-2.5 peer-focus:text-[#afff00] pointer-events-none italic">Signal_Data_Payload</label>
             </div>
 
-            <button disabled={loading} className="w-full md:w-auto bg-[#afff00] text-black px-12 py-5 rounded-2xl font-black italic uppercase tracking-[0.2em] flex items-center justify-center gap-4 hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(175,255,0,0.2)]">
+            <Button3D primary type="submit" disabled={false} className="w-full md:w-auto px-12 py-5 italic uppercase tracking-[0.2em] flex items-center justify-center gap-4">
               {loading ? "TRANSMITTING..." : <><Send size={22} strokeWidth={3} /> Deploy_Signal</>}
-            </button>
+            </Button3D>
           </form>
         </div>
       ) : selected ? (

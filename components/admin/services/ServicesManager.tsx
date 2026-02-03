@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { getPublicIdFromUrl } from "@/utils/cloudinary";
 import { Edit3, Trash2, Plus, RefreshCw, FileText, Layers } from "lucide-react";
+import Button3D from "@/components/ui/Button3D";
 
 interface JsonTextBlock {
   text: string;
@@ -308,7 +309,7 @@ export default function ServicesManager() {
                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 italic">
                   Content_Modules // [{sections.length}]
                 </h3>
-                <button
+                <Button3D
                   type="button"
                   onClick={() =>
                     setSections([
@@ -321,10 +322,10 @@ export default function ServicesManager() {
                       },
                     ])
                   }
-                  className="bg-zinc-100 text-black px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-[#afff00] hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+                  className="px-5 py-2 text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
                 >
                   <Plus size={14} strokeWidth={3} /> Add_Module
-                </button>
+                </Button3D>
               </div>
 
               <div className="space-y-10">
@@ -395,15 +396,17 @@ export default function ServicesManager() {
                       )}
                       <div className="flex-1 space-y-2">
                         <label className="text-[9px] font-black uppercase text-zinc-500 tracking-[0.2em] block">Module_Visual_Asset</label>
+                        <Button3D primary>
                         <input
                           type="file"
-                          className="text-[10px] text-zinc-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-[9px] file:font-black file:uppercase file:bg-zinc-800 file:text-[#afff00] hover:file:bg-zinc-700 cursor-pointer w-full"
+                          className="text-[10px] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-[9px] file:uppercase cursor-pointer w-full"
                           onChange={(e) => {
                             const s = [...sections];
                             if (e.target.files) s[i].newFile = e.target.files[0];
                             setSections(s);
                           }}
                         />
+                        </Button3D>
                       </div>
                     </div>
 
@@ -454,13 +457,13 @@ export default function ServicesManager() {
                     Abort_Matrix
                   </button>
                 )}
-                <button
+                <Button3D primary
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={false}
                   className="bg-[#afff00] text-black px-10 py-4 rounded-xl font-black uppercase italic tracking-widest text-sm hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 shadow-[0_0_30px_rgba(175,255,0,0.2)]"
                 >
                   {isSubmitting ? <RefreshCw className="animate-spin" size={20} /> : (editingId ? "Update_Service_Protocol" : "Deploy_Service_Matrix")}
-                </button>
+                </Button3D>
               </div>
             </div>
           </form>

@@ -101,7 +101,7 @@ export default async function AdminDashboard() {
             </Link>
           </div>
           
-          <div className="bg-zinc-900/40 rounded-[2.5rem] border border-zinc-800 shadow-2xl overflow-hidden backdrop-blur-md">
+          <div className="bg-zinc-900/40 rounded-xl border border-zinc-800 shadow-2xl overflow-hidden backdrop-blur-md">
              <RecentMessages messages={recentMsgs} />
           </div>
         </div>
@@ -111,7 +111,7 @@ export default async function AdminDashboard() {
           
           <section className="space-y-6">
             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 px-2 italic">Latest_Log_Entry</h2>
-            <div className="bg-zinc-900/40 border border-zinc-800 rounded-[2.5rem] p-1 overflow-hidden transition-all hover:border-[#afff00]/30 shadow-2xl">
+            <div className="bg-zinc-900/40 border border-zinc-800 rounded-xl p-1 overflow-hidden transition-all hover:border-[#afff00]/30 shadow-2xl">
               <FeaturedArticle 
                  title={latestPost[0]?.title || "No active logs"} 
                  createdAt={latestPost[0]?.createdAt || null}
@@ -121,7 +121,7 @@ export default async function AdminDashboard() {
           </section>
 
           {/* INFRASTRUCTURE STATUS CARD (Bivši Indigo Card) */}
-          <section className="bg-zinc-900 border border-zinc-800 rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group">
+          <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 text-white shadow-2xl relative overflow-hidden group">
             <div className="relative z-10 space-y-8">
               <div className="flex items-center gap-2 text-[#afff00] font-black text-[10px] uppercase tracking-[0.3em]">
                 <Zap size={14} fill="currentColor" /> System_Health

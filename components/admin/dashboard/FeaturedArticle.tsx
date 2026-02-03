@@ -10,15 +10,15 @@ interface ArticleProps {
 
 export default function FeaturedArticle({ title, createdAt, link }: ArticleProps) {
   return (
-    <div className="bg-zinc-900/40 p-8 rounded-[2.5rem] border border-zinc-800 shadow-2xl relative group overflow-hidden transition-all duration-500 hover:border-[#afff00]/30 backdrop-blur-sm">
+    <div className="bg-zinc-900/40 p-8 rounded-xl border border-zinc-800 shadow-2xl relative group overflow-hidden transition-all duration-500 hover:border-[#afff00]/30 backdrop-blur-sm">
       
       {/* HEADER: ICON & STATUS */}
       <div className="flex justify-between items-start mb-8">
-        <div className="p-4 bg-zinc-800 border border-zinc-700 rounded-2xl group-hover:bg-[#afff00] group-hover:border-[#afff00] transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(175,255,0,0.3)]">
+        <div className="p-4 bg-zinc-800 border border-zinc-700 rounded-xl group-hover:bg-[#afff00] group-hover:border-[#afff00] transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(175,255,0,0.3)]">
           <Newspaper size={24} className="text-[#afff00] group-hover:text-black transition-colors duration-500" />
         </div>
         <div className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.3em] flex items-center gap-2 bg-black/50 px-3 py-1 rounded-full border border-zinc-800">
-           <div className="w-1 h-1 bg-zinc-500 rounded-full group-hover:bg-[#afff00] transition-colors" />
+           <div className="w-1 h-1 bg-zinc-500 group-hover:bg-[#afff00] transition-colors" />
            Verified_Log
         </div>
       </div>

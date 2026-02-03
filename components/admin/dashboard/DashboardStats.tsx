@@ -23,7 +23,7 @@ export default function DashboardStats({ label, value, iconName, unreadRes }: St
 
   return (
     <div 
-      className="bg-zinc-900/40 hover:border-[#afff00]/30 p-6 rounded-4xl border border-zinc-800 shadow-2xl flex items-center gap-6 group transition-colors duration-500 backdrop-blur-sm relative overflow-hidden"
+      className="bg-zinc-900/40 hover:border-[#afff00]/30 p-6 rounded-xl border border-zinc-800 shadow-2xl flex items-center gap-6 group transition-colors duration-500 backdrop-blur-sm relative overflow-hidden"
     >
       {/* BACKGROUND DECORATION */}
       <div className="absolute top-0 right-0 p-2 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">

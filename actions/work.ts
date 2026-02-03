@@ -80,17 +80,21 @@ export async function deleteWorkAction(id: number) {
   }
 }
 
-// Fixed: Only updates sortOrder, does NOT touch types
-export async function updateOrderAction(orderedIds: number[]) {
+export async function updateOrderAction(orderedIds: number[], types: number[]) {
   try {
     const updates = orderedIds.map((id, index) => 
       db.update(portfolioWork)
-        .set({ sortOrder: index }) 
+        .set({ 
+          sortOrder: index, 
+          type: types[index] 
+        })
         .where(eq(portfolioWork.id, id))
     );
+    
     await Promise.all(updates);
-    revalidatePath("/");
+    
     revalidatePath("/work");
+    revalidatePath("/");
     revalidatePath("/admin/portfolio");
     return { success: true };
   } catch (error) {

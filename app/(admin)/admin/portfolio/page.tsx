@@ -5,12 +5,13 @@ import { addWorkAction, deleteWorkAction, updateOrderAction } from "@/actions/wo
 import { PortfolioWork } from "@/db/schema";
 import { Reorder } from "framer-motion";
 import { Trash2, GripVertical, Plus, ChevronDown, Save, RefreshCw } from "lucide-react";
+import Button3D from "@/components/ui/Button3D";
 
 export default function AdminPage() {
   const [works, setWorks] = useState<PortfolioWork[]>([]);
   const [loading, setLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [hasChanges, setHasChanges] = useState(false); // Detektuje promenu redosleda
+  const [hasChanges, setHasChanges] = useState(false); 
   const [showOptions, setShowOptions] = useState(false);
 
   const fetchWorks = async () => {
@@ -27,13 +28,11 @@ export default function AdminPage() {
     fetchData();
    }, []);
 
-  // Samo lokalni UI update
   const handleReorder = (newOrder: PortfolioWork[]) => {
     setWorks(newOrder);
     setHasChanges(true);
   };
 
-  // Slanje u bazu na klik
   const handleSaveOrder = async () => {
     setIsSaving(true);
     const ids = works.map(w => w.id);
@@ -79,8 +78,7 @@ export default function AdminPage() {
           <h1 className="text-4xl font-black uppercase italic tracking-tighter">
             Control_Panel<span className="text-[#afff00]">.</span>
           </h1>
-          
-          {/* Status indikator za promenu redosleda */}
+      
           {hasChanges && (
             <div className="flex items-center gap-4 animate-in fade-in zoom-in duration-300">
               <span className="text-[10px] font-black text-[#afff00] uppercase tracking-widest bg-[#afff00]/10 px-3 py-1 rounded-full border border-[#afff00]/20">
@@ -107,7 +105,7 @@ export default function AdminPage() {
       <input 
         name="title" 
         required 
-        placeholder=" " // Razmak je bitan za peer-placeholder-shown
+        placeholder=" " 
         className="peer w-full bg-transparent border border-zinc-800 p-4 rounded-xl outline-none focus:border-[#afff00] transition-all text-sm font-medium" 
       />
       <label className="absolute left-3 -top-2.5 px-2 bg-[#121214] text-[10px] uppercase font-black tracking-widest text-zinc-500 transition-all 
@@ -136,12 +134,13 @@ export default function AdminPage() {
 
     {/* SUBMIT BUTTON */}
     <div className="md:col-span-2">
-      <button 
-        disabled={loading} 
-        className="w-full h-13.5 bg-zinc-100 text-black font-black uppercase rounded-xl hover:bg-[#afff00] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center shadow-lg"
+      <Button3D primary
+        type='submit'
+        disabled={false} 
+        className="w-full h-13.5 text-black font-black uppercase transition-all flex items-center justify-center"
       >
         {loading ? <RefreshCw className="animate-spin" size={20} /> : <Plus size={24} strokeWidth={3} />}
-      </button>
+      </Button3D>
     </div>
   </div>
 

@@ -71,7 +71,8 @@ export const portfolioWork = pgTable("portfolio_work", {
   url: text("url").notNull(),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
-  type: integer("type").default(0),
+  type: integer("type").default(0), // 1 = Featured, 0 = Normal
+  sortOrder: integer("sort_order").default(0), // DODAJ OVO ZA REDOSLED
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

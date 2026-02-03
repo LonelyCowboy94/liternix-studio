@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Button3D from "../ui/Button3D";
 
 export function CreateUserForm() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,16 +52,16 @@ export function CreateUserForm() {
 
   return (
     <>
-      <button
+      <Button3D
         onClick={() => setIsOpen(true)}
-        className="group flex items-center gap-2.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white border border-slate-800 rounded-lg font-medium shadow-sm transition-all active:scale-[0.98]"
+        className="group flex items-center gap-2.5 px-4 py-2 transition-all"
       >
         <UserPlus
           size={18}
           className="text-slate-400 group-hover:text-white transition-colors"
         />
         <span className="hidden sm:block text-sm">Add New User</span>
-      </button>
+      </Button3D>
 
       {/* MODAL SYSTEM */}
       <AnimatePresence>

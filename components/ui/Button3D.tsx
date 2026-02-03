@@ -8,6 +8,7 @@ type Button3DProps = {
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export default function Button3D({
@@ -16,11 +17,13 @@ export default function Button3D({
   type = "button",
   disabled = false,
   className = "",
+  onClick,
 }: Button3DProps) {
   return (
     <button
       type={type}
       disabled={disabled}
+      onClick={onClick}
       className={`
         relative rounded-2xl font-black uppercase tracking-widest text-sm
         transition-all duration-100
@@ -33,6 +36,7 @@ export default function Button3D({
         ${className}
       `}
     >
+      {/* shadows */}
       {!disabled && (
         <>
           <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.3)] pointer-events-none opacity-40" />

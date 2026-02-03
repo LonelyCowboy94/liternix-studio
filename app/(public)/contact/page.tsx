@@ -96,7 +96,7 @@ export default function GetInTouchPage() {
              <div className="absolute -top-2 -left-2 w-6 h-6 border-t border-l border-[#afff00]/30 pointer-events-none" />
              <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b border-r border-[#afff00]/30 pointer-events-none" />
              
-             <div className="bg-zinc-950/40 border border-zinc-900 rounded-[2.5rem] p-1 backdrop-blur-xl">
+             <div className="p-1 backdrop-blur-xl">
                 <ContactForm />
              </div>
 

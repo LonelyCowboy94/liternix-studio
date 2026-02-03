@@ -133,6 +133,9 @@ export default function Manifesto() {
 
       {/* Global Grainy overlay moved here for Z-index consistency */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] grain-overlay z-50" aria-hidden="true" />
+
+       {/* SCANLINE OVERLAY */}
+      <div className="fixed inset-0 pointer-events-none z-100 opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,1)_50%)] bg-size-[100%_4px]" />
       <Footer />
     </div>
   );

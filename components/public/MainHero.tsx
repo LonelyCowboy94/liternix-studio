@@ -25,8 +25,8 @@ export default function MainHero() {
   </span>
               </p>
               <div className="flex flex-wrap gap-6">
-                <Link href="/contact"><Button3D primary>Get In Touch <ArrowRight size={20} /></Button3D></Link>
-                <Link href="/showreel"><Button3D><Play size={18} fill="currentColor" /> Showreel</Button3D></Link>
+                <Link href="/contact"><Button3D primary className='px-10 py-5'>Get In Touch <ArrowRight size={20} /></Button3D></Link>
+                <Link href="/showreel"><Button3D className='px-10 py-5'><Play size={18} fill="currentColor" /> Showreel</Button3D></Link>
               </div>
             </div>
 

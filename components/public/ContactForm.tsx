@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, RefreshCw, CheckCircle2, AlertTriangle, Terminal } from "lucide-react";
+import Button3D from "../ui/Button3D";
 
 interface FormErrors {
   firstName?: string;
@@ -155,13 +156,13 @@ export default function ContactForm() {
         </div>
 
         {/* Submit Button */}
-        <button
+        <Button3D primary
           type="submit"
-          disabled={status === "loading"}
-          className="w-full bg-[#afff00] text-black font-black italic uppercase py-5 rounded-2xl flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(175,255,0,0.2)] disabled:opacity-50"
+          disabled={false}
+          className="w-full italic py-5 rounded-2xl flex items-center justify-center disabled:opacity-50"
         >
           {status === "loading" ? <RefreshCw className="animate-spin" size={20} /> : <><Send size={20} /> Deploy_Signal</>}
-        </button>
+        </Button3D>
 
         {/* Status Feedbacks */}
         {status === "success" && (

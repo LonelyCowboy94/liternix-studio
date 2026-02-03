@@ -5,6 +5,7 @@ import Footer from "@/components/public/Footer";
 import { Film, Monitor, Hash, ArrowDown } from "lucide-react";
 import Link from "next/link";
 import AmbientBackground from "@/components/public/AmbientBackground";
+import Button3D from "@/components/ui/Button3D";
 
 export default async function WorkPage() {
   const works = await getWorksAction();
@@ -104,12 +105,14 @@ export default async function WorkPage() {
            <h3 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter">
              Ready to <span className="text-[#afff00]">distort</span> reality?
            </h3>
+           <Button3D primary>
            <Link 
             href="contact" 
-            className="inline-flex bg-[#afff00] text-black px-12 py-5 rounded-full font-black uppercase italic text-lg hover:scale-110 active:scale-95 transition-all shadow-[0_0_40px_rgba(175,255,0,0.2)]"
+            className=" px-10 py-5"
            >
              Start_Project
            </Link>
+           </Button3D>
         </section>
       </main>
 

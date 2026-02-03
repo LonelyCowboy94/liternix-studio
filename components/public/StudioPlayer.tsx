@@ -188,7 +188,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
 
   return (
     <div className="group relative aspect-video bg-black rounded-[2.5rem] overflow-hidden border border-zinc-800 shadow-2xl transition-all duration-500 hover:border-[#afff00]/30">
-      {/* LAYER 1: ENGINE - Dinamički opacity rešava problem sa crnim ekranom */}
+      {/* LAYER 1: ENGINE */}
       <div
         className={`absolute inset-0 w-full h-full z-0 pointer-events-none transition-opacity duration-1000 ${hasStarted ? "opacity-100" : "opacity-0"}`}
       >

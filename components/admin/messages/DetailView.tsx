@@ -69,7 +69,7 @@ export const DetailView = ({ ...props }: DetailViewProps) => {
             )}
           </div>
         ) : (
-          <div className="h-full flex flex-col items-center justify-center text-zinc-900 opacity-20">
+          <div className="pulse h-full flex flex-col items-center justify-center text-zinc-800">
             <Terminal size={80} strokeWidth={0.5} />
             <p className="font-black uppercase tracking-[0.4em] text-[8px] mt-4 italic">WAITING_FOR_SELECTION</p>
           </div>

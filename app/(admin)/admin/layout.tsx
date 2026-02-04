@@ -9,7 +9,7 @@ const session = await getServerSession(authOptions);
 const sessionUser = session?.user.name;
   return (
     <AuthProvider session={session}>
-    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-100">
+    <div className="flex fixed flex-col lg:flex-row max-h-screen bg-slate-100">
       
       <Sidebar />
 
@@ -55,7 +55,7 @@ const sessionUser = session?.user.name;
   <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-size-[100%_4px] opacity-20" />
 </header>
 
-        <div>
+        <div className="overflow-auto min-w-screen lg:min-w-[calc(100vw-18rem)]">
           {children}
         </div>
       </main>

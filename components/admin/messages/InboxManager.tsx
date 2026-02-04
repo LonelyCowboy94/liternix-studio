@@ -90,7 +90,6 @@ export default function InboxManager() {
   };
 
   const toggleSelectAll = () => {
-    // Fiksiran @typescript-eslint/no-unused-expressions
     if (selectedIds.size === paginatedData.length && paginatedData.length > 0) {
       setSelectedIds(new Set());
     } else {
@@ -143,11 +142,11 @@ export default function InboxManager() {
   };
 
  return (
-    <div className="flex flex-col md:flex-row h-dvh bg-black border border-zinc-800 overflow-hidden relative text-white">
+    <div className="flex flex-col md:flex-row h-dvh bg-black border border-zinc-800 max-h-[calc(100vh-80px)] overflow-hidden relative text-white">
       {/* GLOBAL SCANLINE */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,1)_50%)] bg-size-[100%_4px] z-50 opacity-10" />
       
-      {/* 1. SIDEBAR (Navigacija) - Mobile: Bottom Bar | Desktop: Left Strip */}
+      {/* 1. SIDEBAR */}
       <Sidebar 
         activeTab={activeTab} 
         isComposing={isComposing} 
@@ -159,7 +158,7 @@ export default function InboxManager() {
         }}
       />
 
-      {/* 2. LISTA PORUKA - Skrivena na mobilnom ako gledaš poruku ili pišeš novu */}
+      {/* 2. MESSAGES LIST */}
       <MessageList 
         activeTab={activeTab}
         searchQuery={searchQuery}
@@ -171,11 +170,10 @@ export default function InboxManager() {
         paginatedData={paginatedData}
         selectMessage={selectMessage}
         selectedId={selected?.id}
-        // Na mobilnom: vidljivo samo ako ništa nije selektovano i ne piše se poruka
         isVisible={!selected && !isComposing} 
       />
 
-      {/* 3. TERMINAL (Detalji/Compose) - Puni ekran na mobilnom */}
+      {/* 3. TERMINAL (Details) */}
       <DetailView 
         selected={selected}
         isComposing={isComposing}

@@ -12,13 +12,21 @@ body {
 }
 
 .shadow-inner-3d {
-  shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2), inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+  shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* ANIMATIONS */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-up {
@@ -26,29 +34,25 @@ body {
 }
 
 @keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }
 
 @keyframes textFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
-
-/* @keyframes noise {
-  0% { transform: translate(0,0) }
-  10% { transform: translate(-1%,-1%) }
-  20% { transform: translate(1%,1%) }
-  30% { transform: translate(-2%,0) }
-  40% { transform: translate(1%,-1%) }
-  50% { transform: translate(-1%,1%) }
-  60% { transform: translate(1%,2%) }
-  70% { transform: translate(-2%,1%) }
-  80% { transform: translate(2%,1%) }
-  90% { transform: translate(-1%,1%) }
-  100% { transform: translate(1%,-1%) }
-} */
 
 @keyframes shine {
   to {
@@ -58,11 +62,11 @@ body {
 
 .animate-brutal-text {
   background: linear-gradient(
-    90deg, 
-    #afff00, 
-    #00ff87, 
-    #afff00, 
-    #ffffff, 
+    90deg,
+    #afff00,
+    #00ff87,
+    #afff00,
+    #ffffff,
     #afff00
   );
   background-size: 400% 400%;
@@ -99,7 +103,12 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent, rgba(175, 255, 0, 0.05), transparent);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(175, 255, 0, 0.05),
+    transparent
+  );
   animation: scanline 8s linear infinite;
   pointer-events: none;
 }
@@ -110,7 +119,7 @@ body {
 }
 
 button:hover {
-    cursor: pointer !important;
+  cursor: pointer !important;
 }
 
 @keyframes reveal-up {
@@ -125,17 +134,27 @@ button:hover {
 }
 
 @keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }
 
 .animate-reveal {
   animation: reveal-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-.delay-1 { animation-delay: 0.1s; }
-.delay-2 { animation-delay: 0.2s; }
-.delay-3 { animation-delay: 0.3s; }
+.delay-1 {
+  animation-delay: 0.1s;
+}
+.delay-2 {
+  animation-delay: 0.2s;
+}
+.delay-3 {
+  animation-delay: 0.3s;
+}
 
 @layer utilities {
   @keyframes reveal-up {
@@ -150,8 +169,12 @@ button:hover {
   }
 
   @keyframes fill-width {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
   }
 
   .animate-reveal {
@@ -163,14 +186,26 @@ button:hover {
     transform-origin: left;
   }
 
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
-  .delay-3 { animation-delay: 0.4s; }
+  .delay-1 {
+    animation-delay: 0.1s;
+  }
+  .delay-2 {
+    animation-delay: 0.2s;
+  }
+  .delay-3 {
+    animation-delay: 0.4s;
+  }
 
   /* Dragging animations */
   @keyframes reveal-up2 {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .animate-reveal {
@@ -185,7 +220,9 @@ button:hover {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     cursor: grabbing !important;
     scale: 1.03;
-    transition: scale 0.2s, border-color 0.2s;
+    transition:
+      scale 0.2s,
+      border-color 0.2s;
   }
 
   .drag-overlay {
@@ -194,8 +231,12 @@ button:hover {
 
   /* Animations from jokic dev */
   @keyframes spinY {
-    from { transform: rotateY(0deg); }
-    to { transform: rotateY(360deg); }
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
   }
 
   .perspective-1000 {
@@ -209,53 +250,76 @@ button:hover {
     transform: rotateY(0deg);
   }
 
- 
   .group:hover .rotateY-card,
   .rotateY-card:hover {
     transform: rotateY(360deg);
   }
 
-  .animate-spin-gh { animation: spinY 0.8s ease-out 0.3s; }
-  .animate-spin-ln { animation: spinY 0.8s ease-out 0.7s; }
-  .animate-spin-mail { animation: spinY 0.8s ease-out 1s; }
-
+  .animate-spin-gh {
+    animation: spinY 0.8s ease-out 0.3s;
+  }
+  .animate-spin-ln {
+    animation: spinY 0.8s ease-out 0.7s;
+  }
+  .animate-spin-mail {
+    animation: spinY 0.8s ease-out 1s;
+  }
 }
 
-
 @keyframes jelly-wave {
-  0%, 100% { 
-    transform: scale(1, 1) skewX(0deg); 
+  0%,
+  100% {
+    transform: scale(1, 1) skewX(0deg);
   }
-  25% { 
-    transform: scale(1.1, 0.9) skewX(-8deg); 
+  25% {
+    transform: scale(1.1, 0.9) skewX(-8deg);
   }
-  50% { 
-    transform: scale(0.9, 1.1) skewX(8deg); 
+  50% {
+    transform: scale(0.9, 1.1) skewX(8deg);
   }
-  75% { 
-    transform: scale(1.05, 0.95) skewX(-4deg); 
+  75% {
+    transform: scale(1.05, 0.95) skewX(-4deg);
   }
 }
 
 @keyframes color-flow {
-  0%, 100% { 
-    background-color: #ffffff; 
+  0%,
+  100% {
+    background-color: #ffffff;
   }
-  50% { 
-    background-color: #afff00; 
+  50% {
+    background-color: #afff00;
   }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse 2s linear infinite;
 }
 
 .animate-jelly-glow {
-  animation: 
-    jelly-wave 2s infinite ease-in-out,
+  animation:
+    jelly-wave 2.2s infinite ease-in-out,
     color-flow 3s infinite linear;
 }
 
-.jelly-delay-1 { animation-delay: 0s; }
-.jelly-delay-2 { animation-delay: 0.2s; }
-.jelly-delay-3 { animation-delay: 0.4s; }
-
+.jelly-delay-1 {
+  animation-delay: 0s;
+}
+.jelly-delay-2 {
+  animation-delay: 0.2s;
+}
+.jelly-delay-3 {
+  animation-delay: 0.4s;
+}
 
 /* ScrollBar */
 .custom-scroll {
@@ -287,4 +351,197 @@ button:hover {
   background: #1a1a1a;
 }
 
+/* Login anim */
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-4px);
+  }
+  20% {
+    transform: translateX(4px);
+  }
+  30% {
+    transform: translateX(-3px);
+  }
+  40% {
+    transform: translateX(3px);
+  }
+  50% {
+    transform: translateX(-2px);
+  }
+  60% {
+    transform: translateX(2px);
+  }
+  70% {
+    transform: translateX(-1px);
+  }
+  80% {
+    transform: translateX(1px);
+  }
+  90% {
+    transform: translateX(-0.5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+.animate-fade-in-down {
+  animation: fadeInDown 0.3s ease-out forwards;
+}
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* SCI-FI CRT BOOT EFECT */
+@keyframes screen-open {
+  0% {
+    transform: scaleX(0) scaleY(0.002);
+    opacity: 0;
+  }
+  40% {
+    transform: scaleX(1) scaleY(0.002);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1) scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes flash-line {
+  0% {
+    opacity: 0;
+    width: 0%;
+  }
+  30% {
+    opacity: 1;
+    width: 100%;
+  }
+  100% {
+    opacity: 0;
+    width: 100%;
+  }
+}
+
+@keyframes content-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+
+.animate-boot-container {
+  animation: screen-open 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-boot-content {
+  opacity: 0;
+  animation: content-pop 0.5s ease-out 0.7s forwards;
+}
+
+.boot-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 2px;
+  background: #afff00;
+  box-shadow:
+    0 0 20px #afff00,
+    0 0 40px #afff00;
+  z-index: 100;
+  pointer-events: none;
+  animation: flash-line 0.6s ease-in-out forwards;
+}
+
+.error-shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes screen-shutdown {
+  0% { 
+    transform: scaleX(1) scaleY(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  40% { 
+    transform: scaleX(1) scaleY(0.002);
+    opacity: 0.8;
+    filter: brightness(2);
+  }
+  100% { 
+    transform: scaleX(0) scaleY(0.002);
+    opacity: 0;
+    filter: brightness(5);
+  }
+}
+
+.animate-shutdown {
+  animation: screen-shutdown 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.shutdown-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 2px;
+  background: #ff0000;
+  box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
+  z-index: 100;
+  pointer-events: none;
+  animation: flash-line 0.6s ease-in-out forwards;
+}
+
+@keyframes alarm-red-flash {
+  0% { background-color: rgba(255, 0, 0, 0); }
+  50% { background-color: rgba(255, 0, 0, 0.15); }
+  100% { background-color: rgba(255, 0, 0, 0); }
+}
+
+.animate-alarm {
+  animation: alarm-red-flash 0.2s infinite;
+}
+
+@keyframes text-glitch {
+  0% { transform: translate(0); text-shadow: none; }
+  20% { transform: translate(-2px, 2px); text-shadow: 2px 0 #ff0000; }
+  40% { transform: translate(-2px, -2px); text-shadow: -2px 0 #00ffff; }
+  60% { transform: translate(2px, 2px); text-shadow: 2px 0 #ff0000; }
+  80% { transform: translate(2px, -2px); text-shadow: -2px 0 #00ffff; }
+  100% { transform: translate(0); }
+}
+
+.animate-text-glitch {
+  animation: text-glitch 0.1s infinite;
+}

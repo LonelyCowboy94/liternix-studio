@@ -61,7 +61,7 @@ export default async function AdminDashboard() {
             <div className="w-2 h-2 bg-[#afff00] rounded-full animate-pulse shadow-[0_0_10px_#afff00]" />
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500">System_Status: Online</span>
           </div>
-          <h1 className="text-5xl font-black tracking-tighter italic uppercase leading-none">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter italic uppercase leading-none">
             Master_Console<span className="text-[#afff00]">.</span>
           </h1>
           <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mt-3">
@@ -84,7 +84,7 @@ export default async function AdminDashboard() {
         {/* LEFT COLUMN: SIGNAL FEED (MESSAGES) */}
         <div className="lg:col-span-8 space-y-6">
           <div className="flex items-center justify-between px-2">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 flex items-center gap-3 italic">
+            <h2 className="text-[10px] font-black uppercase flex flex-wrap tracking-[0.4em] text-zinc-500 items-center gap-3 italic">
               <Mail size={16} className="text-[#afff00]" /> Signal_Feed
               {unreadRes.value > 0 && (
                 <span className="flex items-center gap-2">

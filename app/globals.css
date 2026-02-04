@@ -257,4 +257,34 @@ button:hover {
 .jelly-delay-3 { animation-delay: 0.4s; }
 
 
+/* ScrollBar */
+.custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #afff00 #1a1a1a;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #afff00;
+  border-radius: 8px;
+  border: 2px solid #1a1a1a;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #c7ff33;
+}
+
+.custom-scroll::-webkit-scrollbar-corner {
+  background: #1a1a1a;
+}
+
 

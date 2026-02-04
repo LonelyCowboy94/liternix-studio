@@ -88,7 +88,7 @@ export default function AdminPage() {
     <div className="min-h-screen bg-black text-white p-10 pb-32">
       <div className="max-w-4xl mx-auto">
         
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-wrap gap-4 justify-between items-center mb-10">
           <h1 className="text-4xl font-black uppercase italic tracking-tighter">
             Control_Panel<span className="text-[#afff00]">.</span>
           </h1>
@@ -104,7 +104,7 @@ export default function AdminPage() {
                 className="flex items-center gap-2 bg-[#afff00] text-black px-6 py-2 rounded-xl font-black uppercase text-sm hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(175,255,0,0.3)]"
               >
                 {isSaving ? <RefreshCw className="animate-spin" size={16} /> : <Save size={16} />}
-                {isSaving ? "Syncing..." : "Push To Live"}
+                {isSaving ? "Syncing..." : "Save"}
               </Button3D>
             </div>
           )}

@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Mail, ShieldCheck, Shield, Edit, Trash2, X, ChevronDown, Loader2, Terminal } from "lucide-react";
+import { Search, Mail, ShieldCheck, Shield, Edit, Trash2, ChevronDown, Loader2, Terminal } from "lucide-react";
 import { updateUser, deleteUser } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { CreateUserForm } from "./CreateUserForm";
+import Button3D from "../ui/Button3D";
 
 interface UserType {
   id: string;
@@ -57,7 +58,7 @@ export function UserTable({ users }: { users: UserType[] }) {
   }
 
   return (
-  <div className="space-y-8 text-white relative">
+  <div className="space-y-8 min-h-screen text-white relative">
     
     {/* TOP BAR: SEARCH & CREATE */}
     <div className="flex flex-col md:flex-row justify-between gap-6">
@@ -145,7 +146,7 @@ export function UserTable({ users }: { users: UserType[] }) {
     {/* EDIT MODAL: SECURITY_PROTOCOL_OVERRIDE */}
     {editingUser && (
       <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
-        <div className="bg-zinc-900 rounded-[3rem] p-8 md:p-12 w-full max-w-lg shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-zinc-800 animate-in zoom-in-95 duration-200 relative overflow-hidden">
+        <div className="bg-zinc-900 rounded-xl p-8 md:p-12 w-full max-w-lg shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-zinc-800 animate-in zoom-in-95 duration-200 relative overflow-hidden">
           
           {/* Subtle Glow Effect */}
           <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#afff00]/10 rounded-full blur-3xl pointer-events-none" />
@@ -155,16 +156,10 @@ export function UserTable({ users }: { users: UserType[] }) {
               <div className="flex items-center gap-2 mb-2 text-[#afff00] font-black text-[10px] uppercase tracking-[0.4em]">
                 <Terminal size={14} /> Security_Protocol
               </div>
-              <h2 className="text-3xl font-black italic uppercase text-white tracking-tighter leading-none">
+              <h2 className="text-xl md:text-3xl font-black italic uppercase text-white tracking-tighter leading-none">
                 Update_Operator<span className="text-[#afff00]">.</span>
               </h2>
             </div>
-            <button 
-              onClick={() => setEditingUser(null)} 
-              className="p-2 hover:bg-zinc-800 rounded-full transition-colors text-zinc-600 hover:text-white"
-            >
-              <X size={24} />
-            </button>
           </div>
 
           <form onSubmit={handleUpdate} className="space-y-8 relative z-10">
@@ -239,20 +234,20 @@ export function UserTable({ users }: { users: UserType[] }) {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-6">
-              <button 
+              <Button3D 
                 type="button" 
                 onClick={() => setEditingUser(null)} 
-                className="flex-1 px-8 py-4 border border-zinc-800 rounded-2xl font-black uppercase italic tracking-widest text-[11px] text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all active:scale-95"
+                className="flex-1 justify-center flex px-8 py-4 border uppercase italic tracking-widest text-[11px]"
               >
                 Abort_Changes
-              </button>
-              <button 
+              </Button3D>
+              <Button3D primary
                 type="submit" 
-                disabled={loading} 
-                className="flex-1 bg-[#afff00] text-black px-8 py-4 rounded-2xl font-black uppercase italic tracking-widest text-[11px] shadow-[0_0_25px_rgba(175,255,0,0.2)] hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                disabled={false} 
+                className="flex-1 px-8 py-4 rounded-2xl uppercase italic tracking-widest text-[11px] flex items-center justify-center gap-2"
               >
-                {loading ? <Loader2 className="animate-spin" size={18} /> : "Commit_Protocol_Changes"}
-              </button>
+                {loading ? <Loader2 className="animate-spin" size={18} /> : "Commit_Changes"}
+              </Button3D>
             </div>
           </form>
         </div>

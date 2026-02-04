@@ -255,7 +255,7 @@ export default function ServicesManager() {
           <div className="w-2 h-2 bg-[#afff00] rounded-full animate-pulse shadow-[0_0_10px_#afff00]" />
           <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500">Service_Matrix: Online</span>
         </div>
-        <h1 className="text-5xl font-black italic uppercase tracking-tighter leading-none">
+        <h1 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">
           Service_Engine<span className="text-[#afff00]">.</span>
         </h1>
         <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mt-3 italic">
@@ -268,7 +268,7 @@ export default function ServicesManager() {
         <div className="p-1 bg-[#afff00] shadow-[0_0_20px_rgba(175,255,0,0.3)]" />
         
         <div className="p-8 md:p-12">
-          <h2 className="text-3xl font-black italic uppercase tracking-tighter mb-10 flex items-center gap-3">
+          <h2 className="md:text-3xl font-black italic uppercase tracking-tighter mb-10 flex items-center gap-3">
             <Layers className="text-[#afff00]" size={28} />
             {editingId ? "Modify_Service_Matrix" : "Initialize_New_Service"}
           </h2>
@@ -305,7 +305,7 @@ export default function ServicesManager() {
 
             {/* SECTIONS MANAGER */}
             <div className="space-y-8">
-              <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+              <div className="flex flex-wrap gap-3 items-center justify-between border-b border-zinc-800 pb-4">
                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 italic">
                   Content_Modules // [{sections.length}]
                 </h3>
@@ -322,7 +322,7 @@ export default function ServicesManager() {
                       },
                     ])
                   }
-                  className="px-5 py-2 text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+                  className="px-5 py-2 text-[10px] ml-auto font-black uppercase tracking-widest transition-all flex items-center gap-2"
                 >
                   <Plus size={14} strokeWidth={3} /> Add_Module
                 </Button3D>
@@ -447,7 +447,7 @@ export default function ServicesManager() {
                 </select>
               </div>
 
-              <div className="flex gap-4 ml-auto items-center">
+              <div className="flex gap-4 mx-auto md:mx-0 md:ml-auto items-center">
                 {editingId && (
                   <button
                     type="button"
@@ -462,7 +462,7 @@ export default function ServicesManager() {
                   disabled={false}
                   className="bg-[#afff00] text-black px-10 py-4 rounded-xl font-black uppercase italic tracking-widest text-sm hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 shadow-[0_0_30px_rgba(175,255,0,0.2)]"
                 >
-                  {isSubmitting ? <RefreshCw className="animate-spin" size={20} /> : (editingId ? "Update_Service_Protocol" : "Deploy_Service_Matrix")}
+                  {isSubmitting ? <RefreshCw className="animate-spin" size={20} /> : (editingId ? "Update_Service_Protocol" : "Deploy_Service")}
                 </Button3D>
               </div>
             </div>
@@ -472,12 +472,12 @@ export default function ServicesManager() {
 
       {/* SERVICE LIST ARCHIVE */}
       <section className="space-y-6 max-w-5xl mt-20">
-        <h2 className="text-xl font-black uppercase italic tracking-[0.3em] text-zinc-600 px-4">
+        <h2 className="text-sm md:text-xl font-black uppercase italic tracking-[0.3em] text-zinc-600 px-4">
           {"//"} SERVICE_ARCHIVE_REGISTRY
         </h2>
 
         {servicesList.length === 0 ? (
-          <div className="p-20 text-center bg-zinc-900/40 border border-zinc-800 rounded-[2.5rem] text-zinc-600 font-black uppercase tracking-widest italic">
+          <div className="p-20 text-center text-xs md:text-xl bg-zinc-900/40 border border-zinc-800 rounded-2xl text-zinc-600 font-black uppercase tracking-widest italic">
             No_Active_Signals_Found.
           </div>
         ) : (

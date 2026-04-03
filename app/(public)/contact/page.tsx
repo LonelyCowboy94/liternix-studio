@@ -72,7 +72,7 @@ export default function GetInTouchPage() {
                   href={item.href}
                   target={item.label === "Current_Location" ? "_blank" : undefined}
                   rel="noopener noreferrer"
-                  className="group perspective-1000 flex items-center gap-6 p-4 rounded-2xl border border-transparent hover:bg-zinc-900/40 transition-all duration-300 block"
+                  className="group perspective-1000 flex items-center gap-6 p-4 rounded-2xl border border-transparent hover:bg-zinc-900/40 transition-all duration-300"
                 >
                   {/* 3D IKONA */}
                   <div className={`rotateY-card w-14 h-14 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center shadow-lg group-hover:border-[#afff00]/50 group-hover:shadow-[#afff00]/10 transition-all ${item.loadClass}`}>

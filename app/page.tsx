@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     canonical: "/", 
   },
   openGraph: {
-    title: "Video Editor & Content Creator | Ime Prezime",
+    title: "Video Editor & Content Creator | Luka Jokić",
     description: "Transforming ideas into high-impact visual stories. View my portfolio.",
      type: "website",
     images: [

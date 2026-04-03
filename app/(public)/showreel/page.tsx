@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "Brand Storytelling Video",
   ],
   openGraph: {
-    title: "Cinematic Portfolio | Ime Prezime - Video Editor",
+    title: "Cinematic Portfolio | Luka Jokić - Video Editor",
     description:
       "Watch my latest showreel and explore professional video editing projects that push creative boundaries.",
     type: "website",

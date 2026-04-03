@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer className="p-12 text-center relative z-10">
       <div className="text-zinc-800 font-black text-8xl md:text-[14rem] select-none pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 opacity-20 tracking-tighter uppercase">
-        LITERNIX
+        LUKA&nbsp;JOKIĆ
       </div>
       <div className="relative z-20 flex flex-col items-center gap-4">
         <div className="h-px w-20 bg-[#afff00]" />

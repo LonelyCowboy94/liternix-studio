@@ -6,6 +6,35 @@ import { Film, Monitor, Hash, ArrowDown, Activity } from "lucide-react";
 import Link from "next/link";
 import AmbientBackground from "@/components/public/AmbientBackground";
 import Button3D from "@/components/ui/Button3D";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Showreel & Selected Works | High-Impact Visual Content",
+  description: 
+    "Take a look behind the lens of professional video crafting. From high-energy commercials to cinematic narratives—explore my portfolio of projects that capture attention and drive results.",
+  keywords: [
+    "Video Editing Showreel",
+    "Commercial Video Portfolio",
+    "Cinematic Post-Production",
+    "Professional Video Editor Projects",
+    "Motion Graphics Examples",
+    "Viral Social Media Edits",
+    "Brand Storytelling Video",
+  ],
+  openGraph: {
+    title: "Cinematic Portfolio | Ime Prezime - Video Editor",
+    description: "Watch my latest showreel and explore professional video editing projects that push creative boundaries.",
+    type: "website",
+    images: [
+      {
+        url: "/portfolio-og.jpg", 
+        width: 1200,
+        height: 630,
+        alt: "Professional Video Editing Portfolio Showreel",
+      },
+    ],
+  },
+};
 
 export default async function WorkPage() {
   const works = await getWorksAction();

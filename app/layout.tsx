@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US", 
     url: SITE_URL,
-    title: "Luka Jokić | Professional Video Editor",
+    title: "Luka Jokić | Professional Video Editor & Visual Storyteller",
     description: "High-end video editing services. From raw cut to cinematic finish.",
     siteName: "Luka Jokić Portfolio",
     images: [
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Luka Jokić | Video Crafter",
+    title: "Luka Jokić | Professional Video Editor & Visual Storyteller",
     description: "Turning visions into visual reality. Professional video editing and post-production.",
     images: ["/og-image.jpg"],
     creator: "@LiternixStudio",

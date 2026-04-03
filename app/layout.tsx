@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: "Luka Jokić | Video Crafter",
     description: "Turning visions into visual reality. Professional video editing and post-production.",
     images: ["/og-image.jpg"],
-    creator: "@tvoj_handle",
+    creator: "@LiternixStudio",
   },
   robots: {
     index: true,

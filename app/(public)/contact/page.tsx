@@ -2,21 +2,36 @@ import Header from "@/components/public/Header";
 import Footer from "@/components/public/Footer";
 import AmbientBackground from "@/components/public/AmbientBackground";
 import ContactForm from "@/components/public/ContactForm";
-import { Radio, Mail, Globe, Instagram, Youtube, Terminal, Activity } from "lucide-react";
+import { Radio, Mail, Globe, Instagram, Facebook, Terminal, Activity } from "lucide-react";
 
 export default function GetInTouchPage() {
   const contactDetails = [
     {
       label: "Main_Signal_Address",
-      value: "hello@liternix.studio",
+      value: "lukajokic644@gmail.com",
       icon: <Mail className="text-[#afff00]" size={22} />,
-      loadClass: "animate-spin-mail"
+      loadClass: "animate-spin-mail",
+      href: "mailto:lukajokic644@gmail.com"
     },
     {
       label: "Current_Location",
       value: "Belgrade_UTC+1",
       icon: <Globe className="text-[#afff00]" size={22} />,
-      loadClass: "animate-spin-ln"
+      loadClass: "animate-spin-ln",
+      href: "https://www.google.com/maps/place/Belgrade" // Opciono, vodi na mapu Beograda
+    }
+  ];
+
+  const socialLinks = [
+    { 
+      icon: <Instagram size={24} />, 
+      load: "animate-spin-gh", 
+      href: "https://www.instagram.com/luka.roto?igsh=YXF2MDc5eWhxYTgx" // Zameni tvojim username-om
+    },
+    { 
+      icon: <Facebook size={24} />, 
+      load: "animate-spin-ln", 
+      href: "https://www.facebook.com/luka.jokic.71" 
     }
   ];
 
@@ -52,12 +67,15 @@ export default function GetInTouchPage() {
             {/* CONTACT CARDS */}
             <div className="space-y-6">
               {contactDetails.map((item, idx) => (
-                <div 
+                <a 
                   key={idx} 
-                  className="group perspective-1000 flex items-center gap-6 p-4 rounded-2xl border border-transparent hover:bg-zinc-900/20 transition-all duration-300"
+                  href={item.href}
+                  target={item.label === "Current_Location" ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="group perspective-1000 flex items-center gap-6 p-4 rounded-2xl border border-transparent hover:bg-zinc-900/40 transition-all duration-300 block"
                 >
                   {/* 3D IKONA */}
-                  <div className={`rotateY-card w-14 h-14 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center shadow-lg group-hover:border-[#afff00]/50 ${item.loadClass}`}>
+                  <div className={`rotateY-card w-14 h-14 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center shadow-lg group-hover:border-[#afff00]/50 group-hover:shadow-[#afff00]/10 transition-all ${item.loadClass}`}>
                     {item.icon}
                   </div>
                   
@@ -67,23 +85,22 @@ export default function GetInTouchPage() {
                       {item.value}
                     </p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
 
             {/* SOCIAL LOGS */}
             <div className="flex gap-4 mt-12 md:mt-16">
-              {[
-                { icon: <Instagram size={24} />, load: "animate-spin-gh" },
-                { icon: <Youtube size={24} />, load: "animate-spin-ln" }
-              ].map((soc, i) => (
+              {socialLinks.map((soc, i) => (
                 <a 
                   key={i} 
-                  href="#" 
+                  href={soc.href} 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group perspective-1000"
                   aria-label="Social Link"
                 >
-                  <div className={`rotateY-card w-14 h-14 bg-zinc-900/50 border border-zinc-800 rounded-2xl flex items-center justify-center hover:border-[#afff00] hover:text-[#afff00] ${soc.load}`}>
+                  <div className={`rotateY-card w-14 h-14 bg-zinc-900/50 border border-zinc-800 rounded-2xl flex items-center justify-center hover:border-[#afff00] hover:text-[#afff00] group-hover:bg-zinc-900 transition-all ${soc.load}`}>
                     {soc.icon}
                   </div>
                 </a>

@@ -142,7 +142,7 @@ export default function ContactForm() {
 
         {/* Consent */}
         <div className="space-y-2">
-          <label className="flex items-start gap-4 cursor-pointer group">
+          <label className="flex items-center gap-4 cursor-pointer group">
             <input
               type="checkbox"
               className="mt-1 w-5 h-5 rounded border-zinc-800 bg-black text-[#afff00] focus:ring-[#afff00] transition-all accent-[#afff00]"

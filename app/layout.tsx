@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "Luka Jokić Portfolio",
     images: [
       {
-        url: "/og-image.webp", 
+        url: "/og-image.jpg", 
         width: 1200,
         height: 630,
         alt: "Luka Jokić Video Editing Studio",

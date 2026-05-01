@@ -29,7 +29,7 @@ export async function addWorkAction(formData: {
       type: formData.type || 0,
       sortOrder: all.length
     });
-    revalidatePath("/work");
+    revalidatePath("/showreel");
     revalidatePath("/");
     revalidatePath("/admin/portfolio");
     return { success: true };
@@ -57,7 +57,7 @@ export async function editWorkAction(id: number, formData: {
       type: formData.type ?? 0,
     }).where(eq(portfolioWork.id, id));
 
-    revalidatePath("/work");
+    revalidatePath("/showreel");
     revalidatePath("/");
     revalidatePath("/admin/portfolio");
     return { success: true };
@@ -70,7 +70,7 @@ export async function editWorkAction(id: number, formData: {
 export async function deleteWorkAction(id: number) {
   try {
     await db.delete(portfolioWork).where(eq(portfolioWork.id, id));
-    revalidatePath("/work");
+    revalidatePath("/showreel");
     revalidatePath("/");
     revalidatePath("/admin/portfolio");
     return { success: true };
@@ -93,7 +93,7 @@ export async function updateOrderAction(orderedIds: number[], types: number[]) {
     
     await Promise.all(updates);
     
-    revalidatePath("/work");
+    revalidatePath("/showreel");
     revalidatePath("/");
     revalidatePath("/admin/portfolio");
     return { success: true };

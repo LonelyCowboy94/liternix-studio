@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Send, RefreshCw, CheckCircle2, AlertTriangle, Terminal } from "lucide-react";
+import { Send, RefreshCw, Terminal } from "lucide-react";
 import Button3D from "../ui/Button3D";
 
 interface FormErrors {
@@ -76,6 +76,7 @@ function FormInner() {
       setFormData({ firstName: "", lastName: "", company: "", email: "", message: "", consent: false });
       setErrors({});
     } catch (err) {
+      console.error(err);
       setStatus("error");
     }
   };

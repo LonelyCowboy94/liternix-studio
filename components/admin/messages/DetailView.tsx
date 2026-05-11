@@ -1,6 +1,6 @@
 "use client";
 
-import { Trash2, Plus, ArrowLeft, SendHorizontal, Mail, Type } from "lucide-react";
+import { Trash2, ArrowLeft, SendHorizontal, Mail, Type } from "lucide-react";
 import Button3D from "@/components/ui/Button3D";
 import { NewMsgState, Message } from "@/types/messanger";
 import { Dispatch, SetStateAction } from "react";

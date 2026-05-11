@@ -13,47 +13,52 @@ import { DetailView } from "./DetailView";
 const PAGE_SIZE = 20;
 
 export default function InboxManager() {
-  const [list, setList] = useState<Message[]>([]);
+  const[list, setList] = useState<Message[]>([]);
   const [selected, setSelected] = useState<Message | null>(null);
   const [activeTab, setActiveTab] = useState<"inbox" | "sent">("inbox");
   const [isComposing, setIsComposing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [replyText, setReplyText] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const[searchQuery, setSearchQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [currentPage, setCurrentPage] = useState(1);
-  const [newMsg, setNewMsg] = useState<NewMsgState>({ to: "", subject: "", content: "" });
+  const[newMsg, setNewMsg] = useState<NewMsgState>({ to: "", subject: "", content: "" });
 
-  // 1. Centralna funkcija za osvežavanje podataka (bez direktnog pozivanja u efektu)
-  const refreshData = useCallback(async (updateSelectedId?: string) => {
+  const refreshData = useCallback(async () => {
     const data = await getMessages();
     const formatted = data as unknown as Message[];
     setList(formatted);
-    
-    // Ako nam treba ažuran 'selected', nađemo ga u novoj listi
-    if (updateSelectedId) {
-      const updated = formatted.find(m => m.id === updateSelectedId);
-      if (updated) setSelected(updated);
-    }
-  }, []);
+    return formatted; // Vraćamo vrednost da bi useEffect mogao da je iskoristi sigurno
+  },[]);
 
-  // 2. Inicijalno učitavanje - Rešenje za ESLint Error
+  // FIX: AUTO-REFRESH BEZ ESLINT GREŠAKA
   useEffect(() => {
     let ignore = false;
 
-    async function startFetching() {
+    async function tick() {
       const data = await getMessages();
       if (!ignore) {
-        setList(data as unknown as Message[]);
+        const formatted = data as unknown as Message[];
+        setList(formatted);
+        
+        // Bezbedno ažuriranje selektovane poruke da zadržimo prikaz
+        setSelected(current => {
+          if (!current) return null;
+          return formatted.find(m => m.id === current.id) || current;
+        });
       }
     }
 
-    startFetching();
-    return () => { ignore = true; };
-  }, []); // Prazan niz - pokreće se samo jednom na mount-u
+    tick(); // Pokreće se odmah na učitavanju
+    const interval = setInterval(tick, 5000); // Ponovo svakih 5 sekundi
 
-  // 3. Filteri i pretraga
-const filteredData = useMemo(() => {
+    return () => {
+      ignore = true;
+      clearInterval(interval);
+    };
+  },[]); // Prazan array = siguran useEffect koji se montira samo jednom
+
+  const filteredData = useMemo(() => {
     let data = list;
     if (activeTab === "inbox") {
       data = data.filter((m) => ["unread", "read", "replied"].includes(m.status || ""));
@@ -63,21 +68,12 @@ const filteredData = useMemo(() => {
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      data = data.filter(m => {
-        // Koristimo opciono lenčarenje (?.) i zamenu za null (?? "") 
-        // da bismo bili 100% sigurni da TS ne vidi 'null'
-        const fName = (m.firstName ?? "").toLowerCase();
-        const lName = (m.lastName ?? "").toLowerCase();
-        const email = (m.email ?? "").toLowerCase();
-        const company = (m.company ?? "").toLowerCase();
-
-        return (
-          fName.includes(q) || 
-          lName.includes(q) || 
-          email.includes(q) ||
-          company.includes(q)
-        );
-      });
+      data = data.filter(m => 
+        (m.firstName ?? "").toLowerCase().includes(q) || 
+        (m.lastName ?? "").toLowerCase().includes(q) || 
+        (m.email ?? "").toLowerCase().includes(q) ||
+        (m.company ?? "").toLowerCase().includes(q)
+      );
     }
     return data;
   }, [list, activeTab, searchQuery]);
@@ -87,7 +83,8 @@ const filteredData = useMemo(() => {
     return filteredData.slice(start, start + PAGE_SIZE);
   }, [filteredData, currentPage]);
 
-  // AKCIJE
+  const unreadCount = useMemo(() => list.filter(m => m.status === "unread").length, [list]);
+
   const handleTabChange = (tab: "inbox" | "sent") => {
     setActiveTab(tab);
     setCurrentPage(1);
@@ -102,7 +99,7 @@ const filteredData = useMemo(() => {
     setReplyText("");
     if (m.status === "unread") {
       await markAsRead(m.id);
-      refreshData();
+      await refreshData();
     }
   };
 
@@ -112,7 +109,8 @@ const filteredData = useMemo(() => {
     const res = await sendReplyAction(selected.id, selected.email, replyText);
     if (res.success) { 
       setReplyText(""); 
-      await refreshData(selected.id); // Osveži listu I selektovanu poruku
+      const updatedList = await refreshData(); 
+      setSelected(updatedList.find(m => m.id === selected.id) || null);
     }
     setLoading(false);
   };
@@ -130,36 +128,6 @@ const filteredData = useMemo(() => {
     setLoading(false);
   };
 
-  const handleSearchChange = (q: string) => { setSearchQuery(q); setCurrentPage(1); };
-  
-  const toggleSelect = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    const newSet = new Set(selectedIds);
-    if (newSet.has(id)) newSet.delete(id); else newSet.add(id);
-    setSelectedIds(newSet);
-  };
-
-  const toggleSelectAll = () => {
-    if (selectedIds.size === paginatedData.length && paginatedData.length > 0) setSelectedIds(new Set());
-    else setSelectedIds(new Set(paginatedData.map((m) => m.id)));
-  };
-
-  const handleBulkDelete = async () => {
-    if (!confirm(`Delete ${selectedIds.size} messages?`)) return;
-    const res = await deleteMessagesBulkAction(Array.from(selectedIds));
-    if (res.success) { 
-        setSelectedIds(new Set()); 
-        setSelected(null); 
-        await refreshData(); 
-    }
-  };
-
-  const handleSingleDelete = async (id: string) => {
-    if (!confirm("Delete permanently?")) return;
-    const res = await deleteMessageAction(id);
-    if (res.success) { setSelected(null); await refreshData(); }
-  };
-
   return (
     <div className="flex flex-col md:flex-row h-dvh bg-black border border-zinc-800 max-h-[calc(100vh-80px)] overflow-hidden relative text-white">
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,1)_50%)] bg-size-[100%_4px] z-50 opacity-10" />
@@ -167,6 +135,7 @@ const filteredData = useMemo(() => {
       <Sidebar 
         activeTab={activeTab} 
         isComposing={isComposing} 
+        unreadCount={unreadCount}
         onTabChange={handleTabChange}
         onComposeClick={() => { setIsComposing(true); setSelected(null); }}
       />
@@ -174,12 +143,31 @@ const filteredData = useMemo(() => {
       <MessageList 
         activeTab={activeTab}
         searchQuery={searchQuery}
-        setSearchQuery={handleSearchChange}
+        setSearchQuery={(q) => { setSearchQuery(q); setCurrentPage(1); }}
         selectedIds={selectedIds}
-        toggleSelect={toggleSelect}
-        toggleSelectAll={toggleSelectAll}
-        handleBulkDelete={handleBulkDelete}
+        toggleSelect={(id, e) => {
+          e.stopPropagation();
+          const n = new Set(selectedIds);
+          if (n.has(id)) n.delete(id); else n.add(id);
+          setSelectedIds(n);
+        }}
+        toggleSelectAll={() => {
+          if (selectedIds.size === paginatedData.length) setSelectedIds(new Set());
+          else setSelectedIds(new Set(paginatedData.map(m => m.id)));
+        }}
+        handleBulkDelete={async () => {
+          if (confirm(`Delete ${selectedIds.size}?`)) {
+            await deleteMessagesBulkAction(Array.from(selectedIds));
+            setSelectedIds(new Set());
+            setSelected(null);
+            refreshData();
+          }
+        }}
         paginatedData={paginatedData}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalItems={filteredData.length}
+        pageSize={PAGE_SIZE}
         selectMessage={selectMessage}
         selectedId={selected?.id}
         isVisible={!selected && !isComposing} 
@@ -196,7 +184,9 @@ const filteredData = useMemo(() => {
         onReturn={() => { setSelected(null); setIsComposing(false); }}
         onSendReply={handleSendReply}
         onSendNew={handleSendNew}
-        onDeleteSingle={handleSingleDelete}
+        onDeleteSingle={async (id) => {
+          if (confirm("Delete?")) { await deleteMessageAction(id); setSelected(null); refreshData(); }
+        }}
         setIsComposing={setIsComposing}
       />
     </div>

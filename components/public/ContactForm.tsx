@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { Send, RefreshCw, Terminal } from "lucide-react";
+import { Send, RefreshCw, CheckCircle2, AlertTriangle, Terminal } from "lucide-react";
 import Button3D from "../ui/Button3D";
 
 interface FormErrors {
@@ -13,9 +13,12 @@ interface FormErrors {
   consent?: string;
 }
 
-// Odvajamo logiku forme u unutrašnju komponentu zbog Suspense-a
 function FormInner() {
   const searchParams = useSearchParams();
+  
+  // 1. KREIRAMO REF ZA TEXTAREA
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errors, setErrors] = useState<FormErrors>({});
   const [formData, setFormData] = useState({
@@ -27,7 +30,7 @@ function FormInner() {
     consent: false,
   });
 
-  // AUTO-FILL LOGIKA: Čita iz URL-a (npr. ?email=test&fn=Luka)
+  // AUTO-FILL I AUTO-FOCUS LOGIKA
   useEffect(() => {
     const emailParam = searchParams.get("email");
     const fnParam = searchParams.get("fn");
@@ -40,6 +43,12 @@ function FormInner() {
         firstName: fnParam || prev.firstName,
         lastName: lnParam || prev.lastName,
       }));
+
+      // 2. AUTOMATSKI FOKUSIRAMO PORUKU AKO JE LINK "MAGIC" (prefill)
+      // Mala zadrška (timeout) osigurava da se kursor pojavi i na mobilnim uređajima
+      setTimeout(() => {
+        messageRef.current?.focus();
+      }, 100);
     }
   }, [searchParams]);
 
@@ -76,7 +85,6 @@ function FormInner() {
       setFormData({ firstName: "", lastName: "", company: "", email: "", message: "", consent: false });
       setErrors({});
     } catch (err) {
-      console.error(err);
       setStatus("error");
     }
   };
@@ -105,7 +113,15 @@ function FormInner() {
         </div>
 
         <div className="relative group">
-          <textarea placeholder=" " rows={5} className={`peer w-full bg-transparent border p-4 rounded-2xl outline-none transition-all text-sm font-medium leading-relaxed resize-none ${errors.message ? 'border-red-500 text-red-500' : 'border-zinc-800 focus:border-[#afff00] text-white'}`} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} />
+          <textarea 
+            // 3. DODELJUJEMO REF OVDE
+            ref={messageRef}
+            placeholder=" " 
+            rows={5} 
+            className={`peer w-full bg-transparent border p-4 rounded-2xl outline-none transition-all text-sm font-medium leading-relaxed resize-none ${errors.message ? 'border-red-500 text-red-500' : 'border-zinc-800 focus:border-[#afff00] text-white'}`} 
+            value={formData.message} 
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })} 
+          />
           <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-[#afff00]">Message_Content</label>
         </div>
 
@@ -127,7 +143,6 @@ function FormInner() {
   );
 }
 
-// Wrapper sa Suspense (Obavezno za useSearchParams u Next.js)
 export default function ContactForm() {
   return (
     <div className="bg-zinc-900/40 p-8 md:p-12 rounded-2xl border border-zinc-800 shadow-2xl backdrop-blur-md relative overflow-hidden">

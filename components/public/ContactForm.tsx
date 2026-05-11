@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation"; // Koristimo Next.js hook
 import { Send, RefreshCw, CheckCircle2, AlertTriangle, Terminal } from "lucide-react";
 import Button3D from "../ui/Button3D";
 
@@ -12,9 +13,12 @@ interface FormErrors {
   consent?: string;
 }
 
-export default function ContactForm() {
+// Unutrašnja komponenta forme koja čita parametre
+function FormInner() {
+  const searchParams = useSearchParams();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errors, setErrors] = useState<FormErrors>({});
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -23,6 +27,22 @@ export default function ContactForm() {
     message: "",
     consent: false,
   });
+
+  // GLAVNA LOGIKA ZA AUTO-FILL
+  useEffect(() => {
+    const email = searchParams.get("email");
+    const fn = searchParams.get("fn");
+    const ln = searchParams.get("ln");
+
+    if (email || fn || ln) {
+      setFormData(prev => ({
+        ...prev,
+        email: email ?? prev.email,
+        firstName: fn ?? prev.firstName,
+        lastName: ln ?? prev.lastName,
+      }));
+    }
+  }, [searchParams]);
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
@@ -53,29 +73,18 @@ export default function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
       if (!res.ok) throw new Error();
-
       setStatus("success");
       setFormData({ firstName: "", lastName: "", company: "", email: "", message: "", consent: false });
       setErrors({});
     } catch (err) {
-      console.error("Error while submiting form: ", err);
       setStatus("error");
     }
   };
 
   return (
-    <div className="bg-zinc-900/40 p-8 md:p-12 rounded-2xl border border-zinc-800 shadow-2xl backdrop-blur-md relative overflow-hidden">
-      
-      <div className="flex items-center gap-3 mb-10">
-        <Terminal className="text-[#afff00]" size={24} />
-        <h2 className="text-xl font-black uppercase italic tracking-widest text-white">Initialize_Signal</h2>
-      </div>
-
-      <form onSubmit={handleSubmit} noValidate className="space-y-8">
+    <form onSubmit={handleSubmit} noValidate className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* First Name */}
           <div className="relative group">
             <input
               type="text"
@@ -84,11 +93,9 @@ export default function ContactForm() {
               value={formData.firstName}
               onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
             />
-            <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:-top-2.5 peer-focus:text-[10px] peer-focus:text-[#afff00]">First_Name</label>
-            {errors.firstName && <p className="text-red-500 text-[9px] font-black mt-1 ml-2 tracking-tighter italic">{errors.firstName}</p>}
+            <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-[#afff00]">First_Name</label>
           </div>
 
-          {/* Last Name */}
           <div className="relative group">
             <input
               type="text"
@@ -97,12 +104,10 @@ export default function ContactForm() {
               value={formData.lastName}
               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
             />
-            <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:-top-2.5 peer-focus:text-[10px] peer-focus:text-[#afff00]">Last_Name</label>
-            {errors.lastName && <p className="text-red-500 text-[9px] font-black mt-1 ml-2 tracking-tighter italic">{errors.lastName}</p>}
+            <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-[#afff00]">Last_Name</label>
           </div>
         </div>
 
-        {/* Email */}
         <div className="relative group">
           <input
             type="email"
@@ -111,11 +116,9 @@ export default function ContactForm() {
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           />
-          <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:-top-2.5 peer-focus:text-[10px] peer-focus:text-[#afff00]">Signal_Address_Email</label>
-          {errors.email && <p className="text-red-500 text-[9px] font-black mt-1 ml-2 tracking-tighter italic">{errors.email}</p>}
+          <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-[#afff00]">Signal_Address_Email</label>
         </div>
 
-        {/* Company */}
         <div className="relative group">
           <input
             type="text"
@@ -124,10 +127,9 @@ export default function ContactForm() {
             value={formData.company}
             onChange={(e) => setFormData({ ...formData, company: e.target.value })}
           />
-          <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:-top-2.5 peer-focus:text-[10px] peer-focus:text-[#afff00]">Organization_Affiliation</label>
+          <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-[#afff00]">Organization_Affiliation</label>
         </div>
 
-        {/* Message */}
         <div className="relative group">
           <textarea
             placeholder=" "
@@ -136,46 +138,48 @@ export default function ContactForm() {
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
           />
-          <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-xs peer-focus:-top-2.5 peer-focus:text-[10px] peer-focus:text-[#afff00]">Transmission_Payload</label>
-          {errors.message && <p className="text-red-500 text-[9px] font-black mt-1 ml-2 tracking-tighter italic">{errors.message}</p>}
+          <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-[#afff00]">Transmission_Payload</label>
         </div>
 
-        {/* Consent */}
         <div className="space-y-2">
           <label className="flex items-center gap-4 cursor-pointer group">
             <input
               type="checkbox"
-              className="mt-1 w-5 h-5 rounded border-zinc-800 bg-black text-[#afff00] focus:ring-[#afff00] transition-all accent-[#afff00]"
+              className="mt-1 w-5 h-5 rounded border-zinc-800 bg-black text-[#afff00] accent-[#afff00]"
               checked={formData.consent}
               onChange={(e) => setFormData({ ...formData, consent: e.target.checked })}
             />
-            <span className={`text-[10px] uppercase font-bold leading-tight tracking-widest transition-colors ${errors.consent ? 'text-red-500' : 'text-zinc-500 group-hover:text-zinc-300'}`}>
+            <span className={`text-[10px] uppercase font-bold tracking-widest transition-colors ${errors.consent ? 'text-red-500' : 'text-zinc-500'}`}>
               Authorize encryption and data processing for signal response.
             </span>
           </label>
         </div>
 
-        {/* Submit Button */}
-        <Button3D primary
-          type="submit"
-          disabled={false}
-          className="w-full italic py-5 rounded-2xl flex items-center justify-center disabled:opacity-50"
-        >
-          {status === "loading" ? <RefreshCw className="animate-spin" size={20} /> : <><Send size={20} /> Deploy_Signal</>}
+        <Button3D primary type="submit" disabled={status === "loading"} className="w-full italic py-5 rounded-2xl flex items-center justify-center">
+          {status === "loading" ? <RefreshCw className="animate-spin" size={20} /> : <><Send size={20} className="mr-2" /> Deploy_Signal</>}
         </Button3D>
 
-        {/* Status Feedbacks */}
         {status === "success" && (
           <div className="p-4 bg-[#afff00]/10 border border-[#afff00]/30 rounded-xl text-[#afff00] flex items-center gap-3 text-xs font-black uppercase italic tracking-widest">
-            <CheckCircle2 size={18} /> Signal_Delivered. Standby_For_Response.
+            <CheckCircle2 size={18} /> Signal_Delivered.
           </div>
         )}
-        {status === "error" && (
-          <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-500 flex items-center gap-3 text-xs font-black uppercase italic tracking-widest">
-            <AlertTriangle size={18} /> Critical_Error: Transmission_Failed.
-          </div>
-        )}
-      </form>
+    </form>
+  );
+}
+
+// Glavna komponenta koja wrap-uje unutrašnju u Suspense
+export default function ContactForm() {
+  return (
+    <div className="bg-zinc-900/40 p-8 md:p-12 rounded-2xl border border-zinc-800 shadow-2xl backdrop-blur-md relative overflow-hidden">
+      <div className="flex items-center gap-3 mb-10">
+        <Terminal className="text-[#afff00]" size={24} />
+        <h2 className="text-xl font-black uppercase italic tracking-widest text-white">Initialize_Signal</h2>
+      </div>
+      
+      <Suspense fallback={<div className="text-zinc-600 animate-pulse uppercase font-black text-xs">Loading_Secure_Form...</div>}>
+        <FormInner />
+      </Suspense>
     </div>
   );
 }

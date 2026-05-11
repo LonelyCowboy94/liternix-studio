@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { messages } from "@/db/schema";
+import { messages, messageItems } from "@/db/schema";
 import { eq, desc, inArray } from "drizzle-orm";
 import nodemailer from "nodemailer";
 
@@ -15,145 +15,87 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// FUNCTION TO GENERATE HTML EMAIL CONTENT
-const generateEmailHtml = (subject: string, content: string) => `
+const generateEmailHtml = (subject: string, content: string, replyLink: string) => `
   <!DOCTYPE html>
-  <html>
+  <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-      body { margin: 0; padding: 0; background-color: #000000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-      .wrapper { width: 100%; table-layout: fixed; background-color: #000000; padding: 40px 0; }
-      .container { max-width: 600px; margin: 0 auto; background-color: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 4px; overflow: hidden; }
-      
-      /* Header with Neon Accents */
-      .header { padding: 30px; border-bottom: 2px solid #afff00; text-align: left; }
-      .header h1 { color: #ffffff; margin: 0; font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; font-style: italic; }
-      .header .status { color: #afff00; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; display: block; }
-      
-      /* Body Content */
-      .body { padding: 40px; }
-      .signal-info { color: #333333; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; font-family: 'Courier New', Courier, monospace; }
-      .subject { color: #ffffff; font-size: 20px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; font-style: italic; letter-spacing: -0.5px; }
-      .content { color: #a1a1aa; line-height: 1.6; font-size: 16px; font-weight: 400; border-left: 2px solid #1a1a1a; padding-left: 20px; }
-      
-      /* Call to Action Style */
-      .highlight { color: #afff00; font-weight: bold; }
-      
-      /* Footer */
-      .footer { padding: 30px; border-top: 1px solid #1a1a1a; text-align: left; background-color: #050505; }
-      .footer p { color: #444444; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin: 5px 0; }
-      .footer .encryption { color: #1a1a1a; font-size: 8px; }
+      body { margin: 0; padding: 0; background-color: #ffffff; font-family: -apple-system, sans-serif; color: #1a1a1a; }
+      .wrapper { width: 100%; padding: 60px 20px; background-color: #ffffff; }
+      .container { max-width: 560px; margin: 0 auto; }
+      .logo { font-size: 14px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 50px; color: #000000; border-left: 3px solid #afff00; padding-left: 15px; }
+      .content-area { font-size: 16px; line-height: 1.7; color: #1a1a1a; margin-bottom: 40px; white-space: pre-wrap; }
+      .reply-box { background-color: #fcfcfc; border: 1px solid #f0f0f0; border-radius: 12px; padding: 32px; text-align: center; }
+      .reply-label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: #999999; margin-bottom: 16px; }
+      .reply-button { 
+        display: inline-flex; align-items: center; background-color: #000000; color: #ffffff !important; 
+        text-decoration: none !important; padding: 16px 32px; border-radius: 8px; font-weight: 700; font-size: 14px;
+      }
+      .footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #f0f0f0; font-size: 11px; color: #cccccc; text-transform: uppercase; letter-spacing: 1px; }
     </style>
   </head>
   <body>
     <div class="wrapper">
       <div class="container">
-        <div class="header">
-          <span class="status">● Incoming_Transmission</span>
-          <h1>LITERNIX<span style="color: #afff00;">.</span>CTRL</h1>
+        <div class="logo">Luka Jokic<span>.</span></div>
+        <div class="content-area">${content.replace(/\n/g, '<br/>')}</div>
+        <div class="reply-box">
+          <span class="reply-label">Secure Signal Reply</span>
+          <a href="${replyLink}" class="reply-button">↩ Secure Reply Terminal</a>
+          <p style="font-size: 11px; color: #aaa; margin-top: 20px;">Direct replies are not monitored. Use the terminal above.</p>
         </div>
-        <div class="body">
-          <div class="signal-info">
-            Ref: SIG-ARCHIVE-${Math.floor(Math.random() * 10000)}<br/>
-            Priority: Alpha_High<br/>
-            Source: Visual_Alchemist_Portal
-          </div>
-          <div class="subject">${subject}</div>
-          <div class="content">
-            ${content.replace(/\n/g, '<br/>')}
-          </div>
-        </div>
-        <div class="footer">
-          <p>LITERNIX STUDIO // DIGITAL ALCHEMY UNIT</p>
-          <p>© ${new Date().getFullYear()} ALL RIGHTS RESERVED.</p>
-          <div class="encryption">ENCRYPTION: AES_256_LITERNIX_VERIFIED</div>
-        </div>
+        <div class="footer">&copy; ${new Date().getFullYear()} Luka Jokic &mdash; All Rights Reserved.</div>
       </div>
     </div>
   </body>
   </html>
 `;
 
-export async function getMessages() {
-  return await db.select().from(messages).orderBy(desc(messages.createdAt));
-}
-
-export async function markAsRead(id: string) {
-  await db.update(messages).set({ status: "read" }).where(eq(messages.id, id));
-}
-
 export async function sendReplyAction(id: string, customerEmail: string, replyText: string) {
   try {
-    const subject = "Re: Your Inquiry - Jokic Web Solutions";
-    
+    const msg = await db.select().from(messages).where(eq(messages.id, id)).limit(1);
+    const firstName = msg[0]?.firstName || "";
+    const lastName = msg[0]?.lastName || "";
+
+    await db.insert(messageItems).values({ messageId: id, sender: "admin", content: replyText });
+    await db.update(messages).set({ status: "replied" }).where(eq(messages.id, id));
+
+    // DINAMIČKI URL: Ako si na lokalu, promeni ovo u http://localhost:3000 za testiranje
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://liternix-studio.vercel.app";
+    const replyLink = `${baseUrl}/contact?email=${encodeURIComponent(customerEmail)}&fn=${encodeURIComponent(firstName)}&ln=${encodeURIComponent(lastName)}`;
+
     await transporter.sendMail({
-      from: `"Jokic Web Solutions" <${process.env.SMTP_USER}>`,
+      from: `"Luka Jokic" <${process.env.SMTP_USER}>`,
       to: customerEmail,
-      subject: subject,
-      html: generateEmailHtml(subject, replyText),
+      subject: "RE: Message Update - Luka Jokic (NO-REPLY)",
+      html: generateEmailHtml("Secure Transmission", replyText, replyLink),
     });
-
-    await db.update(messages)
-      .set({
-        status: "replied",
-        replyContent: replyText,
-        repliedAt: new Date(),
-      })
-      .where(eq(messages.id, id));
-
     return { success: true };
-  } catch (error) {
-    console.error("Reply Error:", error);
-    return { success: false };
-  }
+  } catch (error) { console.error(error); return { success: false }; }
 }
 
-export async function deleteMessageAction(id: string) {
-  try {
-    await db.delete(messages).where(eq(messages.id, id));
-    return { success: true };
-  } catch (error) {
-    console.error("Delete Error:", error);
-    return { success: false };
-  }
+// Vrati i ostale funkcije da build ne bi pukao
+export async function getMessages() {
+  const allMessages = await db.select().from(messages).orderBy(desc(messages.createdAt));
+  return await Promise.all(allMessages.map(async (msg) => {
+    const items = await db.select().from(messageItems).where(eq(messageItems.messageId, msg.id)).orderBy(desc(messageItems.createdAt));
+    return { ...msg, items };
+  }));
 }
-
+export async function markAsRead(id: string) { await db.update(messages).set({ status: "read" }).where(eq(messages.id, id)); }
+export async function deleteMessageAction(id: string) { try { await db.delete(messages).where(eq(messages.id, id)); return { success: true }; } catch(e) { return { success: false }; } }
+export async function deleteMessagesBulkAction(ids: string[]) { try { await db.delete(messages).where(inArray(messages.id, ids)); return { success: true }; } catch(e) { return { success: false }; } }
 export async function sendNewMessageAction(to: string, subject: string, content: string) {
-  try {
- 
-    await transporter.sendMail({
-      from: `"Jokic Web Solutions" <${process.env.SMTP_USER}>`,
-      to: to,
-      subject: subject,
-      html: generateEmailHtml(subject, content),
-    });
-
-    await db.insert(messages).values({
-      firstName: "Admin",
-      lastName: "Message",
-      email: to,
-      message: `[OUTGOING] ${subject}`, 
-      replyContent: content,           
-      status: "replied",
-      repliedAt: new Date(),
-    });
-
-    return { success: true };
-  } catch (error) {
-    console.error("Compose Error:", error);
-    return { success: false };
-  }
-}
-
-export async function deleteMessagesBulkAction(ids: string[]) {
-  try {
-    if (!ids.length) return { success: true };
-    await db.delete(messages).where(inArray(messages.id, ids));
-    return { success: true };
-  } catch (error) {
-    console.error("Bulk Delete Error:", error);
-    return { success: false };
-  }
+    try {
+      const existing = await db.select().from(messages).where(eq(messages.email, to)).limit(1);
+      let convId = "";
+      if (existing.length > 0) convId = existing[0].id;
+      else { const [n] = await db.insert(messages).values({ firstName: "Client", lastName: "", email: to, status: "replied" }).returning(); convId = n.id; }
+      await db.insert(messageItems).values({ messageId: convId, sender: "admin", content });
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://liternix-studio.vercel.app";
+      const replyLink = `${baseUrl}/contact?email=${encodeURIComponent(to)}&fn=Client`;
+      await transporter.sendMail({ from: `"Luka Jokic" <${process.env.SMTP_USER}>`, to, subject: `${subject} (NO-REPLY)`, html: generateEmailHtml(subject, content, replyLink) });
+      return { success: true };
+    } catch (e) { return { success: false }; }
 }

@@ -1,4 +1,4 @@
-import { Search} from "lucide-react";
+import { Search, CheckCircle2 } from "lucide-react";
 import { Message } from "@/types/messanger";
 
 interface MessageListProps {
@@ -44,20 +44,28 @@ export const MessageList = ({ isVisible, ...props }: MessageListProps) => (
         <div 
           key={m.id} 
           onClick={() => props.selectMessage(m)} 
-          className={`p-6 md:p-6 transition-all flex gap-4 items-center active:bg-[#afff00]/5 ${props.selectedId === m.id ? "bg-[#afff00]/5" : ""}`}
+          className={`p-6 md:p-6 transition-all flex gap-4 items-center cursor-pointer active:bg-[#afff00]/5 ${props.selectedId === m.id ? "bg-[#afff00]/5 border-l-2 border-l-[#afff00]" : "hover:bg-zinc-900/10"}`}
         >
-          {m.status === "unread" && <div className="w-1.5 h-1.5 bg-red-600 rounded-full shadow-[0_0_8px_red] shrink-0" />}
+          {m.status === "unread" ? (
+            <div className="w-2 h-2 bg-red-600 rounded-full shadow-[0_0_8px_red] shrink-0" />
+          ) : m.status === "replied" ? (
+            <CheckCircle2 size={16} className="text-[#afff00] shrink-0" />
+          ) : (
+            <div className="w-2 h-2 bg-zinc-700 rounded-full shrink-0" />
+          )}
           
           <div className="flex-1 min-w-0">
             <div className="flex justify-between items-center mb-1">
-              <span className={`text-xs uppercase italic truncate ${m.status === "unread" ? "font-black text-white" : "text-zinc-500 font-bold"}`}>
+              <span className={`text-[11px] uppercase italic truncate ${m.status === "unread" ? "font-black text-white" : "text-zinc-500 font-bold"}`}>
                 {m.firstName} {m.lastName}
               </span>
               <span className="text-[8px] font-mono text-zinc-700 italic">{m.createdAt ? new Date(m.createdAt).toLocaleDateString() : ""}</span>
             </div>
-            <p className="text-[10px] text-zinc-600 truncate leading-relaxed">
-              {props.activeTab === "sent" ? m.replyContent : m.message}
-            </p>
+           <p className="text-[10px] text-zinc-600 truncate leading-relaxed">
+  {m.items && m.items.length > 0 
+    ? m.items[m.items.length - 1].content 
+    : "No content"}
+</p>
           </div>
         </div>
       ))}

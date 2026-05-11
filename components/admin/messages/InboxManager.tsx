@@ -24,31 +24,60 @@ export default function InboxManager() {
   const [currentPage, setCurrentPage] = useState(1);
   const [newMsg, setNewMsg] = useState<NewMsgState>({ to: "", subject: "", content: "" });
 
-  const loadMessages = useCallback(async () => {
+  // 1. Centralna funkcija za osvežavanje podataka (bez direktnog pozivanja u efektu)
+  const refreshData = useCallback(async (updateSelectedId?: string) => {
     const data = await getMessages();
-    setList(data as unknown as Message[]);
+    const formatted = data as unknown as Message[];
+    setList(formatted);
+    
+    // Ako nam treba ažuran 'selected', nađemo ga u novoj listi
+    if (updateSelectedId) {
+      const updated = formatted.find(m => m.id === updateSelectedId);
+      if (updated) setSelected(updated);
+    }
   }, []);
 
+  // 2. Inicijalno učitavanje - Rešenje za ESLint Error
   useEffect(() => {
-    const fetchMessages = () => {
-  loadMessages();
-    }
-  fetchMessages();
-  }, [loadMessages]);
+    let ignore = false;
 
-  const filteredData = useMemo(() => {
+    async function startFetching() {
+      const data = await getMessages();
+      if (!ignore) {
+        setList(data as unknown as Message[]);
+      }
+    }
+
+    startFetching();
+    return () => { ignore = true; };
+  }, []); // Prazan niz - pokreće se samo jednom na mount-u
+
+  // 3. Filteri i pretraga
+const filteredData = useMemo(() => {
     let data = list;
-    data = activeTab === "inbox" 
-      ? data.filter((m) => m.status === "unread" || m.status === "read") 
-      : data.filter((m) => m.status === "replied");
+    if (activeTab === "inbox") {
+      data = data.filter((m) => ["unread", "read", "replied"].includes(m.status || ""));
+    } else {
+      data = data.filter((m) => m.status === "replied");
+    }
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      data = data.filter(m => 
-        m.firstName.toLowerCase().includes(q) || 
-        m.lastName.toLowerCase().includes(q) || 
-        m.email.toLowerCase().includes(q)
-      );
+      data = data.filter(m => {
+        // Koristimo opciono lenčarenje (?.) i zamenu za null (?? "") 
+        // da bismo bili 100% sigurni da TS ne vidi 'null'
+        const fName = (m.firstName ?? "").toLowerCase();
+        const lName = (m.lastName ?? "").toLowerCase();
+        const email = (m.email ?? "").toLowerCase();
+        const company = (m.company ?? "").toLowerCase();
+
+        return (
+          fName.includes(q) || 
+          lName.includes(q) || 
+          email.includes(q) ||
+          company.includes(q)
+        );
+      });
     }
     return data;
   }, [list, activeTab, searchQuery]);
@@ -58,6 +87,7 @@ export default function InboxManager() {
     return filteredData.slice(start, start + PAGE_SIZE);
   }, [filteredData, currentPage]);
 
+  // AKCIJE
   const handleTabChange = (tab: "inbox" | "sent") => {
     setActiveTab(tab);
     setCurrentPage(1);
@@ -66,53 +96,14 @@ export default function InboxManager() {
     setSelected(null);
   };
 
-  const handleSearchChange = (q: string) => {
-    setSearchQuery(q);
-    setCurrentPage(1);
-    setSelectedIds(new Set());
-  };
-
   const selectMessage = async (m: Message) => {
     setIsComposing(false);
     setSelected(m);
     setReplyText("");
     if (m.status === "unread") {
       await markAsRead(m.id);
-      loadMessages();
+      refreshData();
     }
-  };
-
-  const toggleSelect = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    const newSet = new Set(selectedIds);
-    if (newSet.has(id)) newSet.delete(id); else newSet.add(id);
-    setSelectedIds(newSet);
-  };
-
-  const toggleSelectAll = () => {
-    if (selectedIds.size === paginatedData.length && paginatedData.length > 0) {
-      setSelectedIds(new Set());
-    } else {
-      setSelectedIds(new Set(paginatedData.map((m) => m.id)));
-    }
-  };
-
-  const handleBulkDelete = async () => {
-    if (!confirm(`Delete ${selectedIds.size} messages?`)) return;
-    setLoading(true);
-    const res = await deleteMessagesBulkAction(Array.from(selectedIds));
-    if (res.success) {
-      setSelectedIds(new Set());
-      if (selected && selectedIds.has(selected.id)) setSelected(null);
-      await loadMessages();
-    }
-    setLoading(false);
-  };
-
-  const handleSingleDelete = async (id: string) => {
-    if (!confirm("Delete permanently?")) return;
-    const res = await deleteMessageAction(id);
-    if (res.success) { setSelected(null); await loadMessages(); }
   };
 
   const handleSendReply = async () => {
@@ -121,9 +112,7 @@ export default function InboxManager() {
     const res = await sendReplyAction(selected.id, selected.email, replyText);
     if (res.success) { 
       setReplyText(""); 
-      setSelected(null); 
-      await loadMessages(); 
-      setActiveTab("sent"); 
+      await refreshData(selected.id); // Osveži listu I selektovanu poruku
     }
     setLoading(false);
   };
@@ -135,30 +124,53 @@ export default function InboxManager() {
     if (res.success) { 
       setIsComposing(false); 
       setNewMsg({ to: "", subject: "", content: "" }); 
-      await loadMessages(); 
+      await refreshData(); 
       setActiveTab("sent"); 
     }
     setLoading(false);
   };
 
- return (
+  const handleSearchChange = (q: string) => { setSearchQuery(q); setCurrentPage(1); };
+  
+  const toggleSelect = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newSet = new Set(selectedIds);
+    if (newSet.has(id)) newSet.delete(id); else newSet.add(id);
+    setSelectedIds(newSet);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === paginatedData.length && paginatedData.length > 0) setSelectedIds(new Set());
+    else setSelectedIds(new Set(paginatedData.map((m) => m.id)));
+  };
+
+  const handleBulkDelete = async () => {
+    if (!confirm(`Delete ${selectedIds.size} messages?`)) return;
+    const res = await deleteMessagesBulkAction(Array.from(selectedIds));
+    if (res.success) { 
+        setSelectedIds(new Set()); 
+        setSelected(null); 
+        await refreshData(); 
+    }
+  };
+
+  const handleSingleDelete = async (id: string) => {
+    if (!confirm("Delete permanently?")) return;
+    const res = await deleteMessageAction(id);
+    if (res.success) { setSelected(null); await refreshData(); }
+  };
+
+  return (
     <div className="flex flex-col md:flex-row h-dvh bg-black border border-zinc-800 max-h-[calc(100vh-80px)] overflow-hidden relative text-white">
-      {/* GLOBAL SCANLINE */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,1)_50%)] bg-size-[100%_4px] z-50 opacity-10" />
       
-      {/* 1. SIDEBAR */}
       <Sidebar 
         activeTab={activeTab} 
         isComposing={isComposing} 
-        onTabChange={(tab) => {
-          setTimeout(() => handleTabChange(tab), 100);
-        }}
-        onComposeClick={() => {
-          setTimeout(() => { setIsComposing(true); setSelected(null); }, 100);
-        }}
+        onTabChange={handleTabChange}
+        onComposeClick={() => { setIsComposing(true); setSelected(null); }}
       />
 
-      {/* 2. MESSAGES LIST */}
       <MessageList 
         activeTab={activeTab}
         searchQuery={searchQuery}
@@ -173,7 +185,6 @@ export default function InboxManager() {
         isVisible={!selected && !isComposing} 
       />
 
-      {/* 3. TERMINAL (Details) */}
       <DetailView 
         selected={selected}
         isComposing={isComposing}

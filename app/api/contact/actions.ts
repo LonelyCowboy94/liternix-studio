@@ -126,18 +126,44 @@ export async function sendNewMessageAction(to: string, subject: string, content:
     try {
       const existing = await db.select().from(messages).where(eq(messages.email, to)).limit(1);
       
-      // OVO JE IZMENJENO: Promenjeno u const (prefer-const rešenje)
-      const conversationId = existing.length > 0 
-        ? existing[0].id 
-        : (await db.insert(messages).values({ firstName: "Client", lastName: "", email: to, status: "replied" }).returning())[0].id;
+      let conversationId: string;
+
+      if (existing.length > 0) {
+        conversationId = existing[0].id;
+      } else {
+        // POPRAVKA: Dodato polje "message" koje je obavezno u šemi
+        const inserted = await db.insert(messages).values({ 
+          firstName: "Client", 
+          lastName: "", 
+          email: to, 
+          status: "replied",
+          message: content // Koristimo content kao inicijalnu poruku konverzacije
+        }).returning({ id: messages.id });
+        
+        conversationId = inserted[0].id;
+      }
       
-      await db.insert(messageItems).values({ messageId: conversationId, sender: "admin", content });
+      // Ubacivanje u messageItems (chat istorija)
+      await db.insert(messageItems).values({ 
+        messageId: conversationId, 
+        sender: "admin", 
+        content: content 
+      });
+
       const replyLink = generateReplyLink(to, "Client", "");
-      await transporter.sendMail({ from: `"Luka Jokic" <${process.env.SMTP_USER}>`, to, subject: `${subject} (NO-REPLY)`, html: generateEmailHtml(subject, content, replyLink) });
+      
+      await transporter.sendMail({ 
+        from: `"Luka Jokic" <${process.env.SMTP_USER}>`, 
+        to, 
+        subject: `${subject} (NO-REPLY)`, 
+        html: generateEmailHtml(subject, content, replyLink) 
+      });
+
       return { success: true };
     } catch (e) { 
-      console.error(e);
-      return { success: false }; }
+      console.error("Email Action Error:", e);
+      return { success: false }; 
+    }
 }
 
 export async function getMessages() {

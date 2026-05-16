@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const generateReplyLink = (email: string, firstName: string, lastName: string) => {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://liternix-studio.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://jokicvisuals.com";
   const params = new URLSearchParams({ email, fn: firstName, ln: lastName });
   return `${baseUrl}/contact?${params.toString()}`;
 };

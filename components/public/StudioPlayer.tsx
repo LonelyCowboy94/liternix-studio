@@ -55,6 +55,7 @@ interface YTNamespace {
 }
 
 export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
+  const isShort = videoUrl.includes("shorts/");
   const generatedId = useId().replace(/:/g, "");
   const playerElementId = `yt-player-${generatedId}`;
 
@@ -69,12 +70,18 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
 
-  const getYoutubeId = (url: string): string | null => {
-    const regExp =
-      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    const match = url.match(regExp);
-    return match && match[7].length === 11 ? match[7] : null;
-  };
+ const getYoutubeId = (url: string): string | null => {
+  // Regex koji hvata ID iz watch?v=, embed/, youtu.be/ i shorts/
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?v=)|(shorts\/))([^#&?]*).*/;
+  const match = url.match(regExp);
+  
+  // ID je uvek 11 karaktera
+  // U ovom novom regexu, ID se nalazi u grupi 8 (match[8])
+  if (match && match[8] && match[8].length === 11) {
+    return match[8];
+  }
+  return null;
+};
 
   const videoId = getYoutubeId(videoUrl);
 
@@ -187,80 +194,92 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
   }
 
   return (
-    <div className="group relative aspect-video bg-black rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl transition-all duration-500 hover:border-[#afff00]/30">
-      {/* LAYER 1: ENGINE */}
+   <div 
+  className={`group relative overflow-hidden border border-zinc-800 shadow-2xl transition-all duration-500 hover:border-[#afff00]/30 rounded-2xl bg-black
+    ${isShort 
+      ? "aspect-9/16 w-full max-w-130 mx-auto" 
+      : "aspect-video w-full"
+    }`}
+>
+      {/* LAYER 1: ENGINE (Iframe) */}
       <div
-        className={`absolute inset-0 w-full h-full z-0 pointer-events-none transition-opacity duration-1000 ${hasStarted ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 w-full h-full z-0 pointer-events-none transition-opacity duration-1000 ${
+          hasStarted ? "opacity-100" : "opacity-0"
+        }`}
       >
         {isMounted && (
           <iframe
             id={playerElementId}
-            className="w-full h-full"
-            src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${encodeURIComponent(typeof window !== "undefined" ? window.location.origin : "")}&controls=0&rel=0&modestbranding=1&disablekb=1&widgetid=1`}
+            className="w-full h-full object-cover scale-[1.01]" // scale-101 uklanja sitne bele ivice iframa
+            src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&controls=0&rel=0&modestbranding=1&disablekb=1&origin=${
+              typeof window !== "undefined" ? window.location.origin : ""
+            }`}
             allow="autoplay; encrypted-media; picture-in-picture"
             frameBorder="0"
           />
         )}
       </div>
 
-     {/* LAYER 2: INTERFACE / LOADING / RESUME OVERLAY */}
-<div
-  className={`absolute inset-0 z-20 transition-all duration-700 flex flex-col items-center justify-center bg-black/40
-  ${isPlaying ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"}`}
->
-  {/* Thumbnail - prikazujemo samo dok video NIJE startovao uopšte */}
-  {!hasStarted && (
-    <Image
-      fill
-      src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${isReady ? "opacity-40 grayscale group-hover:grayscale-0" : "opacity-10"}`}
-      alt="Master Preview"
-      loading="eager"
-      unoptimized
-    />
-  )}
-
-  {/* Loader dok se API ne učita */}
-  {!isReady ? (
-    <div className="flex flex-col items-center gap-4 z-30">
-      <RefreshCw className="text-[#afff00] animate-spin" size={40} />
-      <div className="flex flex-col items-center">
-        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#afff00] animate-pulse">
-          Initializing_System
-        </span>
-      </div>
-    </div>
-  ) : (
-    /* PLAY DUGME: Prikazuje se uvek kada video NIJE "isPlaying" (bilo da je na početku ili pauziran) */
-    !isPlaying && (
-      <button
-        onClick={togglePlayback}
-        className="relative group/btn cursor-pointer outline-none animate-in fade-in zoom-in duration-500 z-30"
+      {/* LAYER 2: INTERFACE / LOADING / THUMBNAIL */}
+      <div
+        className={`absolute inset-0 z-20 transition-all duration-700 flex flex-col items-center justify-center bg-black/40
+        ${isPlaying ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto"}`}
       >
-        <div className="absolute inset-0 bg-[#afff00] blur-3xl opacity-20 group-hover/btn:opacity-40 transition-opacity duration-500" />
-        <div className="w-24 h-24 rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75">
-          <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
-          <Play size={40} fill="black" className="ml-1.5" />
+        {/* Thumbnail - prikazujemo samo dok video NIJE startovao */}
+        {!hasStarted && videoId && (
+          <Image
+            fill
+            src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+              isReady ? "opacity-40 grayscale group-hover:grayscale-0" : "opacity-10"
+            }`}
+            alt="Master Preview"
+            loading="eager"
+            unoptimized
+          />
+        )}
+
+        {/* Loader dok se API ne učita */}
+        {!isReady ? (
+          <div className="flex flex-col items-center gap-4 z-30">
+            <RefreshCw className="text-[#afff00] animate-spin" size={isShort ? 32 : 40} />
+            <div className="flex flex-col items-center">
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#afff00] animate-pulse">
+                Initializing_System
+              </span>
+            </div>
+          </div>
+        ) : (
+          /* PLAY DUGME (Smanjeno malo za Shorts format) */
+          !isPlaying && (
+            <button
+              onClick={togglePlayback}
+              className="relative group/btn cursor-pointer outline-none animate-in fade-in zoom-in duration-500 z-30"
+            >
+              <div className="absolute inset-0 bg-[#afff00] blur-3xl opacity-20 group-hover/btn:opacity-40 transition-opacity duration-500" />
+              <div className={`${isShort ? 'w-16 h-16' : 'w-24 h-24'} rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75`}>
+                <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
+                <Play size={isShort ? 28 : 40} fill="black" className="ml-1.5" />
+              </div>
+            </button>
+          )
+        )}
+      </div>
+
+      {/* LAYER 3: PAUSE TRIGGER (Samo dok video aktivno ide - na hover) */}
+      {isPlaying && (
+        <div
+          onClick={togglePlayback}
+          className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+        >
+          <div className={`${isShort ? 'w-16 h-16' : 'w-24 h-24'} rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75`}>
+            <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
+            <Pause size={isShort ? 28 : 40} fill="black" />
+          </div>
         </div>
-      </button>
-    )
-  )}
-</div>
+      )}
 
-{/* LAYER 3: PAUSE TRIGGER (Samo dok video aktivno ide - na hover) */}
-{isPlaying && (
-  <div
-    onClick={togglePlayback}
-    className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
-  >
-    <div className="w-24 h-24 rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75">
-      <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
-      <Pause size={40} fill="black" />
-    </div>
-  </div>
-)}
-
-      {/* LAYER 4: TIMELINE */}
+      {/* LAYER 4: TIMELINE (Samo za horizontalne videe, za Shorts često lepše izgleda bez, ili ostaje fiksiran) */}
       <div
         ref={timelineRef}
         onClick={handleSeek}
@@ -275,32 +294,40 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
         />
       </div>
 
-      {/* LAYER 5: HUD */}
+      {/* LAYER 5: HUD (Status i Timecode) */}
       <div className="absolute inset-0 pointer-events-none z-40">
-        <div className="absolute top-10 left-10 flex items-center gap-3">
+        {/* Status indicator (Pomeren malo bliže ivici kod Shorts-a) */}
+        <div className={`absolute ${isShort ? 'top-6 left-6' : 'top-10 left-10'} flex items-center gap-3`}>
           <div
-            className={`w-2.5 h-2.5 rounded-full ${isPlaying ? "bg-red-600 animate-pulse shadow-[0_0_15px_red]" : "bg-zinc-700"}`}
+            className={`w-2 h-2 rounded-full ${
+              isPlaying ? "bg-red-600 animate-pulse shadow-[0_0_15px_red]" : "bg-zinc-700"
+            }`}
           />
           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 italic">
             {isPlaying
               ? "ACTIVE_CUT_RENDER"
               : isReady
-                ? "SYSTEM_READY"
-                : "ESTABLISHING_LINK"}
+              ? "SYSTEM_READY"
+              : "ESTABLISHING_LINK"}
           </span>
         </div>
 
-        <div className="absolute bottom-10 right-10 flex flex-col items-end">
+        {/* Master Clock (Prilagođena veličina za Shorts) */}
+        <div className={`absolute ${isShort ? 'bottom-8 right-6' : 'bottom-10 right-10'} flex flex-col items-end`}>
           <span className="text-[9px] font-bold text-[#afff00] uppercase tracking-widest mb-1 italic">
             Master Clock
           </span>
-          <div className="px-5 py-2 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl font-mono text-sm text-[#afff00] shadow-2xl tracking-tighter">
+          <div className={`${
+            isShort ? 'px-3 py-1 text-xs' : 'px-5 py-2 text-sm'
+          } bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl font-mono text-[#afff00] shadow-2xl tracking-tighter`}>
             {formatTimecode(currentTime)}
           </div>
         </div>
+
+        {/* Terminal Icon */}
         <Terminal
           size={16}
-          className="absolute top-10 right-10 text-zinc-800"
+          className={`absolute ${isShort ? 'top-6 right-6' : 'top-10 right-10'} text-zinc-800`}
         />
       </div>
     </div>

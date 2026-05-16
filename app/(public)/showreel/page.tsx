@@ -2,14 +2,14 @@ import { getWorksAction } from "@/actions/work";
 import StudioPlayer from "@/components/public/StudioPlayer";
 import Header from "@/components/public/Header";
 import Footer from "@/components/public/Footer";
-import { Film, Monitor, Hash, ArrowDown, Activity } from "lucide-react";
+import { Film, Monitor, ArrowDown, Activity } from "lucide-react";
 import Link from "next/link";
 import AmbientBackground from "@/components/public/AmbientBackground";
 import Button3D from "@/components/ui/Button3D";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-   metadataBase: new URL("https://liternix-studio.vercel.app/showreel"),
+   metadataBase: new URL("https://jokicvisuals.com/showreel"),
   title: "Showreel & Selected Works | High-Impact Visual Content",
   description:
     "Take a look behind the lens of professional video crafting. From high-energy commercials to cinematic narratives—explore my portfolio of projects that capture attention and drive results.",
@@ -42,13 +42,13 @@ export default async function WorkPage() {
   const works = await getWorksAction();
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-[#afff00] selection:text-black">
+   <div className="min-h-screen bg-black text-white selection:bg-[#afff00] selection:text-black overflow-x-hidden">
       <AmbientBackground />
       <Header />
 
       <main className="relative z-10 pt-20 pb-40 px-6 md:px-12">
         {/* PAGE INTRO */}
-        <section className="max-w-7xl mx-auto mb-32">
+        <section className="max-w-7xl mx-auto mb-24 md:mb-32">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
             <div className="space-y-6">
               <div className="flex items-center gap-2">
@@ -57,31 +57,22 @@ export default async function WorkPage() {
                   Portfolio_v2.0
                 </span>
               </div>
-
-              <h1 className="text-7xl md:text-[9rem] font-black uppercase italic leading-[0.8] tracking-tighter">
+              <h1 className="text-6xl sm:text-7xl md:text-[9rem] font-black uppercase italic leading-[0.8] tracking-tighter">
                 Selected <br /> <span className="text-[#afff00]">Works</span>
               </h1>
-              {/* Integrity Bar restored with CSS animation */}
-              <div className="flex flex-col gap-3 my-8">
+              <div className="flex flex-col gap-3 my-8 max-w-md">
                 <div className="flex items-center gap-2">
-                  <Activity
-                    size={14}
-                    className="text-[#afff00] animate-pulse"
-                  />
-                  <span className="text-[10px] font-black text-white uppercase italic tracking-widest">
-                    Verify Integrity
-                  </span>
+                  <Activity size={14} className="text-[#afff00] animate-pulse" />
+                  <span className="text-[10px] font-black text-white uppercase italic tracking-widest">Verify Integrity</span>
                 </div>
                 <div className="w-full h-0.75 bg-zinc-900 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#afff00]/60 animate-fill-bar delay-3" />
+                  <div className="h-full bg-[#afff00]/60 animate-fill-bar" />
                 </div>
               </div>
             </div>
-
             <div className="max-w-xs space-y-4">
               <p className="text-zinc-500 font-bold uppercase text-[11px] tracking-widest leading-relaxed">
-                A curated selection of high-impact visual stories, technical
-                edits, and reality-distorting motion.
+                A curated selection of high-impact visual stories and technical edits.
               </p>
               <div className="flex items-center gap-4 text-[#afff00] font-black italic text-sm animate-bounce">
                 <ArrowDown size={20} /> Scroll_To_Explore
@@ -91,67 +82,116 @@ export default async function WorkPage() {
         </section>
 
         {/* WORKS FEED */}
-        <section className="max-w-7xl mx-auto -mt-15 md:mt-0">
-          {works.map((work, index) => (
-            <div
-              key={work.id}
-              className="group mb-10 md:mb-35 relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-start"
+        <section className="max-w-7xl mx-auto">
+         {works.map((work, index) => {
+  const isShort = work.url.includes("shorts/");
+
+  return (
+     <div
+      key={work.id}
+      className="group mb-24 md:mb-48 relative grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-center lg:items-start"
+    >
+      {/* INFO BLOK */}
+      <div 
+        className={`space-y-8 lg:pt-2 relative
+          ${isShort 
+            ? "lg:col-span-5 lg:order-1 order-2" 
+            : "lg:col-span-4 lg:order-2 order-2"
+          }`}
+      >
+        {/* 1. Broj i Linija (Top Alignment Anchor) */}
+        <div className="flex items-baseline gap-4">
+          <span className="text-5xl font-black text-zinc-800 italic leading-none">
+            0{index + 1}
+          </span>
+          <div className="h-px flex-1 bg-zinc-800 group-hover:bg-[#afff00]/30 transition-colors mt-2" />
+        </div>
+
+        {/* 2. Naslov i Opis (Justified Article Style) */}
+        <div className="space-y-6 relative min-h-62.5">
+          <h2 className="text-4xl md:text-6xl font-black uppercase italic leading-[0.85] tracking-tighter group-hover:text-[#afff00] transition-colors duration-500">
+            {work.title}
+          </h2>
+          
+          {work.description && (
+            <p className="text-base md:text-lg text-zinc-400 font-medium leading-relaxed max-w-md [text-justify:inter-word]">
+              {work.description}
+            </p>
+          )}
+
+          {/* 3. GHOST WATERMARK - Popunjava prazan prostor */}
+          <div className="absolute -bottom-12 left-0 pointer-events-none select-none opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-1000 transform group-hover:translate-x-2">
+            <span 
+              className="text-[80px] md:text-[130px] font-black uppercase italic leading-none tracking-tighter block text-transparent"
+              style={{ WebkitTextStroke: '1.5px white' }}
             >
-              {/* LEFT SIDE: Project Info */}
-              <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-32">
-                <div className="flex items-baseline gap-4">
-                  <span className="text-5xl font-black text-zinc-800 italic">
-                    0{index + 1}
-                  </span>
-                  <div className="h-px flex-1 bg-zinc-800 group-hover:bg-[#afff00]/30 transition-colors" />
-                </div>
+              {isShort ? "REELS" : "PROMO"}
+            </span>
+            <span className="text-[9px] font-mono tracking-[0.6em] text-[#afff00] uppercase ml-2 -mt-4 block opacity-50">
+              {isShort ? "Social_Media_Content" : "High_End_Production_Edit"}
+            </span>
+          </div>
+        </div>
 
-                <div className="space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-black uppercase italic leading-none tracking-tighter group-hover:text-[#afff00] transition-colors duration-500">
-                    {work.title}
-                  </h2>
-
-                  {work.description && (
-                    <p className="text-lg text-zinc-400 font-medium leading-tight max-w-sm">
-                      {work.description}
-                    </p>
-                  )}
-                </div>
-
-                <div className="flex flex-wrap gap-3">
-                  <div className="px-3 py-1 bg-zinc-900 border border-zinc-800 rounded-md flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-zinc-400">
-                    <Film size={12} className="text-[#afff00]" /> 4K_Render
-                  </div>
-                  <div className="px-3 py-1 bg-zinc-900 border border-zinc-800 rounded-md flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-zinc-400">
-                    <Monitor size={12} className="text-[#afff00]" /> 24_FPS
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT SIDE: Video Player */}
-              <div className="lg:col-span-8 relative">
-                <div className="absolute -inset-4 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="relative z-10 overflow-hidden shadow-2xl transition-transform duration-500 group-hover:scale-[1.01]">
-                  <StudioPlayer videoUrl={work.url} />
-                </div>
-
-                {/* Visual HUD Decoration */}
-                <div className="absolute -right-6 -bottom-10 hidden md:block">
-                  <div className="bg-black border border-zinc-800 p-4 rounded-2xl flex items-center gap-4 shadow-2xl transition-all group-hover:border-[#afff00]/40">
-                    <div className="flex flex-col">
-                      <span className="text-[8px] font-black text-zinc-600 uppercase">
-                        Encoding
-                      </span>
-                      <span className="text-[10px] font-black text-[#afff00] italic uppercase">
-                        H.264_MASTER
-                      </span>
-                    </div>
-                    <Hash size={16} className="text-zinc-800" />
-                  </div>
-                </div>
-              </div>
+        {/* 4. Tagovi i Meta Info */}
+        <div className="space-y-10 relative z-10">
+          <div className="flex flex-wrap gap-3">
+            <div className="px-3 py-1 bg-zinc-900 border border-zinc-800 rounded-md flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-zinc-400">
+              <Monitor size={12} className="text-[#afff00]" /> {isShort ? "9:16_VERT" : "16:9_WIDE"}
             </div>
-          ))}
+            <div className="px-3 py-1 bg-[#afff00]/10 border border-[#afff00]/20 rounded-md flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#afff00]">
+              <Film size={12} /> {isShort ? "REEL_FORMAT" : "MASTER_CUT"}
+            </div>
+          </div>
+
+          {/* Dodatni dashboard detalji za popunjavanje donjeg dela */}
+          <div className="grid grid-cols-2 gap-8 pt-8 border-t border-zinc-900">
+            <div className="flex flex-col gap-1">
+              <span className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.2em]">Workflow</span>
+              <span className="text-[10px] font-bold text-zinc-500 uppercase italic">Adobe_After_Effects</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[8px] font-black text-zinc-600 uppercase tracking-[0.2em]">Project_Status</span>
+              <span className="text-[10px] font-bold text-[#afff00] uppercase italic">Final_Master_V2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* PLAYER BLOK */}
+      <div 
+        className={`relative w-full max-[480px]:-mx-6 max-[480px]:w-[calc(100%+3rem)]
+          ${isShort 
+            ? "lg:col-span-7 lg:order-2 order-1 flex justify-center" 
+            : "lg:col-span-8 lg:order-1 order-1" 
+          }`}
+      >
+        <div className="absolute -inset-4 blur-[100px] opacity-0 group-hover:opacity-20 transition-opacity duration-1000 bg-[#afff00]/20 pointer-events-none" />
+        
+        <div className={`relative z-10 overflow-hidden shadow-2xl transition-transform duration-700 group-hover:scale-[1.01] w-full
+          ${isShort ? "max-w-120" : "w-full"}`}
+        >
+          <StudioPlayer videoUrl={work.url} />
+        </div>
+
+        {/* HUD Decoration */}
+        <div className={`absolute hidden xl:block z-20 
+          ${isShort ? "-left-16 bottom-24" : "-right-8 -bottom-8"}`}
+        >
+          <div className="bg-black/90 backdrop-blur-xl border border-zinc-800 p-5 rounded-2xl flex items-center gap-5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all group-hover:border-[#afff00]/40">
+            <div className="flex flex-col">
+              <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">Encoding_Status</span>
+              <span className="text-[11px] font-black text-[#afff00] italic uppercase">
+                {isShort ? "Vertical_Render_Active" : "H.264_Master_Certified"}
+              </span>
+            </div>
+            <div className="w-2.5 h-2.5 bg-[#afff00] rounded-full animate-pulse shadow-[0_0_15px_#afff00]" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+})}
         </section>
 
         {/* CTA SECTION */}

@@ -55,14 +55,22 @@ export const messageStatusEnum = pgEnum("message_status", ["unread", "read", "re
 
 export const messages = pgTable("messages", {
   id: uuid("id").defaultRandom().primaryKey(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
-  email: text("email").notNull(),
+  firstName: text("first_name").notNull().default(""), // Dodajemo privremeni default
+  lastName: text("last_name").notNull().default(""),   // da bi push prošao kroz postojeće redove
+  email: text("email").notNull().default(""),
   company: text("company"),
-  message: text("message").notNull(),
+  message: text("message").notNull().default(""),     // Kolona koja je pravila problem
   status: messageStatusEnum("status").default("unread"),
   replyContent: text("reply_content"),
   repliedAt: timestamp("replied_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const messageItems = pgTable("message_items", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  messageId: uuid("message_id").references(() => messages.id, { onDelete: "cascade" }),
+  sender: text("sender").notNull(), // 'user' ili 'admin'
+  content: text("content").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

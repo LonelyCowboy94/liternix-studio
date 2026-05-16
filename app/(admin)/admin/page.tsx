@@ -6,12 +6,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { db } from "@/db";
-import { messages, services, news, users } from "@/db/schema";
+import { messages, services, news, users, messageItems } from "@/db/schema";
 import { desc, eq, count } from "drizzle-orm";
 import DashboardStats from "@/components/admin/dashboard/DashboardStats";
 import RecentMessages from "@/components/admin/dashboard/RecentMessages";
 import FeaturedArticle from "@/components/admin/dashboard/FeaturedArticle";
-
 
 export const dynamic = "force-dynamic";
 
@@ -25,25 +24,39 @@ interface MessageTeaser {
 }
 
 export default async function AdminDashboard() {
-  // DATABASE QUERIES (Zadržana tvoja logika)
+  // 1. DATABASE QUERIES
   const [unreadRes] = await db.select({ value: count() }).from(messages).where(eq(messages.status, "unread"));
   const [servicesRes] = await db.select({ value: count() }).from(services);
   const [postsRes] = await db.select({ value: count() }).from(news);
   const [usersRes] = await db.select({ value: count() }).from(users);
 
+  // Povlačimo 5 poslednjih konverzacija
   const recentMsgsRaw = await db.select().from(messages).orderBy(desc(messages.createdAt)).limit(5);
+  
+  // 2. LOGIKA ZA POVLAČENJE TEKSTA PORUKE (Rešava Build Error)
+  const recentMsgs: MessageTeaser[] = await Promise.all(
+    recentMsgsRaw.map(async (m) => {
+      // Za svaku konverzaciju tražimo poslednju stavku iz messageItems
+      const items = await db.select()
+        .from(messageItems)
+        .where(eq(messageItems.messageId, m.id))
+        .orderBy(desc(messageItems.createdAt))
+        .limit(1);
+
+      return {
+        id: m.id,
+        firstName: m.firstName,
+        lastName: m.lastName,
+        message: items.length > 0 ? items[0].content : "No message content",
+        status: m.status,
+        createdAt: m.createdAt
+      };
+    })
+  );
+
   const latestPost = await db.select().from(news).orderBy(desc(news.createdAt)).limit(1);
 
-  const recentMsgs: MessageTeaser[] = recentMsgsRaw.map(m => ({
-    id: m.id,
-    firstName: m.firstName,
-    lastName: m.lastName,
-    message: m.message,
-    status: m.status,
-    createdAt: m.createdAt
-  }));
-
-  // STATS MAPPING (Stilizovano za Liternix)
+  // 3. STATS MAPPING (Brendirano: Luka Jokic)
   const stats = [
     { label: "Unread_Signals", value: unreadRes.value, iconName: "mail", bg: "bg-zinc-900", color: "text-red-500", alert: unreadRes.value > 0 },
     { label: "Active_Services", value: servicesRes.value, iconName: "settings", bg: "bg-zinc-900", color: "text-[#afff00]" },
@@ -65,10 +78,9 @@ export default async function AdminDashboard() {
             Master_Console<span className="text-[#afff00]">.</span>
           </h1>
           <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em] mt-3">
-            Production_Unit // Infrastructure_Management
+            Luka Jokic // Infrastructure_Management
           </p>
         </div>
-       
       </header>
 
       {/* STATS GRID */}
@@ -102,6 +114,7 @@ export default async function AdminDashboard() {
           </div>
           
           <div className="bg-zinc-900/40 rounded-xl border border-zinc-800 shadow-2xl overflow-hidden backdrop-blur-md">
+             {/* Prikazuje mapirane poruke sa sadržajem iz message_items */}
              <RecentMessages messages={recentMsgs} />
           </div>
         </div>
@@ -120,7 +133,7 @@ export default async function AdminDashboard() {
             </div>
           </section>
 
-          {/* INFRASTRUCTURE STATUS CARD (Bivši Indigo Card) */}
+          {/* INFRASTRUCTURE STATUS CARD */}
           <section className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 text-white shadow-2xl relative overflow-hidden group">
             <div className="relative z-10 space-y-8">
               <div className="flex items-center gap-2 text-[#afff00] font-black text-[10px] uppercase tracking-[0.3em]">

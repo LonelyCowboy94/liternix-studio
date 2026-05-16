@@ -1,10 +1,13 @@
+"use client";
+
+import React, { Suspense } from "react";
 import Header from "@/components/public/Header";
 import Footer from "@/components/public/Footer";
 import AmbientBackground from "@/components/public/AmbientBackground";
 import ContactForm from "@/components/public/ContactForm";
 import { Radio, Mail, Globe, Instagram, Facebook, Terminal, Activity } from "lucide-react";
 
-export default function GetInTouchPage() {
+function ContactContent() {
   const contactDetails = [
     {
       label: "Main_Signal_Address",
@@ -18,7 +21,7 @@ export default function GetInTouchPage() {
       value: "Belgrade_UTC+1",
       icon: <Globe className="text-[#afff00]" size={22} />,
       loadClass: "animate-spin-ln",
-      href: "https://www.google.com/maps/place/Belgrade" 
+      href: "https://www.google.com/maps/place/Belgrade" // Opciono, vodi na mapu Beograda
     }
   ];
 
@@ -26,7 +29,7 @@ export default function GetInTouchPage() {
     { 
       icon: <Instagram size={24} />, 
       load: "animate-spin-gh", 
-      href: "https://www.instagram.com/luka.roto?igsh=YXF2MDc5eWhxYTgx" // Zameni tvojim username-om
+      href: "https://www.instagram.com/luka.roto?igsh=YXF2MDc5eWhxYTgx" 
     },
     { 
       icon: <Facebook size={24} />, 
@@ -36,33 +39,29 @@ export default function GetInTouchPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-[#afff00] selection:text-black overflow-x-hidden">
-      <AmbientBackground />
-      <Header />
-
-      <main className="relative z-10 pt-32 pb-20 md:pb-40 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-          
-          {/* LEFT COLUMN */}
-          <div className="lg:col-span-5 flex flex-col justify-center">
-            <header className="space-y-6 mb-16 animate-reveal opacity-0">
-              <div className="flex items-center gap-3">
-                <div className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#afff00] opacity-40"></span>
-                  <Radio className="relative text-[#afff00]" size={16} />
-                </div>
-                <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500 italic">
-                  Status: Receiving_Signal
-                </span>
+    <main className="relative z-10 pt-32 pb-20 md:pb-40 px-6 md:px-12">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+        
+        {/* LEFT COLUMN */}
+        <div className="lg:col-span-5 flex flex-col justify-center">
+          <header className="space-y-6 mb-16 animate-reveal opacity-0">
+            <div className="flex items-center gap-3">
+              <div className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#afff00] opacity-40"></span>
+                <Radio className="relative text-[#afff00]" size={16} />
               </div>
-              
-              <h1 className="text-[14vw] lg:text-8xl font-black uppercase italic leading-[0.8] tracking-tighter">
-                Get In <br /> 
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-[#afff00] to-[#7acc00]">
-                  Touch&nbsp;
-                </span>
-              </h1>
-            </header>
+              <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-500 italic">
+                Status: Receiving_Signal
+              </span>
+            </div>
+            
+            <h1 className="text-[14vw] lg:text-8xl font-black uppercase italic leading-[0.8] tracking-tighter">
+              Get In <br /> 
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#afff00] to-[#7acc00]">
+                Touch&nbsp;
+              </span>
+            </h1>
+          </header>
 
             {/* CONTACT CARDS */}
             <div className="space-y-6">
@@ -81,7 +80,7 @@ export default function GetInTouchPage() {
                   
                   <div className="animate-reveal opacity-0" style={{ animationDelay: `${0.6 + idx * 0.2}s` }}>
                     <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">{item.label}</p>
-                    <p className="text-lg md:text-xl font-black italic tracking-tight group-hover:text-[#afff00] transition-colors">
+                    <p className="text-lg md:text-xl font-black uppercase italic tracking-tight group-hover:text-[#afff00] transition-colors">
                       {item.value}
                     </p>
                   </div>
@@ -89,49 +88,61 @@ export default function GetInTouchPage() {
               ))}
             </div>
 
-            {/* SOCIAL LOGS */}
-            <div className="flex gap-4 mt-12 md:mt-16">
-              {socialLinks.map((soc, i) => (
-                <a 
-                  key={i} 
-                  href={soc.href} 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group perspective-1000"
-                  aria-label="Social Link"
-                >
-                  <div className={`rotateY-card w-14 h-14 bg-zinc-900/50 border border-zinc-800 rounded-2xl flex items-center justify-center hover:border-[#afff00] hover:text-[#afff00] group-hover:bg-zinc-900 transition-all ${soc.load}`}>
-                    {soc.icon}
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN: FORM */}
-          <div className="lg:col-span-7 relative animate-reveal opacity-0 delay-2">
-             <div className="absolute -top-2 -left-2 w-6 h-6 border-t border-l border-[#afff00]/30 pointer-events-none" />
-             <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b border-r border-[#afff00]/30 pointer-events-none" />
-             
-             <div className="p-1 backdrop-blur-xl">
-                <ContactForm />
-             </div>
-
-             <div className="mt-8 flex items-center justify-between px-6">
-                <div className="flex items-center gap-3">
-                  <Terminal size={14} className="text-zinc-700" />
-                  <span className="text-[10px] font-bold text-zinc-600 uppercase italic">AES_256_LITERNIX</span>
+          {/* SOCIAL LINKS */}
+          <div className="flex gap-4 mt-12 md:mt-16 animate-reveal opacity-0" style={{ animationDelay: '1.2s' }}>
+            {socialLinks.map((soc, i) => (
+              <a 
+                key={i} 
+                href={soc.href} 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group perspective-1000"
+                aria-label="Social Link"
+              >
+                {/* SOCIAL ICON SA BRZIM SPIN-OM NA HOVER */}
+                <div className={`rotateY-card w-14 h-14 bg-zinc-900/50 border border-zinc-800 rounded-2xl flex items-center justify-center transition-all duration-500 hover:text-[#afff00] group-hover:bg-zinc-900 group-hover:border-[#afff00] group-hover:transform-[rotateY(360deg)] ${soc.load}`}>
+                  {soc.icon}
                 </div>
-                <Activity size={16} className="text-[#afff00] animate-pulse" />
-             </div>
+              </a>
+            ))}
           </div>
-
         </div>
-      </main>
+
+        {/* RIGHT COLUMN: FORM */}
+        <div className="lg:col-span-7 relative animate-reveal opacity-0 delay-2">
+           <div className="absolute -top-2 -left-2 w-6 h-6 border-t border-l border-[#afff00]/30 pointer-events-none" />
+           <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b border-r border-[#afff00]/30 pointer-events-none" />
+           
+           <div className="p-1 backdrop-blur-xl">
+              <ContactForm />
+           </div>
+
+           <div className="mt-8 flex items-center justify-between px-6">
+              <div className="flex items-center gap-3 text-zinc-600">
+                <Terminal size={14} />
+                <span className="text-[10px] font-bold uppercase italic">LUKA_JOKIC_SECURE</span>
+              </div>
+              <Activity size={16} className="text-[#afff00] animate-pulse" />
+           </div>
+        </div>
+
+      </div>
+    </main>
+  );
+}
+
+export default function GetInTouchPage() {
+  return (
+    <div className="min-h-screen bg-black text-white selection:bg-[#afff00] selection:text-black overflow-x-hidden">
+      <AmbientBackground />
+      <Header />
+
+      <Suspense fallback={<div className="h-screen flex items-center justify-center text-[#afff00] font-black uppercase italic tracking-widest animate-pulse">Establishing_Secure_Connection...</div>}>
+        <ContactContent />
+      </Suspense>
 
       <Footer />
       
-      {/* SCANLINE OVERLAY */}
       <div className="fixed inset-0 pointer-events-none z-100 opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,1)_50%)] bg-size-[100%_4px]" />
     </div>
   );

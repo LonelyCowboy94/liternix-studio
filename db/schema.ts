@@ -58,15 +58,19 @@ export const messages = pgTable("messages", {
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   email: text("email").notNull(),
+  company: text("company"),
+  message: text("message").notNull(),
   status: messageStatusEnum("status").default("unread"),
+  replyContent: text("reply_content"),
+  repliedAt: timestamp("replied_at"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Tabela za sve poruke unutar te konverzacije
+// OVO TI JE FALILO - ZATO JE PUCAO BUILD
 export const messageItems = pgTable("message_items", {
   id: uuid("id").defaultRandom().primaryKey(),
   messageId: uuid("message_id").references(() => messages.id, { onDelete: "cascade" }),
-  sender: text("sender").notNull(), // "user" ili "admin"
+  sender: text("sender").notNull(), 
   content: text("content").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -77,7 +81,7 @@ export const portfolioWork = pgTable("portfolio_work", {
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   type: integer("type").default(0), // 1 = Featured, 0 = Normal
-  sortOrder: integer("sort_order").default(0), // DODAJ OVO ZA REDOSLED
+  sortOrder: integer("sort_order").default(0), 
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

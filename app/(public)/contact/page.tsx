@@ -100,7 +100,7 @@ function ContactContent() {
                 aria-label="Social Link"
               >
                 {/* SOCIAL ICON SA BRZIM SPIN-OM NA HOVER */}
-                <div className={`rotateY-card w-14 h-14 bg-zinc-900/50 border border-zinc-800 rounded-2xl flex items-center justify-center transition-all duration-500 hover:text-[#afff00] group-hover:bg-zinc-900 group-hover:border-[#afff00] group-hover:[transform:rotateY(360deg)] ${soc.load}`}>
+                <div className={`rotateY-card w-14 h-14 bg-zinc-900/50 border border-zinc-800 rounded-2xl flex items-center justify-center transition-all duration-500 hover:text-[#afff00] group-hover:bg-zinc-900 group-hover:border-[#afff00] group-hover:transform-[rotateY(360deg)] ${soc.load}`}>
                   {soc.icon}
                 </div>
               </a>

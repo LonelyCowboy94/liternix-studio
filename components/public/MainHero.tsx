@@ -27,7 +27,7 @@ export default async function MainHero() {
             <div className="relative">
               <h1
                 id="hero-heading"
-                className="text-[14vw] lg:text-[clamp(5rem,10vw,11rem)] font-black leading-[0.85] tracking-tighter uppercase italic select-none"
+                className="text-[14vw] lg:text-[clamp(5rem,10vw,9rem)] font-black leading-[0.85] tracking-tighter uppercase italic select-none"
               >
                 Visual <br />
                 <span className="animate-video-text text-transparent -ml-4 bg-clip-text bg-linear-to-r from-[#afff00] to-[#7acc00]">
@@ -53,18 +53,29 @@ export default async function MainHero() {
          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-20 items-start">
   {/* Description and Actions */}
   <div className="md:col-span-5 order-2 md:order-1">
-    <p className="text-base lg:text-xl text-zinc-400 leading-tight font-medium mb-8 lg:mb-10 max-w-lg">
-      &ldquo;Raw clips, polished visuals, and stories that hit hard. I craft
+    <div className="text-base lg:text-xl text-zinc-400 leading-tight font-medium mb-8 lg:mb-10 max-w-lg">
+      {/* &ldquo;Raw clips, polished visuals, and stories that hit hard. I craft
       every frame to grab eyes and hold attention. Video editing that&apos;s
       <span className="text-zinc-100 italic">
         {" "}
         fast, sharp, and unforgettable.
       </span>
-      &rdquo;
-      <span className="text-[#afff00] font-bold italic tracking-wider mt-4 block drop-shadow-[0_0_10px_rgba(175,255,0,0.3)]">
-        I don&apos;t just edit —&gt; I distort reality.
+      &rdquo; */}
+      <ul className="list-disc pl-5">
+  <li>
+    Worked with Monkey Man Media
+  </li>
+  <li>
+    Edited over 1000+ videos
+  </li>
+  <li>
+    Experienced in both agency and freelance environments
+  </li>
+</ul>
+      <span className="text-[#afff00] pt-6 font-bold italic tracking-wider mt-4 block drop-shadow-[0_0_10px_rgba(175,255,0,0.3)]">
+        <p>Ready to take your content to the next level?</p>
       </span>
-    </p>
+    </div>
 
     <div className="flex flex-wrap gap-4">
       <Link href="/contact" aria-label="Get in touch with me">

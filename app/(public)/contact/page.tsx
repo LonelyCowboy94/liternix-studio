@@ -18,7 +18,7 @@ export default function GetInTouchPage() {
       value: "Belgrade_UTC+1",
       icon: <Globe className="text-[#afff00]" size={22} />,
       loadClass: "animate-spin-ln",
-      href: "https://www.google.com/maps/place/Belgrade" // Opciono, vodi na mapu Beograda
+      href: "https://www.google.com/maps/place/Belgrade" 
     }
   ];
 
@@ -81,7 +81,7 @@ export default function GetInTouchPage() {
                   
                   <div className="animate-reveal opacity-0" style={{ animationDelay: `${0.6 + idx * 0.2}s` }}>
                     <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">{item.label}</p>
-                    <p className="text-lg md:text-xl font-black uppercase italic tracking-tight group-hover:text-[#afff00] transition-colors">
+                    <p className="text-lg md:text-xl font-black italic tracking-tight group-hover:text-[#afff00] transition-colors">
                       {item.value}
                     </p>
                   </div>

@@ -8,6 +8,8 @@ import AmbientBackground from "@/components/public/AmbientBackground";
 import Button3D from "@/components/ui/Button3D";
 import { Metadata } from "next";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
    metadataBase: new URL("https://liternix-studio.vercel.app/showreel"),
   title: "Showreel & Selected Works | High-Impact Visual Content",

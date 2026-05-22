@@ -4,6 +4,8 @@ import CorePhilosophy from '@/components/public/CorePhilosophy';
 import Footer from '@/components/public/Footer';
 import AmbientBackground from '@/components/public/AmbientBackground';
 import { Metadata } from "next";
+import FeaturedWorksFeed from '@/components/public/FeaturedWorksFeed';
+import { getWorksAction } from '@/actions/work';
 
 export const metadata: Metadata = {
   title: "Luka Jokić | Premium Video Crafting & Cinematic Post-Production",
@@ -27,7 +29,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+
+   const works = await getWorksAction();
+  const featuredWork = works.find(w => w.type === 1);
   return (
     <div className="relative min-h-screen grain-overlay">
       <AmbientBackground />
@@ -36,6 +41,10 @@ export default function Home() {
         <Header />
         <MainHero />
         <CorePhilosophy />
+          <FeaturedWorksFeed 
+        works={works} 
+        excludeId={featuredWork?.id} 
+      />
         <Footer />
       </div>
                   {/* GLOBAL SCANLINE */}

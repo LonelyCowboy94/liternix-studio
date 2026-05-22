@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, Monitor, Film, Calendar, ArrowUpDown } from "lucide-react";
+import { Search, Calendar, ArrowUpDown } from "lucide-react";
 import StudioPlayer from "./StudioPlayer";
 
-// 1. DEFINIŠEMO TIP ZA RAD (Work)
 interface Work {
   id: number;
   url: string;
@@ -15,66 +14,74 @@ interface Work {
   createdAt: Date;
 }
 
-// 2. DEFINIŠEMO TIP ZA LAYOUT GRUPE
-type LayoutGroup = 
+type LayoutUnit = 
   | { type: 'vertical'; data: Work }
   | { type: 'horizontal-stack'; data: Work[] };
 
-interface ShowreelGridProps {
-  initialWorks: Work[];
-}
-
-export default function ShowreelGrid({ initialWorks = [] }: ShowreelGridProps) {
+export default function ShowreelGrid({ initialWorks = [] }: { initialWorks: Work[] }) {
   const [search, setSearch] = useState("");
   const [sortNewest, setSortNewest] = useState(true);
 
-const processedWorks = useMemo(() => {
+  const processedWorks = useMemo(() => {
     return initialWorks
       .filter((w) => w.title?.toLowerCase().includes(search.toLowerCase()))
       .sort((a, b) => {
         const dateA = new Date(a.createdAt).getTime();
         const dateB = new Date(b.createdAt).getTime();
-        
-        // Zamenjeno: dateA - dateB sortira od najstarijeg (prvog) ka najnovijem
         return sortNewest ? dateA - dateB : dateB - dateA;
       });
   }, [search, sortNewest, initialWorks]);
 
-const layoutGroups = useMemo(() => {
-    // Razdvajamo radove na osnovu URL-a
+  // LOGIKA ZA SCRAMBLED RASPORED
+  const layoutGroups = useMemo(() => {
     const verticals = processedWorks.filter(w => w.url.includes("shorts/") || w.url.includes("reels/"));
     const horizontals = processedWorks.filter(w => !w.url.includes("shorts/") && !w.url.includes("reels/"));
     
-    const groups: LayoutGroup[] = [];
+    const units: LayoutUnit[] = [];
     let vIdx = 0;
     let hIdx = 0;
 
-    // Pakujemo dok god imamo bilo šta u listama
+    let rowIndex = 0;
+
+    // Dok god imamo materijala, pravimo "redove" od 3 jedinice
     while (vIdx < verticals.length || hIdx < horizontals.length) {
+      const currentRowUnits: LayoutUnit[] = [];
+
+      // 1. Uzimamo 1 stack (2 horizontale) i 2 vertikale za jedan vizuelni "red"
+      const stack: Work[] = [];
+      if (hIdx < horizontals.length) stack.push(horizontals[hIdx++]);
+      if (hIdx < horizontals.length) stack.push(horizontals[hIdx++]);
       
-      // 1. PRVO DODAJEMO HORIZONTALNI STACK (Zauzima 1. kolonu)
-      if (hIdx < horizontals.length) {
-        const pair: Work[] = [];
-        pair.push(horizontals[hIdx++]); // Prvi horizontalni
-        if (hIdx < horizontals.length) pair.push(horizontals[hIdx++]); // Drugi horizontalni (ako postoji)
-        groups.push({ type: 'horizontal-stack', data: pair });
+      const v1 = verticals[vIdx++];
+      const v2 = verticals[vIdx++];
+
+      // 2. Pakujemo ih u niz za trenutni red
+      if (stack.length > 0) currentRowUnits.push({ type: 'horizontal-stack', data: stack });
+      if (v1) currentRowUnits.push({ type: 'vertical', data: v1 });
+      if (v2) currentRowUnits.push({ type: 'vertical', data: v2 });
+
+      // 3. SCRAMBLE: Menjamo redosled u zavisnosti od indexa reda
+      // Red 0: Stack, Reel, Reel
+      // Red 1: Reel, Stack, Reel
+      // Red 2: Reel, Reel, Stack
+      if (rowIndex % 3 === 1) {
+        currentRowUnits.push(currentRowUnits.shift()!); // Pomeri stack na drugo mesto
+      } else if (rowIndex % 3 === 2) {
+        currentRowUnits.push(currentRowUnits.shift()!); // Pomeri stack na treće mesto
+        currentRowUnits.push(currentRowUnits.shift()!);
       }
 
-      // 2. ZATIM DODAJEMO 2 VERTIKALNA (Zauzimaju 2. i 3. kolonu)
-      if (vIdx < verticals.length) {
-        groups.push({ type: 'vertical', data: verticals[vIdx++] });
-      }
-      if (vIdx < verticals.length) {
-        groups.push({ type: 'vertical', data: verticals[vIdx++] });
-      }
+      units.push(...currentRowUnits);
+      rowIndex++;
     }
-    return groups;
+    return units;
   }, [processedWorks]);
+
   return (
     <div className="max-w-7xl mx-auto space-y-12">
       {/* SEARCH BAR */}
       <div className="flex flex-col md:flex-row gap-4 items-center bg-zinc-900/40 p-4 rounded-2xl border border-zinc-800 backdrop-blur-xl">
-        <div className="relative flex-1 w-full">
+        <div className="relative flex-1 w-full text-zinc-400">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
           <input 
             type="text"
@@ -83,15 +90,12 @@ const layoutGroups = useMemo(() => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <button 
-          onClick={() => setSortNewest(!sortNewest)}
-          className="flex items-center gap-2 px-6 py-3 bg-black border border-zinc-800 rounded-xl text-[#afff00] text-[10px] font-black uppercase hover:border-[#afff00]/50 transition-all"
-        >
-          <ArrowUpDown size={14} /> {sortNewest ? "NEWEST" : "OLDEST"}
+        <button onClick={() => setSortNewest(!sortNewest)} className="px-6 py-3 bg-black border border-zinc-800 rounded-xl text-[#afff00] text-[10px] font-black uppercase">
+          <ArrowUpDown size={14} className="inline mr-2" /> {sortNewest ? "Chronological" : "Latest"}
         </button>
       </div>
 
-      {/* GRID MREŽA */}
+      {/* GRID KOJI JE SADA SCRAMBLED */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {layoutGroups.map((group, idx) => {
           if (group.type === 'vertical') {
@@ -100,7 +104,7 @@ const layoutGroups = useMemo(() => {
 
           return (
             <div key={`stack-${idx}`} className="flex flex-col gap-8 h-full">
-              {group.data.map((hWork: Work) => (
+              {group.data.map((hWork) => (
                 <div key={`h-${hWork.id}`} className="flex-1">
                    <WorkCard work={hWork} isShort={false} />
                 </div>
@@ -113,29 +117,19 @@ const layoutGroups = useMemo(() => {
   );
 }
 
-// POMOĆNA KOMPONENTA SA TIPOVANIM PROPSIMA
-interface WorkCardProps {
-  work: Work;
-  isShort: boolean;
-}
-
-function WorkCard({ work, isShort }: WorkCardProps) {
+// POMOĆNA KOMPONENTA ZA KARTICU
+function WorkCard({ work, isShort }: { work: Work, isShort: boolean }) {
   return (
     <div className="group relative flex flex-col h-full">
       <div className={`relative overflow-hidden rounded-2xl border border-zinc-900 bg-zinc-950 transition-all duration-500 group-hover:border-[#afff00]/40 
         ${isShort ? "aspect-[9/16]" : "aspect-video"}`}>
         <StudioPlayer videoUrl={work.url} />
-        <div className="absolute top-3 right-3 z-20">
-          <div className="bg-black/60 backdrop-blur-md p-2 rounded-lg border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
-            {isShort ? <Film size={14} className="text-[#afff00]" /> : <Monitor size={14} className="text-[#afff00]" />}
-          </div>
-        </div>
       </div>
 
       <div className="mt-4 space-y-2">
         <div className="flex items-center gap-2">
-          <div className="h-px w-8 bg-[#afff00]/30 group-hover:w-12 transition-all" />
-          <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">
+          <div className="h-px w-6 bg-[#afff00]/30" />
+          <span className="text-[9px] font-black text-zinc-600 uppercase tracking-widest">
             {isShort ? "Reel_Edit" : "Master_Cut"}
           </span>
         </div>
@@ -148,11 +142,11 @@ function WorkCard({ work, isShort }: WorkCardProps) {
         <div className="flex justify-between items-center pt-3 border-t border-zinc-900/50">
            <div className="flex items-center gap-1.5 text-zinc-600">
               <Calendar size={10} />
-              <span className="text-[9px] font-black uppercase">
+              <span className="text-[9px] font-black">
                 {new Date(work.createdAt).toLocaleDateString('en-GB')}
               </span>
            </div>
-           <div className="w-1.5 h-1.5 bg-[#afff00] rounded-full group-hover:animate-ping" />
+           <div className="w-1.5 h-1.5 bg-[#afff00] rounded-full" />
         </div>
       </div>
     </div>

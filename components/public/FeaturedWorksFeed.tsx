@@ -2,7 +2,6 @@
 import { Film, Monitor, ArrowDown } from "lucide-react";
 import StudioPlayer from "./StudioPlayer";
 
-// Definišemo interfejs da se poklapa sa tvojom bazom
 interface Work {
   id: number;
   url: string;
@@ -18,81 +17,75 @@ export default function FeaturedWorksFeed({
   excludeId 
 }: { 
   works: Work[]; 
-  excludeId?: number; // Promenjeno u number
+  excludeId?: number; 
 }) {
   
-  // Filtriramo video koji je već u Hero sekciji i sortiramo ostale
   const filteredWorks = works.filter(work => work.id !== excludeId);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
-      <div className="relative mb-20 flex flex-col items-center">
- 
+    <section className="max-w-7xl mx-auto px-6 md:px-12 py-8">
+      {/* HEADER SEKCIJA - THE VAULT */}
+      <div className="relative mb-32 flex flex-col items-center">
+        <div className="text-center relative z-10">
+          <h2 className="text-7xl md:text-[8rem] font-black uppercase italic leading-[0.75] tracking-tighter text-white select-none">
+            THE <br /> <span className="text-[#afff00]">VAULT</span>
+          </h2>
+          
+          <div className="absolute -right-16 top-2/5 -translate-y-1/2 hidden lg:block text-left border-l border-zinc-800 pl-4 py-2">
+            <p className="text-[10px] font-mono text-zinc-500 leading-tight uppercase">
+              Status: Online <br />
+              Project_Count: {works.length} <br />
+              Encoding: H.264_Master
+            </p>
+          </div>
+        </div>
 
-  {/* 2. MAIN TITLE - Masivan i centriran */}
-  <div className="text-center relative z-10">
-    <h2 className="text-7xl md:text-[8rem] font-black uppercase italic leading-[0.75] tracking-tighter text-white select-none">
-      THE <br /> <span className="text-[#afff00]">VAULT</span>
-    </h2>
-    
-    {/* Lebdeći tech podaci sa strane naslova */}
-    <div className="absolute -right-16 top-2/5 -translate-y-1/2 hidden lg:block text-left border-l border-zinc-800 pl-4 py-2">
-      <p className="text-[10px] font-mono text-zinc-500 leading-tight">
-        STATUS: ONLINE <br />
-        PROJECT_COUNT: {works.length} <br />
-        ENCODING: H.264_MASTER
-      </p>
-    </div>
-  </div>
+        <div className="mt-16 flex flex-col items-center gap-4 group">
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-[22px] h-[36px] border-2 border-zinc-800 rounded-full flex justify-center p-1.5 transition-colors group-hover:border-[#afff00]/50">
+              <div className="w-1 h-1.5 bg-[#afff00] rounded-full animate-scroll-dot" />
+            </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 group-hover:text-[#afff00] transition-colors">
+              Scroll_Down
+            </p>
+          </div>
+          <ArrowDown size={20} className="text-[#afff00] animate-bounce" />
+        </div>
 
-  {/* 3. SCROLL INDICATOR - Vizuelna asocijacija na dole */}
-  <div className="mt-16 flex flex-col items-center gap-4 group">
-    <div className="flex flex-col items-center gap-2">
-      {/* Stilizoovani miš/scroll ikonica */}
-      <div className="w-[22px] h-[36px] border-2 border-zinc-800 rounded-full flex justify-center p-1.5 transition-colors group-hover:border-[#afff00]/50">
-        <div className="w-1 h-1.5 bg-[#afff00] rounded-full animate-scroll-dot" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.02] whitespace-nowrap">
+          <span className="text-[6rem] md:text-[10rem] xl:text-[14rem] 2xl:text-[20rem] font-black italic uppercase tracking-tighter">
+            EXPLORE
+          </span>
+        </div>
       </div>
-      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 group-hover:text-[#afff00] transition-colors">
-        Scroll_Down
-      </p>
-    </div>
-    
-    {/* Strelica koja pulsira */}
-    <ArrowDown size={20} className="text-[#afff00] animate-bounce" />
-  </div>
 
-  {/* 4. BACKGROUND WATERMARK - Veliki ghost tekst u pozadini */}
-  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.02] whitespace-nowrap">
-    <span className="text-[20rem] font-black italic uppercase tracking-tighter">
-      &nbsp;EXPLORE&nbsp;
-    </span>
-  </div>
-</div>
-
-      <div className="space-y-32">
+      {/* LISTA VIDEA */}
+      <div className="space-y-28">
         {filteredWorks.map((work, index) => {
-          // Poboljšana provera za vertikalni video (dodaj i 'reels' za svaki slučaj)
           const isVertical = work.url.includes("shorts/") || work.url.includes("reels/");
 
           return (
             <div 
               key={work.id} 
-              className="group relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
+              className="group relative grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center"
             >
-              {/* INFO BLOK */}
-              <div className={`space-y-6 ${isVertical ? "lg:col-span-5 lg:order-1" : "lg:col-span-4 lg:order-2"}`}>
+              {/* INFO BLOK - Smanjen na 4 kolone za vertikalne da bi player bio veći */}
+              <div className={`space-y-8 ${isVertical ? "lg:col-span-4 lg:order-1" : "lg:col-span-4 lg:order-2"}`}>
                 <div className="flex items-baseline gap-4">
-                  <span className="text-4xl font-black text-zinc-800 italic">0{index + 1}</span>
-                  <div className="h-px flex-1 bg-zinc-800 group-hover:bg-[#afff00]/30 transition-colors" />
+                  <span className="text-5xl font-black text-zinc-900 italic leading-none group-hover:text-[#afff00]/20 transition-colors">
+                    0{index + 1}
+                  </span>
+                  <div className="h-px flex-1 bg-zinc-900 group-hover:bg-[#afff00]/30 transition-colors" />
                 </div>
                 
-                <h3 className="text-3xl md:text-5xl font-black uppercase italic leading-none text-white group-hover:text-[#afff00] transition-colors">
-                  {work.title}
-                </h3>
-                
-                <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-sm">
-                  {work.description}
-                </p>
+                <div className="space-y-4">
+                  <h3 className="text-4xl md:text-6xl font-black uppercase italic leading-[0.85] tracking-tighter text-white group-hover:text-[#afff00] transition-colors duration-500">
+                    {work.title}
+                  </h3>
+                  <p className="text-zinc-500 text-sm md:text-base leading-relaxed font-medium uppercase italic">
+                    {work.description}
+                  </p>
+                </div>
 
                 <div className="flex flex-wrap gap-3 pt-4">
                   <div className="px-3 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
@@ -106,13 +99,19 @@ export default function FeaturedWorksFeed({
                 </div>
               </div>
 
-              {/* PLAYER BLOK */}
-              <div className={`${isVertical ? "lg:col-span-7 lg:order-2 flex justify-center" : "lg:col-span-8 lg:order-1"}`}>
-                <div className={`relative z-10 overflow-hidden rounded-2xl border border-zinc-900 group-hover:border-[#afff00]/40 transition-all duration-700 shadow-2xl ${isVertical ? "max-w-[340px] w-full" : "w-full"}`}>
+              {/* PLAYER BLOK - Povećan na 8 kolona za vertikalne */}
+              <div className={`${isVertical ? "lg:col-span-8 lg:order-2 flex justify-center lg:justify-end" : "lg:col-span-8 lg:order-1"}`}>
+                <div className={`relative z-10 overflow-hidden rounded-[2rem] border border-zinc-900 group-hover:border-[#afff00]/40 transition-all duration-700 shadow-[0_0_50px_rgba(0,0,0,0.5)] group-hover:shadow-[#afff00]/10
+                  ${isVertical ? "max-w-[420px] w-full" : "w-full"}`}>
+                  
+                  {/* StudioPlayer sa tvojim linkom */}
                   <StudioPlayer videoUrl={work.url} />
+
+                  {/* Scanline overlay samo za player */}
+                  <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%)] bg-size-[100%_4px] z-20" />
                 </div>
                 
-                {/* Background Glow */}
+                {/* Background Glow - Jači intenzitet */}
                 <div className="absolute inset-0 bg-[#afff00]/5 blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
               </div>
             </div>

@@ -34,17 +34,18 @@ export default async function Home() {
    const works = await getWorksAction();
   const featuredWork = works.find(w => w.type === 1);
   return (
-    <div className="relative min-h-screen grain-overlay">
+    <div className="relative overflow-hidden min-h-screen grain-overlay">
       <AmbientBackground />
       
       <div className="relative z-10">
         <Header />
         <MainHero />
-        <CorePhilosophy />
+        
           <FeaturedWorksFeed 
         works={works} 
         excludeId={featuredWork?.id} 
       />
+      <CorePhilosophy />
         <Footer />
       </div>
                   {/* GLOBAL SCANLINE */}

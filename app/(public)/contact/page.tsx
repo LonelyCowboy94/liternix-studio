@@ -5,16 +5,16 @@ import Header from "@/components/public/Header";
 import Footer from "@/components/public/Footer";
 import AmbientBackground from "@/components/public/AmbientBackground";
 import ContactForm from "@/components/public/ContactForm";
-import { Radio, Mail, Globe, Instagram, Facebook, Terminal, Activity } from "lucide-react";
+import { Radio, Mail, Globe, Instagram, Facebook, Terminal, Activity, Twitter } from "lucide-react";
 
 function ContactContent() {
   const contactDetails = [
     {
       label: "Main_Signal_Address",
-      value: "lukajokic644@gmail.com",
+      value: "lukajokic413@gmail.com",
       icon: <Mail className="text-[#afff00]" size={22} />,
       loadClass: "animate-spin-mail",
-      href: "mailto:lukajokic644@gmail.com"
+      href: "mailto:lukajokic413@gmail.com"
     },
     {
       label: "Current_Location",
@@ -35,6 +35,11 @@ function ContactContent() {
       icon: <Facebook size={24} />, 
       load: "animate-spin-ln", 
       href: "https://www.facebook.com/luka.jokic.71" 
+    },
+    { 
+      icon: <Twitter size={24} />, 
+      load: "animate-spin-gh", 
+      href: "https://x.com/luka_editing" 
     }
   ];
 

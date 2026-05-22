@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { Send, RefreshCw, CheckCircle2, AlertTriangle, Terminal } from "lucide-react";
+import { Send, RefreshCw, Terminal } from "lucide-react";
 import Button3D from "../ui/Button3D";
 
 interface FormErrors {
@@ -85,6 +85,7 @@ function FormInner() {
       setFormData({ firstName: "", lastName: "", company: "", email: "", message: "", consent: false });
       setErrors({});
     } catch (err) {
+      console.error(err);
       setStatus("error");
     }
   };
@@ -109,7 +110,7 @@ function FormInner() {
 
         <div className="relative group">
           <input type="text" placeholder=" " className="peer w-full bg-transparent border border-zinc-800 p-4 rounded-xl outline-none focus:border-[#afff00] transition-all text-sm font-bold uppercase italic text-white" value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })} />
-          <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-[#afff00]">Organization</label>
+          <label className="absolute left-3 -top-2.5 px-2 bg-[#020202] text-[10px] font-black uppercase tracking-widest text-zinc-500 transition-all peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-[#afff00]">Organization (optional)</label>
         </div>
 
         <div className="relative group">

@@ -91,7 +91,7 @@ export default async function WorkPage() {
   return (
      <div
       key={work.id}
-      className="group mb-24 md:mb-48 relative grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-center lg:items-start"
+      className="group mb-24 md:mb-30 relative grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-center lg:items-start"
     >
       {/* INFO BLOK */}
       <div 
@@ -111,7 +111,7 @@ export default async function WorkPage() {
 
         {/* 2. Naslov i Opis (Justified Article Style) */}
         <div className="space-y-6 relative min-h-62.5">
-          <h2 className="text-4xl md:text-6xl font-black uppercase italic leading-[0.85] tracking-tighter group-hover:text-[#afff00] transition-colors duration-500">
+          <h2 className="text-4xl relative z-100 md:text-6xl font-black uppercase italic leading-[0.85] tracking-tighter group-hover:text-[#afff00] transition-colors duration-500">
             {work.title}
           </h2>
           
@@ -127,7 +127,7 @@ export default async function WorkPage() {
               className="text-[80px] md:text-[130px] font-black uppercase italic leading-none tracking-tighter block text-transparent"
               style={{ WebkitTextStroke: '1.5px white' }}
             >
-              {isShort ? "REELS" : "PROMO"}
+              {isShort ? "REELS" : "LONGFORM"}
             </span>
             <span className="text-[9px] font-mono tracking-[0.6em] text-[#afff00] uppercase ml-2 -mt-4 block opacity-50">
               {isShort ? "Social_Media_Content" : "High_End_Production_Edit"}

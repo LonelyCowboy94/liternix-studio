@@ -197,7 +197,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
    <div 
   className={`group relative overflow-hidden border border-zinc-800 shadow-2xl transition-all duration-500 hover:border-[#afff00]/30 rounded-2xl bg-black
     ${isShort 
-      ? "aspect-9/16 w-full max-w-130 mx-auto" 
+      ? "aspect-9/16 w-full max-w-130 mx-auto relative z-99999" 
       : "aspect-video w-full"
     }`}
 >
@@ -270,7 +270,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
       {isPlaying && (
         <div
           onClick={togglePlayback}
-          className="absolute inset-0 z-30 flex items-center justify-center bg-black/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+          className="absolute inset-0 z-9999 flex items-center justify-center bg-black/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
         >
           <div className={`${isShort ? 'w-16 h-16' : 'w-24 h-24'} rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75`}>
             <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />

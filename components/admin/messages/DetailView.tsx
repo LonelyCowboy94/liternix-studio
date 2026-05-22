@@ -108,7 +108,7 @@ export const DetailView = ({ ...props }: DetailViewProps) => {
       {!props.isComposing && props.selected && (
         <div className="p-8 bg-zinc-950 border-t border-zinc-900">
           <div className="max-w-4xl mx-auto flex items-end gap-5">
-            <textarea placeholder="Write a response..." className="flex-1 min-h-[60px] max-h-[200px] p-5 bg-zinc-900/50 border border-zinc-800 rounded-2xl outline-none focus:border-[#afff00] text-sm text-white whitespace-pre-wrap resize-none transition-all" value={props.replyText} onChange={(e) => props.setReplyText(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && e.ctrlKey) props.onSendReply(); }} />
+            <textarea placeholder="Write a response..." className="flex-1 min-h-15 max-h-50 p-5 bg-zinc-900/50 border border-zinc-800 rounded-2xl outline-none focus:border-[#afff00] text-sm text-white whitespace-pre-wrap resize-none transition-all" value={props.replyText} onChange={(e) => props.setReplyText(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && e.ctrlKey) props.onSendReply(); }} />
             <button onClick={props.onSendReply} disabled={props.loading || !props.replyText} className={`p-5 rounded-2xl transition-all ${props.replyText ? 'bg-[#afff00] text-black hover:scale-105 active:scale-95' : 'bg-zinc-900 text-zinc-700'}`}>
               {props.loading ? <div className="w-6 h-6 border-2 border-black border-t-transparent rounded-full animate-spin" /> : <SendHorizontal size={26} />}
             </button>

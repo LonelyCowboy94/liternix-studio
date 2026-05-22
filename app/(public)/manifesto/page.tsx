@@ -48,7 +48,7 @@ export default function Manifesto() {
             {/* Title Fix: Adjusted leading and padding to prevent clipping */}
             <h1 className="text-[13vw] md:text-[10rem] font-black uppercase italic leading-[0.9] md:leading-[0.8] tracking-tighter mb-12 animate-reveal opacity-0 delay-1 py-4">
               THE <br /> 
-              <span className="text-transparent bg-clip-text bg-linear-to-b from-[#afff00] to-[#7acc00] pb-2">
+              <span className="animate-video-text text-transparent bg-clip-text bg-linear-to-b from-[#afff00] to-[#7acc00] pb-2">
                 MANIFESTO&nbsp;
               </span>
             </h1>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, Calendar, ArrowUpDown } from "lucide-react";
+import { Calendar } from "lucide-react";
 import StudioPlayer from "./StudioPlayer";
 
 interface Work {

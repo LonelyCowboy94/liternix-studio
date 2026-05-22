@@ -62,7 +62,7 @@ function ContactContent() {
             
             <h1 className="text-[14vw] lg:text-8xl font-black uppercase italic leading-[0.8] tracking-tighter">
               Get In <br /> 
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#afff00] to-[#7acc00]">
+              <span className="animate-video-text text-transparent bg-clip-text bg-linear-to-r from-[#afff00] to-[#7acc00]">
                 Touch&nbsp;
               </span>
             </h1>

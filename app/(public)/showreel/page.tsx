@@ -38,7 +38,7 @@ export default async function WorkPage() {
             </div>
             <div className="max-w-xs space-y-4">
               <p className="text-zinc-500 font-bold uppercase text-[11px] tracking-widest leading-relaxed">
-                Database of high-impact visual stories. Search by project name or format.
+                Accessing the visual archive. A sequential stream of high-impact stories and technical mastery.
               </p>
             </div>
           </div>

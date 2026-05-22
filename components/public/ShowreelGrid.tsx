@@ -79,21 +79,7 @@ export default function ShowreelGrid({ initialWorks = [] }: { initialWorks: Work
 
   return (
     <div className="max-w-7xl mx-auto space-y-12">
-      {/* SEARCH BAR */}
-      <div className="flex flex-col md:flex-row gap-4 items-center bg-zinc-900/40 p-4 rounded-2xl border border-zinc-800 backdrop-blur-xl">
-        <div className="relative flex-1 w-full text-zinc-400">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
-          <input 
-            type="text"
-            placeholder="ACCESS_DATABASE_SEARCH..."
-            className="w-full bg-black border border-zinc-800 rounded-xl py-3 pl-12 pr-4 text-xs font-black tracking-widest uppercase focus:border-[#afff00] outline-none transition-all"
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-        <button onClick={() => setSortNewest(!sortNewest)} className="px-6 py-3 bg-black border border-zinc-800 rounded-xl text-[#afff00] text-[10px] font-black uppercase">
-          <ArrowUpDown size={14} className="inline mr-2" /> {sortNewest ? "Chronological" : "Latest"}
-        </button>
-      </div>
+      
 
       {/* GRID KOJI JE SADA SCRAMBLED */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

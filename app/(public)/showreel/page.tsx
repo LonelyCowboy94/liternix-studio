@@ -33,7 +33,7 @@ export default async function WorkPage() {
                 </span>
               </div>
               <h1 className="text-6xl sm:text-7xl md:text-[8rem] font-black uppercase italic leading-[0.8] tracking-tighter">
-                Selected <br /> <span className="text-[#afff00]">Works</span>
+                PROJECT <br /> <span className="animate-video-text text-[#afff00]">ROOM&nbsp;</span>
               </h1>
             </div>
             <div className="max-w-xs space-y-4">

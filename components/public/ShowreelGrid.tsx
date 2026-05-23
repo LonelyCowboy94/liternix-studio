@@ -19,8 +19,8 @@ type LayoutUnit =
   | { type: 'horizontal-stack'; data: Work[] };
 
 export default function ShowreelGrid({ initialWorks = [] }: { initialWorks: Work[] }) {
-  const [search, setSearch] = useState("");
-  const [sortNewest, setSortNewest] = useState(true);
+  const [search] = useState("");
+  const [sortNewest] = useState(true);
 
   const processedWorks = useMemo(() => {
     return initialWorks

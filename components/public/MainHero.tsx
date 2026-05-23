@@ -27,7 +27,7 @@ export default async function MainHero() {
             <div className="relative">
               <h1
                 id="hero-heading"
-                className="text-[14vw] lg:text-[clamp(5rem,10vw,9rem)] font-black leading-[0.85] tracking-tighter uppercase italic select-none"
+                className="text-[14vw] lg:text-[clamp(5rem,10vw,7rem)] font-black leading-[0.85] tracking-tighter uppercase italic select-none"
               >
                 Visual <br />
                 <span className="animate-video-text text-transparent -ml-4 bg-clip-text bg-linear-to-r from-[#afff00] to-[#7acc00]">
@@ -106,7 +106,7 @@ export default async function MainHero() {
 
   {/* Video Player Section */}
   <div className="md:col-span-7 order-1 md:order-2">
-    <div className="relative group transition-transform duration-500 hover:scale-[1.02] w-full lg:max-w-2xl lg:ml-auto">
+    <div className="relative group transition-transform duration-500 w-full lg:max-w-2xl lg:ml-auto">
       <div className="w-full">
         {works.map(
           (work, index) =>
@@ -117,8 +117,8 @@ export default async function MainHero() {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative">
-                  <div className="absolute -inset-4 bg-[#afff00]/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                  <div className="relative z-10 aspect-video w-full overflow-hidden border border-zinc-900 rounded-2xl bg-zinc-950 shadow-2xl transition-transform duration-500 group-hover:scale-[1.01] group-hover:border-[#afff00]/30">
+                  <div className="absolute -inset-1 bg-[#afff00]/3 blur-3xl opacity-0 group-hover:opacity-80 transition-opacity duration-500" />
+                  <div className="relative z-10 aspect-video w-full overflow-hidden border border-zinc-900 rounded-2xl bg-zinc-950 shadow-2xl transition-transform duration-500">
                     <StudioPlayer videoUrl={work.url} />
                   </div>
                 </div>

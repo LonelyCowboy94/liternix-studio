@@ -42,7 +42,7 @@ export default function Header() {
           }`}
       >
         <nav
-          className="max-w-7xl mx-auto px-8 flex items-center justify-between"
+          className="max-w-7xl group mx-auto px-8 flex items-center justify-between"
           aria-label="Main Navigation"
         >
           {/* Logo */}
@@ -50,9 +50,9 @@ export default function Header() {
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
-              className="text-2xl font-black tracking-tighter italic hover:text-[#afff00] transition-colors focus:outline-none focus:ring-2 focus:ring-[#afff00] rounded-sm"
+              className="text-2xl font-black tracking-tighter italic group-hover:text-transparent bg-clip-text bg-[linear-gradient(180deg,#afff00_0%,#afff00_40%,#4a6600_100%)] drop-shadow-[0_0_15px_rgba(175,255,0,0.1)] transition-colors focus:outline-none focus:ring-2 focus:ring-[#afff00] rounded-sm"
             >
-              LUKA_JOKIC<span className="text-[#afff00]">.</span>
+              LUKA_JOKIC<span className="text-transparent bg-clip-text bg-[linear-gradient(180deg,#afff00_0%,#afff00_40%,#4a6600_100%)] drop-shadow-[0_0_15px_rgba(175,255,0,0.1)] group-hover:text-red-600">.</span>
             </Link>
           </div>
 

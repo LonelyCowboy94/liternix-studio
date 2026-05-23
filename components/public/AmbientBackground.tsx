@@ -28,10 +28,10 @@ export default function AmbientBackground() {
 
       {/* 3. STUDIO BLUE GLOW (Bottom Left) */}
       <div 
-        className="absolute bottom-[-20%] left-[-15%] w-[90vw] h-[90vw] rounded-full opacity-[0.135]"
+        className="absolute bottom-[-20%] left-[-15%] w-[90vw] h-[90vw] rounded-full opacity-[0.145]"
         style={{
           background: 'radial-gradient(circle, #3b82f6 0%, transparent 60%)',
-          filter: 'blur(130px)',
+          filter: 'blur(80px)',
         }}
       />
 

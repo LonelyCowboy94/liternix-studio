@@ -7,7 +7,7 @@ import AmbientBackground from "@/components/public/AmbientBackground";
 import ContactForm from "@/components/public/ContactForm";
 import { Radio, Mail, Globe, Instagram, Facebook, Terminal, Activity, Twitter } from "lucide-react";
 
-function ContactContent() {
+function  ContactContent() {
   const contactDetails = [
     {
       label: "Main_Signal_Address",
@@ -44,7 +44,7 @@ function ContactContent() {
   ];
 
   return (
-    <main className="relative z-10 pt-32 pb-20 md:pb-40 px-6 md:px-12">
+    <main className="relative z-10 pt-32 pb-20 -mb-20 md:pb-40 px-6 md:px-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
         
         {/* LEFT COLUMN */}

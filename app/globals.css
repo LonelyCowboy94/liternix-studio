@@ -79,17 +79,30 @@ body {
 .animate-video-text {
   background: linear-gradient(
     to right,
-    #afff00,
-    #ffffff,
-    #afff00,
-    #4ade80,
-    #afff00
+    #afff00 0%,
+    #ffffff 25%,
+    #afff00 50%,
+    #4ade80 75%,
+    #afff00 100%
   );
   background-size: 200% auto;
+  
+  /* Sečenje teksta */
   -webkit-background-clip: text;
   background-clip: text;
+  
+  /* Fix za Safari/iPhone da tekst ostane providan */
+  -webkit-text-fill-color: transparent; 
   color: transparent;
+  
+  /* Brutalna animacija */
   animation: shine 4s linear infinite;
+  
+  /* Optimizacija performansi */
+  will-change: background-position;
+  
+  /* Opciono: Dodaj blagi neon odsjaj oko slova */
+  filter: drop-shadow(0 0 10px rgba(107, 156, 1, 0.815));
 }
 
 .shadow-3d-neon {

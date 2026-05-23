@@ -56,7 +56,7 @@ export default function Manifesto() {
         <div className="max-w-7xl mx-auto relative z-10">
           
           {/* --- HERO SECTION --- */}
-          <div className="mb-40 grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <div className="mb-26 grid grid-cols-1 lg:grid-cols-12 gap-10">
             <div className="lg:col-span-8">
               <div className="flex items-center gap-4 mb-8">
                 <div className="h-px w-12 bg-[#afff00]" />
@@ -110,7 +110,7 @@ export default function Manifesto() {
    <span className="block text-[8px] md:text-[10px] text-zinc-600 font-black uppercase tracking-widest mb-1">
       Processed_Footage
    </span>
-   <div className="text-3xl md:text-5xl font-black italic text-white group-hover:text-[#afff00] transition-colors leading-none">
+   <div className="text-3xl md:text-5xl font-black italic text-white group-hover:text-transparent bg-clip-text bg-[linear-gradient(180deg,#afff00_0%,#afff00_40%,#4a6600_100%)] drop-shadow-[0_0_15px_rgba(175,255,0,0.1)] transition-colors leading-none">
       1,200<span className="text-[1.5rem] md:text-[2rem] ml-1 uppercase">+Mins</span>
    </div>
    <p className="text-[8px] text-zinc-700 font-bold mt-2 uppercase tracking-tighter">Total_Runtime_Delivered</p>
@@ -125,16 +125,30 @@ export default function Manifesto() {
    <span className="block text-[8px] md:text-[10px] text-zinc-600 font-black uppercase tracking-widest mb-1">
       Visual_Payload
    </span>
-   <div className="text-3xl md:text-5xl font-black italic text-white group-hover:text-[#afff00] transition-colors leading-none">
+   <div className="text-3xl md:text-5xl font-black italic text-white group-hover:text-transparent bg-clip-text bg-[linear-gradient(180deg,#afff00_0%,#afff00_40%,#4a6600_100%)] drop-shadow-[0_0_15px_rgba(175,255,0,0.1)] transition-colors leading-none">
       850<span className="text-[1.5rem] md:text-[2rem] ml-1 uppercase">+Cuts</span>
    </div>
    <p className="text-[8px] text-zinc-700 font-bold mt-2 uppercase tracking-tighter">Individual_Project_Assets</p>
 </div>
-              <div className="md:col-span-2 p-8 bg-[#afff00] border border-[#afff00] rounded-3xl group transition-all shadow-[0_0_50px_-12px_rgba(175,255,0,0.4)]">
-                 <Activity size={20} className="text-black mb-6" />
-                 <span className="block text-[10px] text-black/60 font-black uppercase tracking-widest mb-2">Global_Impact_Rating</span>
-                 <div className="text-5xl font-black italic text-black">ELITE_TIER</div>
-              </div>
+              <div className="md:col-span-2 p-8 rounded-3xl group transition-all duration-500 relative overflow-hidden
+  /* 1. Glavni Gradijent: Od neon zelene do duboke 'acid' zelene */
+  bg-[linear-gradient(145deg,#affc00_0%,#8ebd00_70%)]
+  border border-[#9ce401]
+  ">
+
+  {/* SUptilni odsjaj u uglu koji se ne pomera, samo daje 'glass' efekat */}
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.3)_0%,transparent_50%)] pointer-events-none" />
+
+  <div className="relative z-10">
+    <Activity size={20} className="text-black mb-6" />
+    <span className="block text-[10px] text-black/60 font-black uppercase tracking-widest mb-2">
+      Global_Impact_Rating
+    </span>
+    <div className="text-5xl font-black italic text-black tracking-tighter leading-none">
+      ELITE_TIER
+    </div>
+  </div>
+</div>
           </div>
 
           {/* --- PRINCIPLES: THE CORE --- */}
@@ -158,7 +172,7 @@ export default function Manifesto() {
                   <span className="text-[10px] font-mono text-[#afff00] bg-[#afff00]/10 px-3 py-1 rounded-full border border-[#afff00]/20 uppercase">
                     {p.tag}
                   </span>
-                  <h2 className="text-4xl font-black uppercase italic tracking-tighter leading-none">{p.title}</h2>
+                  <h2 className="text-4xl font-black uppercase italic tracking-tighter leading-none group-hover:text-transparent bg-clip-text bg-[linear-gradient(180deg,#afff00_0%,#afff00_40%,#4a6600_100%)] drop-shadow-[0_0_15px_rgba(175,255,0,0.1)] transition-colors">{p.title}</h2>
                   <p className="text-zinc-500 text-base leading-relaxed font-medium group-hover:text-zinc-200 transition-colors">{p.text}</p>
                 </div>
               </article>
@@ -168,7 +182,7 @@ export default function Manifesto() {
           {/* --- WORKFLOW PIPELINE (2027 EDIT) --- */}
           <div className="md:mb-32 mb-14 space-y-10 md:space-y-16">
              <div className="flex justify-between items-end border-b border-zinc-900 pb-10">
-                <h2 className="text-[clamp(1.5rem,6vw,6.5rem)] font-black uppercase italic tracking-tighter">TECHNICAL_<span className="text-[#afff00]">PIPELINE</span></h2>
+                <h2 className="text-[clamp(1.5rem,6vw,6.5rem)] font-black uppercase italic tracking-tighter">TECHNICAL_<span className="text-transparent bg-clip-text bg-[linear-gradient(180deg,#afff00_0%,#afff00_40%,#4a6600_100%)] drop-shadow-[0_0_15px_rgba(175,255,0,0.1)] transition-colors leading-none">PIPELINE&nbsp;</span></h2>
                 <div className="hidden md:block text-right text-zinc-600 font-mono text-[10px] tracking-widest uppercase">
                   Version_Control: v7.02 <br /> Last_Update: Tomorrow
                 </div>
@@ -194,11 +208,11 @@ export default function Manifesto() {
           </div>
 
           {/* --- FINAL CALL --- */}
-          <div className="relative py-20 bg-zinc-950 border border-zinc-900 rounded-[3rem] overflow-hidden flex flex-col items-center text-center px-6">
+          <div className="relative py-20 bg-zinc-950 border border-zinc-900 rounded-[3rem] overflow-hidden flex flex-col items-center text-center px-6 -mb-26">
     <div className="absolute inset-0 opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none" />
     <div className="relative z-10 space-y-10">
       <h3 className="text-[clamp(1.5rem,6vw,6.5rem)] font-black uppercase italic tracking-tighter max-w-4xl mx-auto leading-none text-white">
-        Build the <span className="text-[#afff00] animate-pulse text-glow">Visual Weapon</span> your brand deserves.
+        Build the <span className="text-transparent bg-clip-text bg-[linear-gradient(180deg,#afff00_0%,#afff00_40%,#4a6600_100%)] drop-shadow-[0_0_15px_rgba(175,255,0,0.1)] transition-colors leading-none animate-pulse text-glow">Visual Weapon&nbsp;</span>your brand deserves.
       </h3>
       <p className="text-zinc-500 text-[clamp(0.7rem,2.5vw,1.25rem)] max-w-lg mx-auto uppercase font-black tracking-[0.4em] leading-loose">
         Our system is primed for high-stakes projects. Decrypt your potential. Initiate the protocol.
@@ -219,7 +233,7 @@ export default function Manifesto() {
 </div>
 
           {/* --- DATA FOOTER --- */}
-          <footer className="mt-40 pt-10 border-t border-zinc-900">
+          <footer className="mt-40 -mb-26 pt-10 border-t border-zinc-900">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               <div className="flex items-center gap-6">
                 <Cpu size={18} className="text-zinc-700" />

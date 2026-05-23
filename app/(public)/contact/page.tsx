@@ -66,6 +66,17 @@ function ContactContent() {
                 Touch&nbsp;
               </span>
             </h1>
+            <div className="flex flex-col gap-3 my-6 lg:my-8 w-full">
+                        <div className="flex items-center gap-2">
+                          <Activity size={14} className="text-[#afff00] animate-pulse" />
+                          <span className="text-[10px] font-black text-white uppercase italic tracking-widest">
+                            Verify Integrity
+                          </span>
+                        </div>
+                        <div className="w-full h-0.75 bg-zinc-900 rounded-full overflow-hidden">
+                          <div className="h-full bg-[#afff00]/60 animate-fill-bar delay-3" />
+                        </div>
+                      </div>
           </header>
 
             {/* CONTACT CARDS */}

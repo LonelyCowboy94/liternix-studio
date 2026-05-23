@@ -25,42 +25,26 @@ export default function FeaturedWorksFeed({
   return (
     <section className="max-w-7xl mx-auto px-6 md:px-12 py-8">
       {/* HEADER SEKCIJA - THE VAULT */}
-      <div className="relative mb-32 flex flex-col items-center">
+      <div className="relative lg:-mb-20 lg:mr-60 flex flex-col items-center">
         <div className="text-center relative z-10">
-          <h2 className="text-7xl md:text-[8rem] font-black uppercase italic leading-[0.75] tracking-tighter text-white select-none">
-            THE <br /> <span className="text-[#afff00]">VAULT</span>
-          </h2>
+         
           
-          <div className="absolute -right-16 top-2/5 -translate-y-1/2 hidden lg:block text-left border-l border-zinc-800 pl-4 py-2">
-            <p className="text-[10px] font-mono text-zinc-500 leading-tight uppercase">
-              Status: Online <br />
-              Project_Count: {works.length} <br />
-              Encoding: H.264_Master
-            </p>
-          </div>
+          
         </div>
 
-        <div className="mt-16 flex flex-col items-center gap-4 group">
-          <div className="flex flex-col items-center gap-2">
             <div className="w-[22px] h-[36px] border-2 border-zinc-800 rounded-full flex justify-center p-1.5 transition-colors group-hover:border-[#afff00]/50">
               <div className="w-1 h-1.5 bg-[#afff00] rounded-full animate-scroll-dot" />
             </div>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 group-hover:text-[#afff00] transition-colors">
               Scroll_Down
             </p>
-          </div>
+        
           <ArrowDown size={20} className="text-[#afff00] animate-bounce" />
-        </div>
-
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-[0.02] whitespace-nowrap">
-          <span className="text-[6rem] md:text-[10rem] xl:text-[14rem] 2xl:text-[20rem] font-black italic uppercase tracking-tighter">
-            EXPLORE
-          </span>
-        </div>
+        
       </div>
 
       {/* LISTA VIDEA */}
-      <div className="space-y-28">
+      <div className="space-y-28 lg:mt-10">
         {filteredWorks.map((work, index) => {
           const isVertical = work.url.includes("shorts/") || work.url.includes("reels/");
 

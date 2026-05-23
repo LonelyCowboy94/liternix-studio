@@ -153,47 +153,78 @@ export default function AdminPage() {
 
         {/* List */}
         <div className="space-y-4">
-          <h2 className="text-[10px] uppercase font-black text-zinc-600 tracking-[0.3em] ml-2">Live_Archive</h2>
-          <Reorder.Group axis="y" values={works} onReorder={handleReorder} className="space-y-3">
-            {works.map((work, index) => (
-              <Reorder.Item 
-                key={work.id} 
-                value={work}
-                className={`flex items-center gap-4 p-4 rounded-2xl border transition-colors cursor-grab active:cursor-grabbing
-                  ${work.type === 1 ? 'bg-[#afff00]/5 border-[#afff00]/30' : 'bg-zinc-900 border-zinc-800 hover:border-zinc-700'}
-                `}
-              >
-                <div className="text-zinc-700 hover:text-[#afff00] transition-colors">
-                  <GripVertical size={20} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-mono text-zinc-600">0{index}</span>
-                    <h3 className="font-bold uppercase italic text-sm tracking-tight truncate">{work.title}</h3>
-                    {work.type === 1 && <span className="text-[8px] font-black bg-[#afff00] text-black px-2 py-0.5 rounded-full uppercase">Featured</span>}
-                  </div>
-                  <p className="text-[9px] text-zinc-600 font-mono truncate max-w-xs">{work.url}</p>
-                </div>
+  <h2 className="text-[10px] uppercase font-black text-zinc-600 tracking-[0.3em] ml-2">Live_Archive</h2>
+  <Reorder.Group axis="y" values={works} onReorder={handleReorder} className="space-y-3">
+    {works.map((work, index) => {
+      // DODATA LOGIKA ZA PROVERU FORMATA
+      const isShort = work.url?.includes("shorts/") || work.url?.includes("reels/");
 
-                <div className="flex items-center gap-2 shrink-0">
-                  {/* STAR BUTTON: Toggles locally and triggers Save prompt */}
-                  <button 
-                    onClick={() => handleLocalToggleFeatured(work.id)} 
-                    className={`p-2 rounded-lg transition-colors ${work.type === 1 ? 'text-[#afff00]' : 'text-zinc-600 hover:text-[#afff00]'}`}
-                  >
-                    <Star size={18} fill={work.type === 1 ? "currentColor" : "none"} />
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(work.id)} 
-                    className="p-2 text-zinc-700 hover:text-red-500 transition-colors"
-                  >
-                    <Trash2 size={18} />
-                  </button>
-                </div>
-              </Reorder.Item>
-            ))}
-          </Reorder.Group>
-        </div>
+      return (
+        <Reorder.Item 
+          key={work.id} 
+          value={work}
+          className={`flex items-center gap-4 p-4 rounded-2xl border transition-colors cursor-grab active:cursor-grabbing relative overflow-hidden
+            ${work.type === 1 ? 'bg-[#afff00]/5 border-[#afff00]/30' : 'bg-zinc-900 border-zinc-800 hover:border-zinc-700'}
+          `}
+        >
+          {/* GHOST BACKGROUND TEKST ZA SHORTS */}
+          {isShort ? (
+            <div className="absolute right-24 top-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.03] z-0">
+              <span className="text-5xl font-black italic uppercase tracking-tighter">
+                SHORT_9:16
+              </span>
+            </div>
+          ) : <div className="absolute right-24 top-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.03] z-0">
+              <span className="text-5xl font-black italic uppercase tracking-tighter">
+                LONG_FORM_16:9
+              </span>
+            </div>}
+
+          <div className="text-zinc-700 hover:text-[#afff00] transition-colors relative z-10">
+            <GripVertical size={20} />
+          </div>
+
+          <div className="flex-1 min-w-0 relative z-10">
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-mono text-zinc-600">0{index}</span>
+              <h3 className="font-bold uppercase italic text-sm tracking-tight truncate">{work.title}</h3>
+              
+              {/* BADGE OZNAKE */}
+              <div className="flex gap-1">
+                {work.type === 1 && (
+                  <span className="text-[7px] font-black bg-[#afff00] text-black px-1.5 py-0.5 rounded uppercase">
+                    Featured
+                  </span>
+                )}
+                {isShort && (
+                  <span className="text-[7px] font-black bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded uppercase border border-zinc-700">
+                    9:16
+                  </span>
+                )}
+              </div>
+            </div>
+            <p className="text-[9px] text-zinc-600 font-mono truncate max-w-xs">{work.url}</p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0 relative z-10">
+            <button 
+              onClick={() => handleLocalToggleFeatured(work.id)} 
+              className={`p-2 rounded-lg transition-colors ${work.type === 1 ? 'text-[#afff00]' : 'text-zinc-600 hover:text-[#afff00]'}`}
+            >
+              <Star size={18} fill={work.type === 1 ? "currentColor" : "none"} />
+            </button>
+            <button 
+              onClick={() => handleDelete(work.id)} 
+              className="p-2 text-zinc-700 hover:text-red-500 transition-colors"
+            >
+              <Trash2 size={18} />
+            </button>
+          </div>
+        </Reorder.Item>
+      );
+    })}
+  </Reorder.Group>
+</div>
 
       </div>
     </div>

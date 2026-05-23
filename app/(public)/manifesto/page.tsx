@@ -3,7 +3,7 @@ import Header from "@/components/public/Header";
 import AmbientBackground from "@/components/public/AmbientBackground";
 import { 
   Activity, Cpu, Globe, MousePointer2, 
-  Terminal, Code2, Bot, Target, Scan, 
+  Terminal, Code2, Bot, Target, Scan, Layers, Clock,
   Dna, Radio, Eye
 } from "lucide-react";
 import Footer from "@/components/public/Footer";
@@ -44,12 +44,12 @@ export default function Manifesto() {
   ];
 
   return (
-    <div className="bg-[#050505] min-h-screen text-white selection:bg-[#afff00] selection:text-black font-sans">
+    <div className="bg-[#050505] min-h-screen overflow-x-hidden text-white selection:bg-[#afff00] selection:text-black font-sans">
       <Header />
       
       <main className="relative pt-32 pb-40 px-6 md:px-12 overflow-x-hidden">
         {/* Futistička mreža u pozadini */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f0f0f_1px,transparent_1px),linear-gradient(to_bottom,#0f0f0f_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f0f0f_1px,transparent_1px),linear-gradient(to_bottom,#0f0f0f_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
         
         <AmbientBackground />
         
@@ -59,13 +59,13 @@ export default function Manifesto() {
           <div className="mb-40 grid grid-cols-1 lg:grid-cols-12 gap-10">
             <div className="lg:col-span-8">
               <div className="flex items-center gap-4 mb-8">
-                <div className="h-[1px] w-12 bg-[#afff00]" />
+                <div className="h-px w-12 bg-[#afff00]" />
                 <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[#afff00] animate-pulse">
                   System_Initialization_Active
                 </span>
               </div>
 
-              <h1 className="text-[14vw] lg:text-[11rem] font-black uppercase italic leading-[0.75] tracking-tighter mb-12">
+              <h1 className="text-[clamp(3.5rem,12vw,7.5rem)]  font-black uppercase italic leading-[0.75] tracking-tighter mb-12">
                 THE <br /> 
                 <span className="animate-video-text text-transparent bg-clip-text bg-[linear-gradient(180deg,#afff00_0%,#4a6600_100%)]">
                   MANIFESTO&nbsp;
@@ -85,7 +85,7 @@ export default function Manifesto() {
               <div className="max-w-2xl relative">
                 <div className="absolute -left-6 top-0 bottom-0 w-1 bg-[#afff00]" />
                 <p className="text-2xl md:text-4xl text-zinc-300 leading-tight font-medium italic pl-6 uppercase tracking-tighter">
-                  &quot;The future belongs to those who <span className="text-white underline decoration-[#afff00] decoration-4 underline-offset-8">distort reality</span> to reveal the truth.&quot;
+                  &quot;The future belongs to those who <span className="text-white underline decoration-[#afff00] decoration-4 underline-offset-3 md:underline-offset-6">distort reality</span> to reveal the truth.&quot;
                 </p>
               </div>
             </div>
@@ -102,16 +102,34 @@ export default function Manifesto() {
 
           {/* --- BENTO METRICS GRID --- */}
           <div className="mb-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <div className="p-8 bg-zinc-950/50 border border-zinc-900 rounded-3xl backdrop-blur-3xl group hover:border-[#afff00]/30 transition-all shadow-2xl">
-                 <Radio size={20} className="text-[#afff00] mb-6" />
-                 <span className="block text-[10px] text-zinc-600 font-black uppercase tracking-widest mb-2">Archive_Volume</span>
-                 <div className="text-5xl font-black italic text-white group-hover:scale-110 transition-transform origin-left">1000+</div>
-              </div>
-              <div className="p-8 bg-zinc-950/50 border border-zinc-900 rounded-3xl backdrop-blur-3xl group hover:border-[#afff00]/30 transition-all shadow-2xl">
-                 <Target size={20} className="text-[#afff00] mb-6" />
-                 <span className="block text-[10px] text-zinc-600 font-black uppercase tracking-widest mb-2">Attention_Retention</span>
-                 <div className="text-5xl font-black italic text-white group-hover:scale-110 transition-transform origin-left">+42%</div>
-              </div>
+              <div className="p-6 md:p-8 bg-zinc-950/50 border border-zinc-900 rounded-2xl md:rounded-3xl backdrop-blur-3xl group hover:border-[#afff00]/30 transition-all shadow-2xl overflow-hidden relative">
+   <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+      <Clock size={40} className="text-[#afff00]" />
+   </div>
+   <Radio size={18} className="text-[#afff00] mb-4 md:mb-6" />
+   <span className="block text-[8px] md:text-[10px] text-zinc-600 font-black uppercase tracking-widest mb-1">
+      Processed_Footage
+   </span>
+   <div className="text-3xl md:text-5xl font-black italic text-white group-hover:text-[#afff00] transition-colors leading-none">
+      1,200<span className="text-[1.5rem] md:text-[2rem] ml-1 uppercase">+Mins</span>
+   </div>
+   <p className="text-[8px] text-zinc-700 font-bold mt-2 uppercase tracking-tighter">Total_Runtime_Delivered</p>
+</div>
+
+{/* 2. KARTICA: BROJ KLIPOVA / ASSETA */}
+<div className="p-6 md:p-8 bg-zinc-950/50 border border-zinc-900 rounded-2xl md:rounded-3xl backdrop-blur-3xl group hover:border-[#afff00]/30 transition-all shadow-2xl overflow-hidden relative">
+   <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+      <Layers size={40} className="text-[#afff00]" />
+   </div>
+   <Target size={18} className="text-[#afff00] mb-4 md:mb-6" />
+   <span className="block text-[8px] md:text-[10px] text-zinc-600 font-black uppercase tracking-widest mb-1">
+      Visual_Payload
+   </span>
+   <div className="text-3xl md:text-5xl font-black italic text-white group-hover:text-[#afff00] transition-colors leading-none">
+      850<span className="text-[1.5rem] md:text-[2rem] ml-1 uppercase">+Cuts</span>
+   </div>
+   <p className="text-[8px] text-zinc-700 font-bold mt-2 uppercase tracking-tighter">Individual_Project_Assets</p>
+</div>
               <div className="md:col-span-2 p-8 bg-[#afff00] border border-[#afff00] rounded-3xl group transition-all shadow-[0_0_50px_-12px_rgba(175,255,0,0.4)]">
                  <Activity size={20} className="text-black mb-6" />
                  <span className="block text-[10px] text-black/60 font-black uppercase tracking-widest mb-2">Global_Impact_Rating</span>
@@ -120,19 +138,19 @@ export default function Manifesto() {
           </div>
 
           {/* --- PRINCIPLES: THE CORE --- */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-40">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-20">
             {principles.map((p) => (
               <article 
                 key={p.id}
-                className="group relative p-12 rounded-[2.5rem] border border-zinc-900 bg-[#0a0a0a] hover:bg-zinc-900/10 transition-all duration-700 overflow-hidden flex flex-col justify-between min-h-[450px]"
+                className="group relative p-6 md:p-12 rounded-[2.5rem] border border-zinc-900 bg-[#0a0a0a] hover:bg-zinc-900/10 transition-all duration-700 overflow-hidden flex flex-col justify-between min-h-70"
               >
                 <div className="absolute top-0 right-0 p-8">
-                  <span className="text-[12rem] font-black leading-none text-white/[0.02] group-hover:text-[#afff00]/5 transition-all duration-1000">
+                  <span className="text-[12rem] font-black leading-none text-white/2 group-hover:text-[#afff00]/5 transition-all duration-1000">
                     {p.id}
                   </span>
                 </div>
 
-                <div className="relative z-10 w-16 h-16 flex items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800 text-[#afff00] group-hover:bg-[#afff00] group-hover:text-black transition-all duration-500 shadow-2xl group-hover:shadow-[#afff00]/20">
+                <div className="relative z-10 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800 text-[#afff00] group-hover:bg-[#afff00] group-hover:text-black transition-all duration-500 shadow-2xl group-hover:shadow-[#afff00]/20">
                   {p.icon}
                 </div>
 
@@ -148,9 +166,9 @@ export default function Manifesto() {
           </div>
 
           {/* --- WORKFLOW PIPELINE (2027 EDIT) --- */}
-          <div className="mb-40 space-y-16">
+          <div className="md:mb-32 mb-14 space-y-10 md:space-y-16">
              <div className="flex justify-between items-end border-b border-zinc-900 pb-10">
-                <h2 className="text-6xl md:text-[6rem] font-black uppercase italic tracking-tighter">TECHNICAL_<span className="text-[#afff00]">PIPELINE</span></h2>
+                <h2 className="text-[clamp(1.5rem,6vw,6.5rem)] font-black uppercase italic tracking-tighter">TECHNICAL_<span className="text-[#afff00]">PIPELINE</span></h2>
                 <div className="hidden md:block text-right text-zinc-600 font-mono text-[10px] tracking-widest uppercase">
                   Version_Control: v7.02 <br /> Last_Update: Tomorrow
                 </div>
@@ -176,13 +194,13 @@ export default function Manifesto() {
           </div>
 
           {/* --- FINAL CALL --- */}
-          <div className="relative py-32 bg-zinc-950 border border-zinc-900 rounded-[3rem] overflow-hidden flex flex-col items-center text-center px-6">
+          <div className="relative py-20 bg-zinc-950 border border-zinc-900 rounded-[3rem] overflow-hidden flex flex-col items-center text-center px-6">
     <div className="absolute inset-0 opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none" />
     <div className="relative z-10 space-y-10">
-      <h3 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter max-w-4xl mx-auto leading-none text-white">
+      <h3 className="text-[clamp(1.5rem,6vw,6.5rem)] font-black uppercase italic tracking-tighter max-w-4xl mx-auto leading-none text-white">
         Build the <span className="text-[#afff00] animate-pulse text-glow">Visual Weapon</span> your brand deserves.
       </h3>
-      <p className="text-zinc-500 text-xs md:text-[13px] max-w-lg mx-auto uppercase font-black tracking-[0.4em] leading-loose">
+      <p className="text-zinc-500 text-[clamp(0.7rem,2.5vw,1.25rem)] max-w-lg mx-auto uppercase font-black tracking-[0.4em] leading-loose">
         Our system is primed for high-stakes projects. Decrypt your potential. Initiate the protocol.
       </p>
       
@@ -231,8 +249,8 @@ export default function Manifesto() {
       </main>
 
       {/* Global Aesthetics */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.04] grain-overlay z-[60]" />
-      <div className="fixed inset-0 pointer-events-none z-[70] opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,1)_50%)] bg-[size:100%_4px]" />
+      {/* <div className="fixed inset-0 pointer-events-none opacity-[0.04] grain-overlay z-[60]" /> */}
+      {/* <div className="fixed inset-0 pointer-events-none z-[70] opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,1)_50%)] bg-[size:100%_4px]" /> */}
       <Footer />
     </div>
   );

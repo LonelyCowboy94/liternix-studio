@@ -33,7 +33,7 @@ export default async function WorkPage() {
                   Portfolio_v2.0 // Archive
                 </span>
               </div>
-              <h1 className="text-6xl sm:text-7xl md:text-[8rem] font-black uppercase italic leading-[0.8] tracking-tighter">
+              <h1 className="text-[clamp(3.5rem,12vw,5.5rem)] font-black uppercase italic leading-[0.8] tracking-tighter">
                 PROJECT <br /> <span className="animate-video-text text-[#afff00]">ROOM&nbsp;</span>
               </h1>
               <div className="flex flex-col gap-3 my-6 lg:my-8 w-full lg:w-[90%]">
@@ -62,7 +62,7 @@ export default async function WorkPage() {
       </main>
 
       <Footer />
-      <div className="fixed inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-size-[100%_4px] z-50 opacity-10" />
+      {/* <div className="fixed inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-size-[100%_4px] z-50 opacity-10" /> */}
     </div>
   );
 }

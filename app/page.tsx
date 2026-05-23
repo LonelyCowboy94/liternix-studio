@@ -49,7 +49,7 @@ export default async function Home() {
         <Footer />
       </div>
                   {/* GLOBAL SCANLINE */}
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-size-[100%_4px] z-100" />
+      {/* <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-size-[100%_4px] z-100" /> */}
 
     </div>
   );

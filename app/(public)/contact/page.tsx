@@ -60,7 +60,7 @@ function ContactContent() {
               </span>
             </div>
             
-            <h1 className="text-[14vw] lg:text-8xl font-black uppercase italic leading-[0.8] tracking-tighter">
+            <h1 className="text-[clamp(3.5rem,12vw,5.5rem)] font-black uppercase italic leading-[0.8] tracking-tighter">
               Get In <br /> 
               <span className="animate-video-text text-transparent bg-clip-text bg-linear-to-r from-[#afff00] to-[#7acc00]">
                 Touch&nbsp;
@@ -90,13 +90,13 @@ function ContactContent() {
                   className="group perspective-1000 flex items-center gap-6 p-4 rounded-2xl border border-transparent hover:bg-zinc-900/40 transition-all duration-300"
                 >
                   {/* 3D IKONA */}
-                  <div className={`rotateY-card w-14 h-14 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center shadow-lg group-hover:border-[#afff00]/50 group-hover:shadow-[#afff00]/10 transition-all ${item.loadClass}`}>
+                  <div className={`rotateY-card min-w-14 h-14 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center shadow-lg group-hover:border-[#afff00]/50 group-hover:shadow-[#afff00]/10 transition-all ${item.loadClass}`}>
                     {item.icon}
                   </div>
                   
                   <div className="animate-reveal opacity-0" style={{ animationDelay: `${0.6 + idx * 0.2}s` }}>
                     <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">{item.label}</p>
-                    <p className="text-lg md:text-xl font-black uppercase italic tracking-tight group-hover:text-[#afff00] transition-colors">
+                    <p className="text-[clamp(0.8rem,3vw,1.5rem)] font-black uppercase italic tracking-tight group-hover:text-[#afff00] transition-colors">
                       {item.value}
                     </p>
                   </div>
@@ -159,7 +159,7 @@ export default function GetInTouchPage() {
 
       <Footer />
       
-      <div className="fixed inset-0 pointer-events-none z-100 opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,1)_50%)] bg-size-[100%_4px]" />
+      {/* <div className="fixed inset-0 pointer-events-none z-100 opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,1)_50%)] bg-size-[100%_4px]" /> */}
     </div>
   );
 }

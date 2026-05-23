@@ -32,7 +32,7 @@ export default function FeaturedWorksFeed({
           
         </div>
 
-            <div className="w-[22px] h-[36px] border-2 border-zinc-800 rounded-full flex justify-center p-1.5 transition-colors group-hover:border-[#afff00]/50">
+            <div className="w-5.5 h-9 border-2 border-zinc-800 rounded-full flex justify-center p-1.5 transition-colors group-hover:border-[#afff00]/50">
               <div className="w-1 h-1.5 bg-[#afff00] rounded-full animate-scroll-dot" />
             </div>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 group-hover:text-[#afff00] transition-colors">
@@ -44,7 +44,7 @@ export default function FeaturedWorksFeed({
       </div>
 
       {/* LISTA VIDEA */}
-      <div className="space-y-28 lg:mt-10">
+      <div className="space-y-14 md:space-y-28 lg:mt-10">
         {filteredWorks.map((work, index) => {
           const isVertical = work.url.includes("shorts/") || work.url.includes("reels/");
 
@@ -85,18 +85,16 @@ export default function FeaturedWorksFeed({
 
               {/* PLAYER BLOK - Povećan na 8 kolona za vertikalne */}
               <div className={`${isVertical ? "lg:col-span-8 lg:order-2 flex justify-center lg:justify-end" : "lg:col-span-8 lg:order-1"}`}>
-                <div className={`relative z-10 overflow-hidden rounded-[2rem] border border-zinc-900 group-hover:border-[#afff00]/40 transition-all duration-700 shadow-[0_0_50px_rgba(0,0,0,0.5)] group-hover:shadow-[#afff00]/10
-                  ${isVertical ? "max-w-[420px] w-full" : "w-full"}`}>
+                <div className={`relative z-10 overflow-hidden rounded-4xl border border-zinc-900 group-hover:border-[#afff00]/40 transition-all duration-700 shadow-[0_0_50px_rgba(0,0,0,0.5)] group-hover:shadow-[#afff00]/10
+                  ${isVertical ? "max-w-105 w-full" : "w-full"}`}>
                   
                   {/* StudioPlayer sa tvojim linkom */}
                   <StudioPlayer videoUrl={work.url} />
 
                   {/* Scanline overlay samo za player */}
-                  <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%)] bg-size-[100%_4px] z-20" />
                 </div>
                 
                 {/* Background Glow - Jači intenzitet */}
-                <div className="absolute inset-0 bg-[#afff00]/5 blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
               </div>
             </div>
           );

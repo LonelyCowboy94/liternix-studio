@@ -256,7 +256,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
               onClick={togglePlayback}
               className="relative group/btn cursor-pointer outline-none animate-in fade-in zoom-in duration-500 z-30"
             >
-              <div className="absolute inset-0 bg-[#afff00] blur-3xl opacity-20 group-hover/btn:opacity-40 transition-opacity duration-500" />
+              <div className="absolute inset-0  opacity-20 group-hover/btn:opacity-40 transition-opacity duration-500" />
               <div className={`${isShort ? 'w-16 h-16' : 'w-24 h-24'} rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75`}>
                 <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
                 <Play size={isShort ? 28 : 40} fill="black" className="ml-1.5" />
@@ -270,7 +270,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
       {isPlaying && (
         <div
           onClick={togglePlayback}
-          className="absolute inset-0 z-9999 flex items-center justify-center bg-black/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+          className="absolute inset-0 z-9999 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
         >
           <div className={`${isShort ? 'w-16 h-16' : 'w-24 h-24'} rounded-full bg-[#afff00] text-black flex items-center justify-center shadow-[0_8px_0_0_#76ad00] active:translate-y-2 active:shadow-none transition-all duration-75`}>
             <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5)] opacity-40" />
@@ -319,7 +319,7 @@ export default function StudioPlayer({ videoUrl }: { videoUrl: string }) {
           </span>
           <div className={`${
             isShort ? 'px-3 py-1 text-xs' : 'px-5 py-2 text-sm'
-          } bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl font-mono text-[#afff00] shadow-2xl tracking-tighter`}>
+          } bg-black/60  border border-white/10 rounded-xl font-mono text-[#afff00] shadow-2xl tracking-tighter`}>
             {formatTimecode(currentTime)}
           </div>
         </div>
